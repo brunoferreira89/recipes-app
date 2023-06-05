@@ -1,10 +1,24 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import userContext from './userContext';
 
 function UserProvider({ children }) {
+  const [user, setUser] = useState({
+    email: '',
+    password: '',
+  });
+
+  const isValidEmail = (email) => /\S+@\S+\.\S+/.test(email);
+
+  const isValidPassword = (password) => {
+    const minLenght = 7;
+    return password.length >= minLenght;
+  };
+
+  const value = useMemo(() => ({ user, setUser, isValidEmail, isValidPassword }), [user]);
+
   return (
-    <userContext.Provider value="">
+    <userContext.Provider value={ value }>
       { children }
     </userContext.Provider>
   );
