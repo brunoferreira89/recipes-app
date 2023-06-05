@@ -1,7 +1,9 @@
 import React, { useContext } from 'react';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import userContext from '../context/userContext';
 
 function Login() {
+  const history = useHistory();
   const { user, setUser, isValidEmail, isValidPassword } = useContext(userContext);
   const { email, password } = user;
 
@@ -15,6 +17,7 @@ function Login() {
 
   const handleOnClick = () => {
     localStorage.setItem('user', JSON.stringify({ email }));
+    history.push('/meals');
   };
 
   return (
