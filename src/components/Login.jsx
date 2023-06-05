@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import userContext from '../context/userContext';
 
 function Login() {
-  const { user, setUser } = useContext(userContext);
+  const { user, setUser, isValidEmail, isValidPassword } = useContext(userContext);
   const { email, password } = user;
 
   const handleOnChange = ({ target }) => {
@@ -11,6 +11,10 @@ function Login() {
       ...user,
       [name]: value,
     });
+  };
+
+  const handleOnClick = () => {
+    localStorage.setItem('user', JSON.stringify({ email }));
   };
 
   return (
@@ -35,7 +39,15 @@ function Login() {
           onChange={ handleOnChange }
         />
       </label>
-      <button data-testid="login-submit-btn" type="button">Enter</button>
+      <button
+        data-testid="login-submit-btn"
+        type="button"
+        disabled={ !(isValidEmail(email) && isValidPassword(password)) }
+        onClick={ handleOnClick }
+      >
+        Enter
+
+      </button>
     </form>
   );
 }

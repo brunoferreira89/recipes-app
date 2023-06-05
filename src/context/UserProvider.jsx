@@ -8,7 +8,14 @@ function UserProvider({ children }) {
     password: '',
   });
 
-  const value = useMemo(() => ({ user, setUser }), [user]);
+  const isValidEmail = (email) => /\S+@\S+\.\S+/.test(email);
+
+  const isValidPassword = (password) => {
+    const minLenght = 7;
+    return password.length >= minLenght;
+  };
+
+  const value = useMemo(() => ({ user, setUser, isValidEmail, isValidPassword }), [user]);
 
   return (
     <userContext.Provider value={ value }>
