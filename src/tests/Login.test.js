@@ -2,9 +2,8 @@ import React from 'react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { act } from 'react-dom/test-utils';
-import UserProvider from '../context/Providers/UserProvider';
-import renderWithRouter from './helpers/renderWithRouter';
 import App from '../App';
+import renderWithRouterAndContext from './helpers/renderWithRouterAndContext';
 
 const emailInputStr = 'email-input';
 const passwordInputStr = 'password-input';
@@ -12,11 +11,7 @@ const loginBtnStr = 'login-submit-btn';
 
 describe('1 - Testa a página Login', () => {
   test('Verifica se a tela de login é renderizada corretamente', () => {
-    renderWithRouter(
-      <UserProvider>
-        <App />
-      </UserProvider>,
-    );
+    renderWithRouterAndContext(<App />);
 
     const emailInput = screen.getByTestId(emailInputStr);
     expect(emailInput).toBeInTheDocument();
@@ -29,11 +24,7 @@ describe('1 - Testa a página Login', () => {
   });
 
   test('Verifica se é possível digitar nos inputs de email e senha', () => {
-    renderWithRouter(
-      <UserProvider>
-        <App />
-      </UserProvider>,
-    );
+    renderWithRouterAndContext(<App />);
 
     const emailInput = screen.getByTestId(emailInputStr);
     const passwordInput = screen.getByTestId(passwordInputStr);
@@ -51,11 +42,7 @@ describe('1 - Testa a página Login', () => {
   });
 
   test('Verifica se a rota "meals" é renderizada após o login', () => {
-    const { history } = renderWithRouter(
-      <UserProvider>
-        <App />
-      </UserProvider>,
-    );
+    const { history } = renderWithRouterAndContext(<App />);
 
     const emailInput = screen.getByTestId(emailInputStr);
     const passwordInput = screen.getByTestId(passwordInputStr);
