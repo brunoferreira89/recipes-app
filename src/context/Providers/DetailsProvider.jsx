@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useMemo, useState } from 'react';
-import detailsContext from './detailsContext';
+import detailsContext from '../Contexts/detailsContext';
 
 function DetailsProvider({ children }) {
   const [loading, setLoading] = useState(true);
