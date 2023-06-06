@@ -3,6 +3,7 @@ import recipesContext from '../context/Contexts/recipesContext';
 import Loading from '../components/Loading';
 import RecipeCard from '../components/RecipeCard';
 import CategoriesButtons from '../components/CategoriesButtons';
+import Header from '../components/Header';
 
 function Recipes() {
   const {
@@ -17,7 +18,8 @@ function Recipes() {
 
   return (
     <section>
-      <CategoriesButtons />
+      <Header />
+      <CategoriesButtons />      
       <RecipeCard />
     </section>
   );
