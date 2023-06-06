@@ -9,6 +9,8 @@ import drinksMockData from './helpers/mocks/drinksMockData';
 import drinksCategoriesMockData from './helpers/mocks/drinksCategoriesMockData';
 import renderWithRouterAndContext from './helpers/renderWithRouterAndContext';
 
+const imgDataTestId = '0-card-img';
+
 describe('Testa a página principal de receitas de comidas', () => {
   beforeEach(() => {
     jest.spyOn(global, 'fetch');
@@ -51,11 +53,11 @@ describe('Testa a página principal de receitas de comidas', () => {
 
     act(() => {
       userEvent.click(beefFilterBtn);
-      screen.getByTestId('0-card-img');
+      screen.getByTestId(imgDataTestId);
     });
     act(() => {
       userEvent.click(beefFilterBtn);
-      screen.getByTestId('0-card-img');
+      screen.getByTestId(imgDataTestId);
     });
   });
 });
@@ -102,11 +104,11 @@ describe('Testa a página principal de receitas de bebidas', () => {
 
     act(() => {
       userEvent.click(shakeFilterBtn);
-      screen.getByTestId('0-card-img');
+      screen.getByTestId(imgDataTestId);
     });
     act(() => {
       userEvent.click(shakeFilterBtn);
-      screen.getByTestId('0-card-img');
+      screen.getByTestId(imgDataTestId);
     });
   });
 });
