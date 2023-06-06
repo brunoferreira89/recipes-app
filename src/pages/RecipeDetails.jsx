@@ -9,7 +9,7 @@ function RecipeDetails() {
   const { id } = useParams();
   const {
     loading, setLoading, data, setData, mealsOrDrinks, setMealsOrDrinks,
-    setRecommendations,
+    setRecommendations, getLocalStorageDoneRecipes, isDoneRecipes,
   } = useContext(detailsContext);
 
   const history = useHistory();
@@ -71,6 +71,8 @@ function RecipeDetails() {
       refreshGetData(API_URL, 'recommendation');
     }
   }, [page, refreshGetData]);
+
+  useEffect(() => { getLocalStorageDoneRecipes(id); }, [getLocalStorageDoneRecipes, id]);
 
   let ingredientsList = [];
   let ingredientsQuantityList = [];
@@ -219,12 +221,16 @@ function RecipeDetails() {
 
       <Recommendations />
 
-      <button
-        data-testid="start-recipe-btn"
-        className={ styles.startRecipeBtn }
-      >
-        Start Recipe
-      </button>
+      {
+        mealsOrDrinks === 'meals' && !isDoneRecipes && (
+          <button
+            data-testid="start-recipe-btn"
+            className={ styles.startRecipeBtn }
+          >
+            Start Recipe
+          </button>
+        )
+      }
     </main>
   );
 }

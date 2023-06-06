@@ -3,7 +3,7 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { act } from 'react-dom/test-utils';
 import UserProvider from '../context/Providers/UserProvider';
-import renderWithRouter from './helpers/renderWithRouter';
+import renderWithRouter from './helpers/renderWithRouterAndContext';
 import App from '../App';
 
 const emailInputStr = 'email-input';
