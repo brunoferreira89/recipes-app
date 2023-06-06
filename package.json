@@ -6,6 +6,7 @@
     "node": "16 || 18"
   },
   "dependencies": {
+    "@phosphor-icons/react": "^2.0.9",
     "bootstrap": "^5.2.3",
     "clipboard-copy": "^4.0.1",
     "prop-types": "^15.8.1",
