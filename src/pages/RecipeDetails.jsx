@@ -7,35 +7,57 @@ function RecipeDetails() {
   const { id } = useParams();
   const {
     loading, setLoading, data, setData, mealsOrDrinks, setMealsOrDrinks,
+    setRecommendations,
   } = useContext(detailsContext);
 
   const history = useHistory();
   const page = history.location.pathname;
 
-  const refreshGetData = useCallback(async (API_URL) => {
+  const refreshGetData = useCallback(async (API_URL, detailOrRecommendation) => {
     try {
       const response = await fetch(API_URL);
       const dataJson = await response.json();
-      setData(dataJson);
+      if (detailOrRecommendation === 'details') {
+        setData(dataJson);
+      }
+      // Fetch para pegar as recomendações
+      if (detailOrRecommendation === 'recommendation') {
+        setRecommendations(dataJson);
+      }
     } catch (error) {
       console.log(error);
     } finally {
       setLoading(false);
     }
-  }, [setData, setLoading]);
+  }, [setData, setLoading, setRecommendations]);
 
   useEffect(() => {
     if (page.includes('meals')) {
+      // Fetch inicial para pegar os detalhes das comidas
       const API_URL = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
-      refreshGetData(API_URL);
+      refreshGetData(API_URL, 'details');
       setMealsOrDrinks('meals');
     }
     if (page.includes('drinks')) {
+      // Fetch inicial para pegar os detalhes das bebidas
       const API_URL = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
-      refreshGetData(API_URL);
+      refreshGetData(API_URL, 'details');
       setMealsOrDrinks('drinks');
     }
   }, [id, page, refreshGetData, history, setMealsOrDrinks]);
+
+  useEffect(() => {
+    if (page.includes('meals')) {
+      // Fetch para pegar as recomendações para as comidas
+      const API_URL = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+      refreshGetData(API_URL, 'recommendation');
+    }
+    if (page.includes('drinks')) {
+      // Fetch para pegar as recomendações para as bebidas
+      const API_URL = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
+      refreshGetData(API_URL, 'recommendation');
+    }
+  }, [page, refreshGetData]);
 
   let ingredientsList = [];
   let ingredientsQuantityList = [];

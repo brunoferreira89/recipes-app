@@ -6,7 +6,7 @@ function DetailsProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
   const [mealsOrDrinks, setMealsOrDrinks] = useState('');
-  const [infoRender, setInfoRender] = useState(null);
+  const [recommendations, setRecommendations] = useState(null);
 
   const value = useMemo(() => ({
     loading,
@@ -15,11 +15,11 @@ function DetailsProvider({ children }) {
     setData,
     mealsOrDrinks,
     setMealsOrDrinks,
-    infoRender,
-    setInfoRender,
+    recommendations,
+    setRecommendations,
   }), [
     loading, setLoading, data, setData, mealsOrDrinks, setMealsOrDrinks,
-    infoRender, setInfoRender,
+    recommendations, setRecommendations,
   ]);
 
   return (
