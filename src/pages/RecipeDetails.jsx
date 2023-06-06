@@ -218,6 +218,13 @@ function RecipeDetails() {
       }
 
       <Recommendations />
+
+      <button
+        data-testid="start-recipe-btn"
+        className={ styles.startRecipeBtn }
+      >
+        Start Recipe
+      </button>
     </main>
   );
 }

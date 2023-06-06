@@ -5,3 +5,9 @@
 .iframe {
   width: 18.75rem;
 }
+
+.startRecipeBtn {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+}
