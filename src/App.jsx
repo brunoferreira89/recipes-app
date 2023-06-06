@@ -1,8 +1,8 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-// import 'bootstrap/dist/css/bootstrap.min.css';
-import Login from './components/Login';
+import Login from './pages/Login';
 import RecipeDetails from './pages/RecipeDetails';
+import Recipes from './pages/Recipes';
 
 function App() {
   return (
@@ -11,8 +11,8 @@ function App() {
         <Route exact path="/" component={ Login } />
         <Route path="/meals/:id" component={ RecipeDetails } />
         <Route path="/drinks/:id" component={ RecipeDetails } />
-        <Route path="/meals" />
-        <Route path="/drinks" />
+        <Route path="/meals" component={ Recipes } />
+        <Route path="/drinks" component={ Recipes } />
         <Route path="/meals/:id/in-progress" />
         <Route path="/drinks/:id/in-progress" />
         <Route path="/profile" />

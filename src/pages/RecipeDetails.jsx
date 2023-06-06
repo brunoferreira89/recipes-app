@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom/cjs/react-router-dom.min';
-import detailsContext from '../context/detailsContext';
+import detailsContext from '../context/Contexts/detailsContext';
 import Loading from '../components/Loading';
 
 function RecipeDetails() {
