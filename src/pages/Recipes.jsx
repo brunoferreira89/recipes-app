@@ -19,7 +19,7 @@ function Recipes() {
   return (
     <section>
       <Header />
-      <CategoriesButtons />      
+      <CategoriesButtons />
       <RecipeCard />
     </section>
   );
