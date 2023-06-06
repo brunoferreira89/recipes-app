@@ -4,17 +4,20 @@ import './index.css';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import UserProvider from './context/UserProvider';
-import DetailsProvider from './context/DetailsProvider';
+import UserProvider from './context/Providers/UserProvider';
+import DetailsProvider from './context/Providers/DetailsProvider';
+import RecipesProvider from './context/Providers/RecipesProvider';
 
 ReactDOM
   .createRoot(document.getElementById('root'))
   .render(
     <BrowserRouter>
       <UserProvider>
-        <DetailsProvider>
-          <App />
-        </DetailsProvider>
+        <RecipesProvider>
+          <DetailsProvider>
+            <App />
+          </DetailsProvider>
+        </RecipesProvider>
       </UserProvider>
     </BrowserRouter>,
   );
