@@ -3,7 +3,6 @@ import { useHistory } from 'react-router-dom';
 import recipesContext from '../context/Contexts/recipesContext';
 import Loading from '../components/Loading';
 import RecipeCard from '../components/RecipeCard';
-import Header from '../components/Header';
 
 function Recipes() {
   const {
@@ -47,7 +46,6 @@ function Recipes() {
 
   return (
     <section>
-      <Header />
       <RecipeCard />
     </section>
   );
