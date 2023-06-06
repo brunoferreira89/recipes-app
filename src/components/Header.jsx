@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import userIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import TitleHeader from './TitleHeader';
+import SearchBar from './SearchBar';
 
 export default function Header() {
   const history = useHistory();
@@ -37,43 +38,7 @@ export default function Header() {
         </div>
         {
           search && (
-            <div>
-              <input
-                data-testid="search-input"
-                placeholder="Search"
-                type="text"
-              />
-              <div>
-                <label htmlFor="ingredients">
-                  Ingredient
-                  <input
-                    data-testid="ingredient-search-radio"
-                    type="radio"
-                    name="element"
-                    id="ingredients"
-                  />
-                </label>
-                <label htmlFor="name">
-                  Name
-                  <input
-                    data-testid="name-search-radio"
-                    type="radio"
-                    name="element"
-                    id="name"
-                  />
-                </label>
-                <label>
-                  First letter
-                  <input
-                    data-testid="first-letter-search-radio"
-                    type="radio"
-                    name="element"
-                    id="first-letter"
-                  />
-                </label>
-              </div>
-              <button data-testid="exec-search-btn">Search</button>
-            </div>
+            <SearchBar />
           )
         }
       </section>
