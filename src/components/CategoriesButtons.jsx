@@ -6,7 +6,9 @@ function CategoriesButtons() {
     mealsCategoryButtons,
     drinksCategoryButtons,
     filterByCategory,
-    fetchRecipes } = useContext(recipesContext);
+    fetchRecipes,
+    filteredRecipes,
+    setFilteredRecipes } = useContext(recipesContext);
 
   return (
     <div>
@@ -16,7 +18,14 @@ function CategoriesButtons() {
             <button
               key={ index + 1 }
               data-testid={ `${strCategory}-category-filter` }
-              onClick={ () => filterByCategory(`${strCategory}`) }
+              onClick={ () => {
+                if (filteredRecipes === strCategory) {
+                  fetchRecipes();
+                  setFilteredRecipes('');
+                } else {
+                  filterByCategory(`${strCategory}`);
+                }
+              } }
             >
               { strCategory }
             </button>
@@ -28,7 +37,14 @@ function CategoriesButtons() {
             <button
               key={ index + 1 }
               data-testid={ `${strCategory}-category-filter` }
-              onClick={ () => filterByCategory(`${strCategory}`) }
+              onClick={ () => {
+                if (filteredRecipes === strCategory) {
+                  fetchRecipes();
+                  setFilteredRecipes('');
+                } else {
+                  filterByCategory(`${strCategory}`);
+                }
+              } }
             >
               { strCategory }
             </button>

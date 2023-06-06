@@ -9,7 +9,7 @@ function RecipesProvider({ children }) {
   const [drinksRecipes, setDrinksRecipes] = useState([]);
   const [mealsCategoryButtons, setMealsCategoryButtons] = useState([]);
   const [drinksCategoryButtons, setDrinksCategoryButtons] = useState([]);
-  const [filteredRecipes, setFilteredRecipes] = useState([]);
+  const [filteredRecipes, setFilteredRecipes] = useState('');
 
   const history = useHistory();
   const { pathname } = history.location;
@@ -83,6 +83,7 @@ function RecipesProvider({ children }) {
       console.log(error);
     } finally {
       setLoading(false);
+      setFilteredRecipes(category);
     }
   }, [pathname, setLoading, setMealsRecipes, setDrinksRecipes]);
 
@@ -105,7 +106,7 @@ function RecipesProvider({ children }) {
     loading, mealsRecipes, drinksRecipes,
     mealsCategoryButtons, drinksCategoryButtons,
     fetchRecipes, fetchButtonsCategories,
-    filteredRecipes, setFilteredRecipes, filterByCategory]);
+    filterByCategory, filteredRecipes, setFilteredRecipes]);
 
   return (
     <recipesContext.Provider value={ value }>
