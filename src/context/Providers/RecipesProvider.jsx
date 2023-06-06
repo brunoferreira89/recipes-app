@@ -9,6 +9,7 @@ function RecipesProvider({ children }) {
   const [drinksRecipes, setDrinksRecipes] = useState([]);
   const [mealsCategoryButtons, setMealsCategoryButtons] = useState([]);
   const [drinksCategoryButtons, setDrinksCategoryButtons] = useState([]);
+  const [filteredRecipes, setFilteredRecipes] = useState([]);
 
   const history = useHistory();
   const { pathname } = history.location;
@@ -61,6 +62,30 @@ function RecipesProvider({ children }) {
     }
   }, [pathname, setLoading, setDrinksCategoryButtons, setMealsCategoryButtons]);
 
+  const filterByCategory = useCallback(async (category) => {
+    const limitQuantity = 12;
+    try {
+      if (pathname === '/meals') {
+        const API_URL = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`;
+        const response = await fetch(API_URL);
+        const dataJson = await response.json();
+        const data = Object.values(dataJson)[0].slice(0, limitQuantity);
+        setMealsRecipes(data);
+      }
+      if (pathname === '/drinks') {
+        const API_URL = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${category}`;
+        const response = await fetch(API_URL);
+        const dataJson = await response.json();
+        const data = Object.values(dataJson)[0].slice(0, limitQuantity);
+        setDrinksRecipes(data);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  }, [pathname, setLoading, setMealsRecipes, setDrinksRecipes]);
+
   const value = useMemo(() => ({
     loading,
     setLoading,
@@ -73,11 +98,14 @@ function RecipesProvider({ children }) {
     drinksCategoryButtons,
     setDrinksCategoryButtons,
     fetchRecipes,
-    fetchButtonsCategories }), [
-    loading, mealsRecipes,
-    drinksRecipes, mealsCategoryButtons,
-    drinksCategoryButtons, fetchRecipes,
-    fetchButtonsCategories]);
+    fetchButtonsCategories,
+    filteredRecipes,
+    setFilteredRecipes,
+    filterByCategory }), [
+    loading, mealsRecipes, drinksRecipes,
+    mealsCategoryButtons, drinksCategoryButtons,
+    fetchRecipes, fetchButtonsCategories,
+    filteredRecipes, setFilteredRecipes, filterByCategory]);
 
   return (
     <recipesContext.Provider value={ value }>

@@ -13,7 +13,7 @@ function RecipeCard() {
               <img
                 data-testid={ `${index}-card-img` }
                 src={ strMealThumb }
-                alt="imagem"
+                alt={ strMeal }
               />
               <h3
                 data-testid={ `${index}-card-name` }
@@ -30,7 +30,7 @@ function RecipeCard() {
               <img
                 data-testid={ `${index}-card-img` }
                 src={ strDrinkThumb }
-                alt="imagem"
+                alt={ strDrink }
               />
               <h3
                 data-testid={ `${index}-card-name` }
