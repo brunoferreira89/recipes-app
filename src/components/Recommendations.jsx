@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { CaretCircleLeft, CaretCircleRight } from '@phosphor-icons/react';
-import detailsContext from '../context/detailsContext';
+import detailsContext from '../context/Contexts/detailsContext';
 import styles from './Recommendations.module.css';
 
 function Recommendations() {
