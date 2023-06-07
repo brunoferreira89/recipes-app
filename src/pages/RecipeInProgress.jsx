@@ -1,8 +1,8 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
+import recipesContext from '../context/Contexts/recipesContext';
 import Loading from '../components/Loading';
 import Button from '../components/Button';
-import recipesContext from '../context/Contexts/recipesContext';
 import './styles/RecipeInProgress.css';
 
 function RecipeInProgress() {
