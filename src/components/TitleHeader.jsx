@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import headerContext from '../context/Contexts/headerContext';
 
 function TitleHeader() {
+  const { pageUrl } = useContext(headerContext);
   const history = useHistory();
+  let page = history.location.pathname;
 
-  const page = history.location.pathname;
+  if (pageUrl) {
+    page = pageUrl;
+  }
 
+  console.log(page);
   return (
     <h1 data-testid="page-title">
       {

@@ -1,16 +1,22 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-
 import userIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import TitleHeader from './TitleHeader';
 import SearchBar from './SearchBar';
+import headerContext from '../context/Contexts/headerContext';
 
 export default function Header() {
+  const { setPageUrl } = useContext(headerContext);
   const history = useHistory();
   const [search, setSearch] = useState(false);
 
   const page = history.location.pathname;
+
+  const handleOnClikPageProfile = () => {
+    history.push('/profile');
+    setPageUrl('/profile');
+  };
 
   if ((page !== '/') && (
     (page === '/meals') || (page === '/drinks') || (page === '/profile')
@@ -30,7 +36,7 @@ export default function Header() {
               </button>
             )
         }
-        <button onClick={ () => history.push('/profile') }>
+        <button onClick={ handleOnClikPageProfile }>
           <img data-testid="profile-top-btn" src={ userIcon } alt="icone de usuario" />
         </button>
         <div>
