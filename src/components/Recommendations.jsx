@@ -28,53 +28,55 @@ function Recommendations() {
     }
   };
 
-  return (
-    <section>
-      <h2>Recommendations</h2>
-      <div className={ styles.carousel }>
-        <CaretCircleLeft
-          data-testid="arrow-left"
-          size={ 64 }
-          className={ styles.arrowLeft }
-          onClick={ handleClickPrevCarousel }
-        />
-        {
-          recommendations.map((recom, index) => (
-            <div
-              key={ mealsOrDrinks === 'meals' ? recom.idDrink : recom.idMeal }
-              data-testid={ `${index}-recommendation-card` }
-              className={
-                index === indexCarouselActive.initial
+  if (recommendations) {
+    return (
+      <section>
+        <h2>Recommendations</h2>
+        <div className={ styles.carousel }>
+          <CaretCircleLeft
+            data-testid="arrow-left"
+            size={ 64 }
+            className={ styles.arrowLeft }
+            onClick={ handleClickPrevCarousel }
+          />
+          {
+            recommendations.map((recom, index) => (
+              <div
+                key={ mealsOrDrinks === 'meals' ? recom.idDrink : recom.idMeal }
+                data-testid={ `${index}-recommendation-card` }
+                className={
+                  index === indexCarouselActive.initial
                   || index === indexCarouselActive.final ? (
-                    styles.cardActive
-                  ) : styles.cardDeactive
-              }
-            >
-              <img
-                data-testid={ `${index}-recommendation-img` }
-                className={ styles.imgRecommendations }
-                src={
-                  mealsOrDrinks === 'meals' ? recom.strDrinkThumb : recom.strMealThumb
+                      styles.cardActive
+                    ) : styles.cardDeactive
                 }
-                alt=""
-              />
-              <h3 data-testid={ `${index}-recommendation-title` }>
-                {
-                  mealsOrDrinks === 'meals' ? recom.strDrink : recom.strMeal
-                }
-              </h3>
-            </div>
-          ))
-        }
-        <CaretCircleRight
-          data-testid="arrow-right"
-          size={ 64 }
-          className={ styles.arrowRight }
-          onClick={ handleClickNextCarousel }
-        />
-      </div>
-    </section>
-  );
+              >
+                <img
+                  data-testid={ `${index}-recommendation-img` }
+                  className={ styles.imgRecommendations }
+                  src={
+                    mealsOrDrinks === 'meals' ? recom.strDrinkThumb : recom.strMealThumb
+                  }
+                  alt=""
+                />
+                <h3 data-testid={ `${index}-recommendation-title` }>
+                  {
+                    mealsOrDrinks === 'meals' ? recom.strDrink : recom.strMeal
+                  }
+                </h3>
+              </div>
+            ))
+          }
+          <CaretCircleRight
+            data-testid="arrow-right"
+            size={ 64 }
+            className={ styles.arrowRight }
+            onClick={ handleClickNextCarousel }
+          />
+        </div>
+      </section>
+    );
+  }
 }
 
 export default Recommendations;
