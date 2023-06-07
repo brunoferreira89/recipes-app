@@ -12,12 +12,11 @@ function RecipeInProgress() {
     setLoading,
     recipeInProgress,
     setRecipeInProgress } = useContext(recipesContext);
-  const [isChecked, setIsChecked] = useState([]);
 
-  const getCheckedFromStore = useCallback(() => {
-    const checkboxes = JSON.parse(localStorage.getItem('inProgressRecipes')) || [];
-    setIsChecked(checkboxes);
-  }, []);
+  const [isChecked, setIsChecked] = useState({
+    drinks: { [id]: [] },
+    meals: { [id]: [] },
+  });
 
   const history = useHistory();
   const { pathname } = history.location;
@@ -35,7 +34,7 @@ function RecipeInProgress() {
     try {
       const response = await fetch(setAPIURL());
       const dataJson = await response.json();
-      const data = Object.values(dataJson)[0];
+      const data = Object.values(dataJson)[0] || [];
       setRecipeInProgress(data);
     } catch (error) {
       console.log(error);
@@ -44,6 +43,34 @@ function RecipeInProgress() {
     }
   }, [setAPIURL, setLoading, setRecipeInProgress]);
 
+  const handleCheckbox = ({ target }) => {
+    const { checked, value } = target;
+    const { meals, drinks } = isChecked;
+    let updatedList = { ...isChecked };
+
+    if (checked && pathname.includes('meals')) {
+      updatedList = { ...isChecked, meals: { ...meals, [id]: [...meals[id], value] } };
+    } else if (!checked && pathname.includes('meals')) {
+      updatedList.meals[id].splice(meals[id].indexOf(value), 1);
+    }
+
+    if (checked && pathname.includes('drinks')) {
+      updatedList = { ...isChecked, drinks: { ...drinks, [id]: [...drinks[id], value] } };
+    } else if (!checked && pathname.includes('drinks')) {
+      updatedList.drinks[id].splice(drinks[id].indexOf(value), 1);
+    }
+    setIsChecked(updatedList);
+    localStorage.setItem('inProgressRecipes', JSON.stringify({ ...updatedList }));
+  };
+
+  const getCheckedFromStore = useCallback(() => {
+    const checkboxes = JSON.parse(localStorage.getItem('inProgressRecipes')) || {
+      drinks: { [id]: [] },
+      meals: { [id]: [] },
+    };
+    setIsChecked(checkboxes);
+  }, [id]);
+
   const ingredientsNames = Object
     .keys(recipeInProgress[0] || []).filter((key) => key.includes('strIngredient'));
 
@@ -51,20 +78,14 @@ function RecipeInProgress() {
     .map((ingredient) => recipeInProgress[0][ingredient] || [])
     .filter((ingredientName) => ingredientName.length > 0);
 
-  const handleCheckbox = ({ target }) => {
-    const { checked, value } = target;
-    let updatedList = [...isChecked];
-    if (checked) {
-      updatedList = [...isChecked, value];
-    } else {
-      updatedList.splice(isChecked.indexOf(value), 1);
+  const handleCheckboxClass = (ingredient) => {
+    const { meals, drinks } = isChecked;
+    if (pathname.includes('meals')) {
+      return meals[id].includes(ingredient) ? 'checked-checkbox' : 'unchecked-checkbox';
+    } if (pathname.includes('drinks')) {
+      return drinks[id].includes(ingredient) ? 'checked-checkbox' : 'unchecked-checkbox';
     }
-    setIsChecked(updatedList);
-    localStorage.setItem('inProgressRecipes', JSON.stringify([...updatedList]));
   };
-
-  const handleCheckboxClass = (ingredient) => (isChecked
-    .includes(ingredient) ? 'checked-checkbox' : null);
 
   useEffect(() => {
     fetchById();
@@ -108,7 +129,7 @@ function RecipeInProgress() {
                       type="checkbox"
                       value={ ingredient }
                       onChange={ handleCheckbox }
-                      checked={ isChecked
+                      checked={ isChecked.meals[id]
                         .some((item) => ingredient === item) }
                     />
                     {ingredient}
@@ -148,7 +169,7 @@ function RecipeInProgress() {
                     type="checkbox"
                     value={ ingredient }
                     onChange={ handleCheckbox }
-                    checked={ isChecked
+                    checked={ isChecked.drinks[id]
                       .some((item) => ingredient === item) }
                   />
                   {ingredient}
