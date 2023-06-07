@@ -10,6 +10,7 @@ function RecipeDetails() {
   const {
     loading, setLoading, data, setData, mealsOrDrinks, setMealsOrDrinks,
     setRecommendations, getLocalStorageDoneRecipes, isDoneRecipes,
+    isInProgressRecipe, getLocalStorageIsInProgressRecipe,
   } = useContext(detailsContext);
 
   const history = useHistory();
@@ -73,6 +74,9 @@ function RecipeDetails() {
   }, [page, refreshGetData]);
 
   useEffect(() => { getLocalStorageDoneRecipes(id); }, [getLocalStorageDoneRecipes, id]);
+  useEffect(() => { getLocalStorageIsInProgressRecipe(mealsOrDrinks, id); }, [
+    getLocalStorageIsInProgressRecipe, mealsOrDrinks, id,
+  ]);
 
   let ingredientsList = [];
   let ingredientsQuantityList = [];
@@ -229,7 +233,10 @@ function RecipeDetails() {
           ) : styles.startRecipeBtnInactive
         }
       >
-        Start Recipe
+        {/* Start Recipe */}
+        {
+          isInProgressRecipe ? 'Continue Recipe' : 'Start Recipe'
+        }
       </button>
     </main>
   );
