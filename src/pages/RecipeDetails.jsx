@@ -16,7 +16,8 @@ function RecipeDetails() {
   const {
     loading, setLoading, data, setData, mealsOrDrinks, setMealsOrDrinks,
     setRecommendations, getLocalStorageDoneRecipes, isDoneRecipes,
-    isInProgressRecipe, getLocalStorageIsInProgressRecipe,
+    isInProgressRecipe, getLocalStorageIsInProgressRecipe, isLinkCopied,
+    handleOnCLickShareBtn,
   } = useContext(detailsContext);
 
   const history = useHistory();
@@ -104,7 +105,7 @@ function RecipeDetails() {
   };
 
   if (loading) return <Loading />;
-  const objectPath = data[mealsOrDrinks][0];
+  const objectPath = data[mealsOrDrinks][0] || [];
   return (
     <main>
       <img
@@ -147,7 +148,7 @@ function RecipeDetails() {
                 >
                   {ingredient}
                 </li>
-              ))
+              ) || [])
             }
           </ul>
         </div>
@@ -163,7 +164,7 @@ function RecipeDetails() {
                 >
                   {ingredientQtd}
                 </li>
-              ))
+              ) || [])
             }
           </ul>
         </div>
@@ -179,9 +180,13 @@ function RecipeDetails() {
           <IframeYoutube className={ styles.iframe } objectPath={ objectPath } />)
       }
       <Recommendations />
+
+      { isLinkCopied && <section><h4>Link copied!</h4></section> }
+
       <Button
         dataTestid="share-btn"
         textContent="Share"
+        onClick={ () => handleOnCLickShareBtn(window.location.href) }
       />
       <Button
         dataTestid="favorite-btn"

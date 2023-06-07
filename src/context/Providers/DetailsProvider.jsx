@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useMemo, useState } from 'react';
+import clipboardCopy from 'clipboard-copy';
 import detailsContext from '../Contexts/detailsContext';
 
 function DetailsProvider({ children }) {
@@ -13,6 +14,7 @@ function DetailsProvider({ children }) {
   });
   const [isDoneRecipes, setIsDoneRecipes] = useState(false);
   const [isInProgressRecipe, setIsInProgressRecipe] = useState(false);
+  const [isLinkCopied, setIsLinkCopied] = useState(false);
 
   const getLocalStorageDoneRecipes = (id) => {
     const localStorageDoneRecipes = localStorage.getItem('doneRecipes');
@@ -34,6 +36,13 @@ function DetailsProvider({ children }) {
     }
   };
 
+  const handleOnCLickShareBtn = (page) => {
+    setIsLinkCopied(true);
+    clipboardCopy(page);
+    const intervalTime = 3000;
+    setTimeout(() => { setIsLinkCopied(false); }, intervalTime);
+  };
+
   const value = useMemo(() => ({
     loading,
     setLoading,
@@ -49,10 +58,12 @@ function DetailsProvider({ children }) {
     getLocalStorageDoneRecipes,
     isInProgressRecipe,
     getLocalStorageIsInProgressRecipe,
+    isLinkCopied,
+    handleOnCLickShareBtn,
   }), [
     loading, setLoading, data, setData, mealsOrDrinks, setMealsOrDrinks,
     recommendations, setRecommendations, indexCarouselActive, setIndexCarouselActive,
-    isDoneRecipes, isInProgressRecipe,
+    isDoneRecipes, isInProgressRecipe, isLinkCopied,
   ]);
 
   return (
