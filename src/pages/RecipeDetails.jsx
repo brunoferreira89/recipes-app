@@ -10,6 +10,9 @@ import {
   getDrinkIngredientsList, getDrinkIngredientsQuantityList,
   getMealIngredientsList, getMealIngredientsQuantityList,
 } from '../helpers/getIngredientsAndQuantityList';
+import {
+  handleSaveFavoriteDrink, handleSaveFavoriteMeal,
+} from '../helpers/saveFavoriteOnLocalStorage';
 
 function RecipeDetails() {
   const { id } = useParams();
@@ -191,6 +194,10 @@ function RecipeDetails() {
       <Button
         dataTestid="favorite-btn"
         textContent="Favorite"
+        onClick={
+          mealsOrDrinks === 'meals' ? () => handleSaveFavoriteMeal(data) : (
+            () => handleSaveFavoriteDrink(data))
+        }
       />
       <Button
         dataTestid="start-recipe-btn"
