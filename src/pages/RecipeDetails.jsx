@@ -131,6 +131,10 @@ function RecipeDetails() {
       });
   }
 
+  const handleOnCLickRedirectRecipeProgress = () => {
+    history.push(`/${mealsOrDrinks}/${id}/in-progress`);
+  };
+
   if (loading) return <Loading />;
 
   const objectPath = data[mealsOrDrinks][0];
@@ -228,12 +232,11 @@ function RecipeDetails() {
       <button
         data-testid="start-recipe-btn"
         className={
-          mealsOrDrinks === 'meals' && !isDoneRecipes ? (
-            styles.startRecipeBtnActive
+          !isDoneRecipes ? (styles.startRecipeBtnActive
           ) : styles.startRecipeBtnInactive
         }
+        onClick={ handleOnCLickRedirectRecipeProgress }
       >
-        {/* Start Recipe */}
         {
           isInProgressRecipe ? 'Continue Recipe' : 'Start Recipe'
         }
