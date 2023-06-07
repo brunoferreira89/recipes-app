@@ -1,7 +1,9 @@
-import React, { useCallback, useContext, useEffect } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import Loading from '../components/Loading';
 import recipesContext from '../context/Contexts/recipesContext';
+import Loading from '../components/Loading';
+import Button from '../components/Button';
+import './styles/RecipeInProgress.css';
 
 function RecipeInProgress() {
   const { id } = useParams();
@@ -10,6 +12,12 @@ function RecipeInProgress() {
     setLoading,
     recipeInProgress,
     setRecipeInProgress } = useContext(recipesContext);
+  const [isChecked, setIsChecked] = useState([]);
+
+  const getCheckedFromStore = useCallback(() => {
+    const checkboxes = JSON.parse(localStorage.getItem('inProgressRecipes')) || [];
+    setIsChecked(checkboxes);
+  }, []);
 
   const history = useHistory();
   const { pathname } = history.location;
@@ -43,20 +51,36 @@ function RecipeInProgress() {
     .map((ingredient) => recipeInProgress[0][ingredient] || [])
     .filter((ingredientName) => ingredientName.length > 0);
 
-  // const ingredientsQuantities = Object
-  //   .keys(recipeInProgress[0] || []).filter((key) => key.includes('strMeasure'));
+  const handleCheckbox = ({ target }) => {
+    const { checked, value } = target;
+    let updatedList = [...isChecked];
+    if (checked) {
+      updatedList = [...isChecked, value];
+    } else {
+      updatedList.splice(isChecked.indexOf(value), 1);
+    }
+    setIsChecked(updatedList);
+    localStorage.setItem('inProgressRecipes', JSON.stringify([...updatedList]));
+  };
 
-  // const ingredientsQuantitiesList = ingredientsQuantities
-  //   .map((ingredient) => recipeInProgress[0][ingredient])
-  //   .filter((ingredientQtt) => ingredientQtt.length > 0);
+  const handleCheckboxClass = (ingredient) => (isChecked
+    .includes(ingredient) ? 'checked-checkbox' : null);
 
   useEffect(() => {
     fetchById();
-  }, [fetchById]);
+    getCheckedFromStore();
+  }, [fetchById, getCheckedFromStore]);
 
   if (loading) return <Loading />;
 
-  const objectPath = recipeInProgress[0];
+  const {
+    strMealThumb,
+    strMeal,
+    strCategory,
+    strInstructions,
+    strDrinkThumb,
+    strDrink,
+    strAlcoholic } = recipeInProgress[0];
 
   return (
     <main>
@@ -65,20 +89,34 @@ function RecipeInProgress() {
           <div>
             <img
               data-testid="recipe-photo"
-              src={ objectPath.strMealThumb }
+              src={ strMealThumb }
               alt="img"
             />
-            <h3 data-testid="recipe-title">{ objectPath.strMeal }</h3>
-            <span data-testid="recipe-category">{ objectPath.strCategory }</span>
+            <h3 data-testid="recipe-title">{ strMeal }</h3>
+            <span data-testid="recipe-category">{ strCategory }</span>
             <h4>Lista de ingredientes</h4>
             <ul>
               {
                 ingredientsList.map((ingredient, index) => (
-                  <li key={ index }>{ingredient}</li>
+                  <label
+                    key={ index }
+                    data-testid={ `${index}-ingredient-step` }
+                    className={ handleCheckboxClass(ingredient) }
+                  >
+                    <input
+                      data-testid="ingredient-step"
+                      type="checkbox"
+                      value={ ingredient }
+                      onChange={ handleCheckbox }
+                      checked={ isChecked
+                        .some((item) => ingredient === item) }
+                    />
+                    {ingredient}
+                  </label>
                 ))
               }
             </ul>
-            <p data-testid="instructions">{ objectPath.strInstructions }</p>
+            <p data-testid="instructions">{ strInstructions }</p>
             <button data-testid="share-btn">Compartilhar</button>
             <button data-testid="favorite-btn">Favoritar</button>
             <button data-testid="finish-recipe-btn">Finalizar</button>
@@ -91,22 +129,42 @@ function RecipeInProgress() {
         <div>
           <img
             data-testid="recipe-photo"
-            src={ objectPath.strDrinkThumb }
+            src={ strDrinkThumb }
             alt="img"
           />
-          <h3 data-testid="recipe-title">{ objectPath.strDrink }</h3>
-          <span data-testid="recipe-category">{ objectPath.strAlcoholic }</span>
+          <h3 data-testid="recipe-title">{ strDrink }</h3>
+          <span data-testid="recipe-category">{ strAlcoholic }</span>
           <h4>Lista de ingredientes</h4>
           <ul>
             {
               ingredientsList.map((ingredient, index) => (
-                <li key={ index }>{ingredient}</li>
+                <label
+                  key={ index }
+                  data-testid={ `${index}-ingredient-step` }
+                  className={ handleCheckboxClass(ingredient) }
+                >
+                  <input
+                    data-testid="ingredient-step"
+                    type="checkbox"
+                    value={ ingredient }
+                    onChange={ handleCheckbox }
+                    checked={ isChecked
+                      .some((item) => ingredient === item) }
+                  />
+                  {ingredient}
+                </label>
               ))
             }
           </ul>
-          <p data-testid="instructions">{ objectPath.strInstructions }</p>
-          <button data-testid="share-btn">Compartilhar</button>
-          <button data-testid="favorite-btn">Favoritar</button>
+          <p data-testid="instructions">{ strInstructions }</p>
+          <Button
+            dataTestid="share-btn"
+            textContent="Share"
+          />
+          <Button
+            dataTestid="favorite-btn"
+            textContent="Favorite"
+          />
           <button data-testid="finish-recipe-btn">Finalizar</button>
         </div>
       )
