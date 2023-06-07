@@ -1,7 +1,8 @@
-import React, { useCallback, useContext, useEffect } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import Loading from '../components/Loading';
 import recipesContext from '../context/Contexts/recipesContext';
+import './styles/RecipeInProgress.css';
 
 function RecipeInProgress() {
   const { id } = useParams();
@@ -10,6 +11,7 @@ function RecipeInProgress() {
     setLoading,
     recipeInProgress,
     setRecipeInProgress } = useContext(recipesContext);
+  const [isChecked, setIsChecked] = useState([]);
 
   const history = useHistory();
   const { pathname } = history.location;
@@ -50,6 +52,20 @@ function RecipeInProgress() {
   //   .map((ingredient) => recipeInProgress[0][ingredient])
   //   .filter((ingredientQtt) => ingredientQtt.length > 0);
 
+  const handleCheckbox = ({ target }) => {
+    const { checked, value } = target;
+    let updatedList = [...isChecked];
+    if (checked) {
+      updatedList = [...isChecked, value];
+    } else {
+      updatedList.splice(isChecked.indexOf(value), 1);
+    }
+    setIsChecked(updatedList);
+  };
+
+  const handleCheckboxClass = (ingredient) => (isChecked
+    .includes(ingredient) ? 'checked-checkbox' : null);
+
   useEffect(() => {
     fetchById();
   }, [fetchById]);
@@ -74,9 +90,17 @@ function RecipeInProgress() {
             <ul>
               {
                 ingredientsList.map((ingredient, index) => (
-                  <label key={ index } data-testid={ `${index}-ingredient-step` }>
-                    <input data-testid="ingredient-step" type="checkbox" />
-                    {' '}
+                  <label
+                    key={ index }
+                    data-testid={ `${index}-ingredient-step` }
+                    className={ handleCheckboxClass(ingredient) }
+                  >
+                    <input
+                      data-testid="ingredient-step"
+                      type="checkbox"
+                      value={ ingredient }
+                      onChange={ handleCheckbox }
+                    />
                     {ingredient}
                   </label>
                 ))
@@ -104,9 +128,17 @@ function RecipeInProgress() {
           <ul>
             {
               ingredientsList.map((ingredient, index) => (
-                <label key={ index } data-testid={ `${index}-ingredient-step` }>
-                  <input data-testid="ingredient-step" type="checkbox" />
-                  {' '}
+                <label
+                  key={ index }
+                  data-testid={ `${index}-ingredient-step` }
+                  className={ handleCheckboxClass(ingredient) }
+                >
+                  <input
+                    data-testid="ingredient-step"
+                    type="checkbox"
+                    value={ ingredient }
+                    onChange={ handleCheckbox }
+                  />
                   {ingredient}
                 </label>
               ))
