@@ -6,6 +6,10 @@ import styles from './RecipeDetails.module.css';
 import Recommendations from '../components/Recommendations';
 import Button from '../components/Button';
 import IframeYoutube from '../components/IframeYoutube';
+import {
+  getDrinkIngredientsList, getDrinkIngredientsQuantityList,
+  getMealIngredientsList, getMealIngredientsQuantityList,
+} from '../helpers/getIngredientsAndQuantityList';
 
 function RecipeDetails() {
   const { id } = useParams();
@@ -50,15 +54,15 @@ function RecipeDetails() {
   useEffect(() => {
     if (page.includes('meals')) {
       // Fetch inicial para pegar os detalhes das comidas
+      setMealsOrDrinks('meals');
       const API_URL = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
       refreshGetData(API_URL, 'details');
-      setMealsOrDrinks('meals');
     }
     if (page.includes('drinks')) {
       // Fetch inicial para pegar os detalhes das bebidas
+      setMealsOrDrinks('drinks');
       const API_URL = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
       refreshGetData(API_URL, 'details');
-      setMealsOrDrinks('drinks');
     }
   }, [id, page, refreshGetData, history, setMealsOrDrinks]);
 
@@ -76,7 +80,9 @@ function RecipeDetails() {
   }, [page, refreshGetData]);
 
   useEffect(() => { getLocalStorageDoneRecipes(id); }, [getLocalStorageDoneRecipes, id]);
-  useEffect(() => { getLocalStorageIsInProgressRecipe(mealsOrDrinks, id); }, [
+  useEffect(() => {
+    if (mealsOrDrinks && id) getLocalStorageIsInProgressRecipe(mealsOrDrinks, id);
+  }, [
     getLocalStorageIsInProgressRecipe, mealsOrDrinks, id,
   ]);
 
@@ -84,53 +90,13 @@ function RecipeDetails() {
   let ingredientsQuantityList = [];
 
   if (data && mealsOrDrinks === 'meals') {
-    const ingredientsKey = Object.keys(data.meals[0])
-      .filter((key) => key.includes('strIngredient'));
-
-    ingredientsList = ingredientsKey.map((ingredient) => data.meals[0][ingredient])
-      .filter((element) => {
-        if (typeof element === 'string') {
-          return element.length > 0;
-        }
-        return element !== null;
-      });
-
-    const ingredientsQuantityKey = Object.keys(data.meals[0])
-      .filter((key) => key.includes('strMeasure'));
-
-    ingredientsQuantityList = ingredientsQuantityKey
-      .map((ingredient) => data.meals[0][ingredient])
-      .filter((element) => {
-        if (typeof element === 'string') {
-          return element.length > 0;
-        }
-        return element !== null;
-      });
+    ingredientsList = getMealIngredientsList(data);
+    ingredientsQuantityList = getMealIngredientsQuantityList(data);
   }
 
   if (data && mealsOrDrinks === 'drinks') {
-    const ingredientsKey = Object.keys(data.drinks[0])
-      .filter((key) => key.includes('strIngredient'));
-
-    ingredientsList = ingredientsKey.map((ingredient) => data.drinks[0][ingredient])
-      .filter((element) => {
-        if (typeof element === 'string') {
-          return element.length > 0;
-        }
-        return element !== null;
-      });
-
-    const ingredientsQuantityKey = Object.keys(data.drinks[0])
-      .filter((key) => key.includes('strMeasure'));
-
-    ingredientsQuantityList = ingredientsQuantityKey
-      .map((ingredient) => data.drinks[0][ingredient])
-      .filter((element) => {
-        if (typeof element === 'string') {
-          return element.length > 0;
-        }
-        return element !== null;
-      });
+    ingredientsList = getDrinkIngredientsList(data);
+    ingredientsQuantityList = getDrinkIngredientsQuantityList(data);
   }
 
   const handleOnCLickRedirectRecipeProgress = () => {
