@@ -9,7 +9,8 @@ function RecipeDetails() {
   const { id } = useParams();
   const {
     loading, setLoading, data, setData, mealsOrDrinks, setMealsOrDrinks,
-    setRecommendations, getLocalStorageDoneRecipes, isDoneRecipes,
+    setRecommendations, getLocalStorageDoneRecipes,
+    // isDoneRecipes,
   } = useContext(detailsContext);
 
   const history = useHistory();
@@ -222,15 +223,22 @@ function RecipeDetails() {
       <Recommendations />
 
       {
-        mealsOrDrinks === 'meals' && !isDoneRecipes && (
-          <button
-            data-testid="start-recipe-btn"
-            className={ styles.startRecipeBtn }
-          >
-            Start Recipe
-          </button>
-        )
+        // mealsOrDrinks === 'meals' && !isDoneRecipes && (
+        //   <button
+        //     data-testid="start-recipe-btn"
+        //     className={ styles.startRecipeBtn }
+        //   >
+        //     Start Recipe
+        //   </button>
+        // )
       }
+
+      <button
+        data-testid="start-recipe-btn"
+        className={ styles.startRecipeBtn }
+      >
+        Start Recipe
+      </button>
     </main>
   );
 }

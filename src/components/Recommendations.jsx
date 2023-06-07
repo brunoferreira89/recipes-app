@@ -33,6 +33,7 @@ function Recommendations() {
       <h2>Recommendations</h2>
       <div className={ styles.carousel }>
         <CaretCircleLeft
+          data-testid="arrow-left"
           size={ 64 }
           className={ styles.arrowLeft }
           onClick={ handleClickPrevCarousel }
@@ -50,6 +51,7 @@ function Recommendations() {
               }
             >
               <img
+                data-testid={ `${index}-recommendation-img` }
                 className={ styles.imgRecommendations }
                 src={
                   mealsOrDrinks === 'meals' ? recom.strDrinkThumb : recom.strMealThumb
@@ -65,6 +67,7 @@ function Recommendations() {
           ))
         }
         <CaretCircleRight
+          data-testid="arrow-right"
           size={ 64 }
           className={ styles.arrowRight }
           onClick={ handleClickNextCarousel }
