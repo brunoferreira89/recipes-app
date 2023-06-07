@@ -80,7 +80,14 @@ function RecipeInProgress() {
 
   if (loading) return <Loading />;
 
-  const objectPath = recipeInProgress[0];
+  const {
+    strMealThumb,
+    strMeal,
+    strCategory,
+    strInstructions,
+    strDrinkThumb,
+    strDrink,
+    strAlcoholic } = recipeInProgress[0];
 
   return (
     <main>
@@ -89,11 +96,11 @@ function RecipeInProgress() {
           <div>
             <img
               data-testid="recipe-photo"
-              src={ objectPath.strMealThumb }
+              src={ strMealThumb }
               alt="img"
             />
-            <h3 data-testid="recipe-title">{ objectPath.strMeal }</h3>
-            <span data-testid="recipe-category">{ objectPath.strCategory }</span>
+            <h3 data-testid="recipe-title">{ strMeal }</h3>
+            <span data-testid="recipe-category">{ strCategory }</span>
             <h4>Lista de ingredientes</h4>
             <ul>
               {
@@ -116,7 +123,7 @@ function RecipeInProgress() {
                 ))
               }
             </ul>
-            <p data-testid="instructions">{ objectPath.strInstructions }</p>
+            <p data-testid="instructions">{ strInstructions }</p>
             <button data-testid="share-btn">Compartilhar</button>
             <button data-testid="favorite-btn">Favoritar</button>
             <button data-testid="finish-recipe-btn">Finalizar</button>
@@ -129,11 +136,11 @@ function RecipeInProgress() {
         <div>
           <img
             data-testid="recipe-photo"
-            src={ objectPath.strDrinkThumb }
+            src={ strDrinkThumb }
             alt="img"
           />
-          <h3 data-testid="recipe-title">{ objectPath.strDrink }</h3>
-          <span data-testid="recipe-category">{ objectPath.strAlcoholic }</span>
+          <h3 data-testid="recipe-title">{ strDrink }</h3>
+          <span data-testid="recipe-category">{ strAlcoholic }</span>
           <h4>Lista de ingredientes</h4>
           <ul>
             {
@@ -156,7 +163,7 @@ function RecipeInProgress() {
               ))
             }
           </ul>
-          <p data-testid="instructions">{ objectPath.strInstructions }</p>
+          <p data-testid="instructions">{ strInstructions }</p>
           <Button
             dataTestid="share-btn"
             textContent="Share"
