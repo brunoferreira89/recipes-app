@@ -1,9 +1,9 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import Loading from '../components/Loading';
+import Button from '../components/Button';
 import recipesContext from '../context/Contexts/recipesContext';
 import './styles/RecipeInProgress.css';
-import Button from '../components/Button';
 
 function RecipeInProgress() {
   const { id } = useParams();
