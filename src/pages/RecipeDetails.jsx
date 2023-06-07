@@ -2,12 +2,15 @@ import React, { useCallback, useContext, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import detailsContext from '../context/Contexts/detailsContext';
 import Loading from '../components/Loading';
+import styles from './RecipeDetails.module.css';
+import Recommendations from '../components/Recommendations';
 
 function RecipeDetails() {
   const { id } = useParams();
   const {
     loading, setLoading, data, setData, mealsOrDrinks, setMealsOrDrinks,
-    setRecommendations,
+    setRecommendations, getLocalStorageDoneRecipes,
+    // isDoneRecipes,
   } = useContext(detailsContext);
 
   const history = useHistory();
@@ -22,14 +25,25 @@ function RecipeDetails() {
       }
       // Fetch para pegar as recomendações
       if (detailOrRecommendation === 'recommendation') {
-        setRecommendations(dataJson);
+        const indexNumberThree = 3;
+        const indexNumberFour = 4;
+        const indexNumberFive = 5;
+        const index = [0, 1, 2, indexNumberThree, indexNumberFour, indexNumberFive];
+        const sixRecommendations = [];
+        if (page.includes('meals')) {
+          index.forEach((i) => sixRecommendations.push(dataJson.drinks[i]));
+        }
+        if (page.includes('drinks')) {
+          index.forEach((i) => sixRecommendations.push(dataJson.meals[i]));
+        }
+        setRecommendations(sixRecommendations);
       }
     } catch (error) {
       console.log(error);
     } finally {
       setLoading(false);
     }
-  }, [setData, setLoading, setRecommendations]);
+  }, [setData, setLoading, setRecommendations, page]);
 
   useEffect(() => {
     if (page.includes('meals')) {
@@ -58,6 +72,8 @@ function RecipeDetails() {
       refreshGetData(API_URL, 'recommendation');
     }
   }, [page, refreshGetData]);
+
+  useEffect(() => { getLocalStorageDoneRecipes(id); }, [getLocalStorageDoneRecipes, id]);
 
   let ingredientsList = [];
   let ingredientsQuantityList = [];
@@ -115,11 +131,11 @@ function RecipeDetails() {
   if (loading) return <Loading />;
 
   const objectPath = data[mealsOrDrinks][0];
-
   return (
     <main>
       <img
         data-testid="recipe-photo"
+        className={ styles.imageMealOrDrink }
         src={
           mealsOrDrinks === 'meals' ? objectPath.strMealThumb
             : data[mealsOrDrinks][0].strDrinkThumb
@@ -186,13 +202,11 @@ function RecipeDetails() {
       >
         { objectPath.strInstructions }
       </p>
-
       {
-        mealsOrDrinks === 'meals' ? (
+        mealsOrDrinks === 'meals' && (
           <iframe
             data-testid="video"
-            width="560"
-            height="315"
+            className={ styles.iframe }
             src={
               `https://www.youtube.com/embed/${objectPath.strYoutube
                 .replace('https://www.youtube.com/watch?v=', '')}`
@@ -203,8 +217,28 @@ function RecipeDetails() {
                   encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen
           />
-        ) : ''
+        )
       }
+
+      <Recommendations />
+
+      {
+        // mealsOrDrinks === 'meals' && !isDoneRecipes && (
+        //   <button
+        //     data-testid="start-recipe-btn"
+        //     className={ styles.startRecipeBtn }
+        //   >
+        //     Start Recipe
+        //   </button>
+        // )
+      }
+
+      <button
+        data-testid="start-recipe-btn"
+        className={ styles.startRecipeBtn }
+      >
+        Start Recipe
+      </button>
     </main>
   );
 }
