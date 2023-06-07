@@ -51,13 +51,6 @@ function RecipeInProgress() {
     .map((ingredient) => recipeInProgress[0][ingredient] || [])
     .filter((ingredientName) => ingredientName.length > 0);
 
-  // const ingredientsQuantities = Object
-  //   .keys(recipeInProgress[0] || []).filter((key) => key.includes('strMeasure'));
-
-  // const ingredientsQuantitiesList = ingredientsQuantities
-  //   .map((ingredient) => recipeInProgress[0][ingredient])
-  //   .filter((ingredientQtt) => ingredientQtt.length > 0);
-
   const handleCheckbox = ({ target }) => {
     const { checked, value } = target;
     let updatedList = [...isChecked];
