@@ -7,10 +7,11 @@ import Header from './components/Header';
 import Profile from './pages/Profile';
 import RecipeInProgress from './pages/RecipeInProgress';
 import FavoriteRecipes from './pages/FavoriteRecipes';
+import HeaderProvider from './context/Providers/HeaderProvider';
 
 function App() {
   return (
-    <div>
+    <HeaderProvider>
       <Header />
       <Switch>
         <Route exact path="/" component={ Login } />
@@ -24,7 +25,7 @@ function App() {
         <Route path="/profile" component={ Profile } />
         <Route path="/favorite-recipes" component={ FavoriteRecipes } />
       </Switch>
-    </div>
+    </HeaderProvider>
   );
 }
 
