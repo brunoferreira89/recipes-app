@@ -12,6 +12,7 @@ function DetailsProvider({ children }) {
     final: 1,
   });
   const [isDoneRecipes, setIsDoneRecipes] = useState(false);
+  const [isInProgressRecipe, setIsInProgressRecipe] = useState(false);
 
   const getLocalStorageDoneRecipes = (id) => {
     const localStorageDoneRecipes = localStorage.getItem('doneRecipes');
@@ -20,6 +21,16 @@ function DetailsProvider({ children }) {
       const isDone = doneRecipesList
         .some((recipe) => Number(recipe.id) === Number(id));
       setIsDoneRecipes(isDone);
+    }
+  };
+
+  const getLocalStorageIsInProgressRecipe = (isMealsOrDrinks, id) => {
+    const localStorageIsInProgressRecipe = localStorage.getItem('inProgressRecipes');
+    if (localStorageIsInProgressRecipe && isMealsOrDrinks) {
+      const isInProgressRecipes = JSON.parse(localStorageIsInProgressRecipe);
+      const keysOfMealsOrDrinks = Object.keys(isInProgressRecipes[isMealsOrDrinks]);
+      const isInProgress = keysOfMealsOrDrinks.some((key) => key === id);
+      setIsInProgressRecipe(isInProgress);
     }
   };
 
@@ -36,10 +47,12 @@ function DetailsProvider({ children }) {
     setIndexCarouselActive,
     isDoneRecipes,
     getLocalStorageDoneRecipes,
+    isInProgressRecipe,
+    getLocalStorageIsInProgressRecipe,
   }), [
     loading, setLoading, data, setData, mealsOrDrinks, setMealsOrDrinks,
     recommendations, setRecommendations, indexCarouselActive, setIndexCarouselActive,
-    isDoneRecipes,
+    isDoneRecipes, isInProgressRecipe,
   ]);
 
   return (

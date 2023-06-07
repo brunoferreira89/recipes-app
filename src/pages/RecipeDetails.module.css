@@ -6,8 +6,12 @@
   width: 18.75rem;
 }
 
-.startRecipeBtn {
+.startRecipeBtnActive, .startRecipeBtnInactive {
   bottom: 0;
   position: fixed;
   right: 0;
+}
+
+.startRecipeBtnInactive {
+  display: none;
 }
