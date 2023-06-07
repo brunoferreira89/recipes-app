@@ -1,0 +1,11 @@
+.carousel {
+  display: flex;
+}
+
+.imgRecommendations {
+  width: 7.5rem;
+}
+
+.cardDeactive {
+  display: none;
+}

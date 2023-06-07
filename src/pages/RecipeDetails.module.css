@@ -1,0 +1,13 @@
+.imageMealOrDrink {
+  width: 18.75rem;
+}
+
+.iframe {
+  width: 18.75rem;
+}
+
+.startRecipeBtn {
+  bottom: 0;
+  position: fixed;
+  right: 0;
+}
