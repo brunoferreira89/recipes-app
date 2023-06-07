@@ -4,6 +4,8 @@ import detailsContext from '../context/Contexts/detailsContext';
 import Loading from '../components/Loading';
 import styles from './RecipeDetails.module.css';
 import Recommendations from '../components/Recommendations';
+import Button from '../components/Button';
+import IframeYoutube from '../components/IframeYoutube';
 
 function RecipeDetails() {
   const { id } = useParams();
@@ -136,7 +138,6 @@ function RecipeDetails() {
   };
 
   if (loading) return <Loading />;
-
   const objectPath = data[mealsOrDrinks][0];
   return (
     <main>
@@ -179,7 +180,6 @@ function RecipeDetails() {
                   data-testid={ `${index}-ingredient-name-and-measure` }
                 >
                   {ingredient}
-
                 </li>
               ))
             }
@@ -196,7 +196,6 @@ function RecipeDetails() {
                   data-testid={ `${index}-ingredient-name-and-measure` }
                 >
                   {ingredientQtd}
-
                 </li>
               ))
             }
@@ -211,36 +210,26 @@ function RecipeDetails() {
       </p>
       {
         mealsOrDrinks === 'meals' && (
-          <iframe
-            data-testid="video"
-            className={ styles.iframe }
-            src={
-              `https://www.youtube.com/embed/${objectPath.strYoutube
-                .replace('https://www.youtube.com/watch?v=', '')}`
-            }
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write;
-                  encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
-          />
-        )
+          <IframeYoutube className={ styles.iframe } objectPath={ objectPath } />)
       }
-
       <Recommendations />
-
-      <button
-        data-testid="start-recipe-btn"
+      <Button
+        dataTestid="share-btn"
+        textContent="Share"
+      />
+      <Button
+        dataTestid="favorite-btn"
+        textContent="Favorite"
+      />
+      <Button
+        dataTestid="start-recipe-btn"
         className={
           !isDoneRecipes ? (styles.startRecipeBtnActive
           ) : styles.startRecipeBtnInactive
         }
         onClick={ handleOnCLickRedirectRecipeProgress }
-      >
-        {
-          isInProgressRecipe ? 'Continue Recipe' : 'Start Recipe'
-        }
-      </button>
+        textContent={ isInProgressRecipe ? 'Continue Recipe' : 'Start Recipe' }
+      />
     </main>
   );
 }
