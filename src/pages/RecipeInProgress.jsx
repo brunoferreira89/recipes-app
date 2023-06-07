@@ -3,6 +3,7 @@ import { useParams, useHistory } from 'react-router-dom';
 import Loading from '../components/Loading';
 import recipesContext from '../context/Contexts/recipesContext';
 import './styles/RecipeInProgress.css';
+import Button from '../components/Button';
 
 function RecipeInProgress() {
   const { id } = useParams();
@@ -12,6 +13,11 @@ function RecipeInProgress() {
     recipeInProgress,
     setRecipeInProgress } = useContext(recipesContext);
   const [isChecked, setIsChecked] = useState([]);
+
+  const getCheckedFromStore = useCallback(() => {
+    const checkboxes = JSON.parse(localStorage.getItem('inProgressRecipes')) || [];
+    setIsChecked(checkboxes);
+  }, []);
 
   const history = useHistory();
   const { pathname } = history.location;
@@ -61,6 +67,7 @@ function RecipeInProgress() {
       updatedList.splice(isChecked.indexOf(value), 1);
     }
     setIsChecked(updatedList);
+    localStorage.setItem('inProgressRecipes', JSON.stringify([...updatedList]));
   };
 
   const handleCheckboxClass = (ingredient) => (isChecked
@@ -68,7 +75,8 @@ function RecipeInProgress() {
 
   useEffect(() => {
     fetchById();
-  }, [fetchById]);
+    getCheckedFromStore();
+  }, [fetchById, getCheckedFromStore]);
 
   if (loading) return <Loading />;
 
@@ -100,6 +108,8 @@ function RecipeInProgress() {
                       type="checkbox"
                       value={ ingredient }
                       onChange={ handleCheckbox }
+                      checked={ isChecked
+                        .some((item) => ingredient === item) }
                     />
                     {ingredient}
                   </label>
@@ -138,6 +148,8 @@ function RecipeInProgress() {
                     type="checkbox"
                     value={ ingredient }
                     onChange={ handleCheckbox }
+                    checked={ isChecked
+                      .some((item) => ingredient === item) }
                   />
                   {ingredient}
                 </label>
@@ -145,8 +157,14 @@ function RecipeInProgress() {
             }
           </ul>
           <p data-testid="instructions">{ objectPath.strInstructions }</p>
-          <button data-testid="share-btn">Compartilhar</button>
-          <button data-testid="favorite-btn">Favoritar</button>
+          <Button
+            dataTestid="share-btn"
+            textContent="Share"
+          />
+          <Button
+            dataTestid="favorite-btn"
+            textContent="Favorite"
+          />
           <button data-testid="finish-recipe-btn">Finalizar</button>
         </div>
       )
