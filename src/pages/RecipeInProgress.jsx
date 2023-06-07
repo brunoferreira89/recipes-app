@@ -81,9 +81,10 @@ function RecipeInProgress() {
   const handleCheckboxClass = (ingredient) => {
     const { meals, drinks } = isChecked;
     if (pathname.includes('meals')) {
-      return meals[id].includes(ingredient) ? 'checked-checkbox' : null;
+      return meals[id].includes(ingredient) ? 'checked-checkbox' : 'unchecked-checkbox';
+    } if (pathname.includes('drinks')) {
+      return drinks[id].includes(ingredient) ? 'checked-checkbox' : 'unchecked-checkbox';
     }
-    return drinks[id].includes(ingredient) ? 'checked-checkbox' : null;
   };
 
   useEffect(() => {
