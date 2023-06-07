@@ -74,7 +74,11 @@ function RecipeInProgress() {
             <ul>
               {
                 ingredientsList.map((ingredient, index) => (
-                  <li key={ index }>{ingredient}</li>
+                  <label key={ index } data-testid={ `${index}-ingredient-step` }>
+                    <input data-testid="ingredient-step" type="checkbox" />
+                    {' '}
+                    {ingredient}
+                  </label>
                 ))
               }
             </ul>
@@ -100,7 +104,11 @@ function RecipeInProgress() {
           <ul>
             {
               ingredientsList.map((ingredient, index) => (
-                <li key={ index }>{ingredient}</li>
+                <label key={ index } data-testid={ `${index}-ingredient-step` }>
+                  <input data-testid="ingredient-step" type="checkbox" />
+                  {' '}
+                  {ingredient}
+                </label>
               ))
             }
           </ul>
