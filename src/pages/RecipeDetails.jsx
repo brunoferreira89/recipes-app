@@ -20,7 +20,7 @@ function RecipeDetails() {
     loading, setLoading, data, setData, mealsOrDrinks, setMealsOrDrinks,
     setRecommendations, getLocalStorageDoneRecipes, isDoneRecipes,
     isInProgressRecipe, getLocalStorageIsInProgressRecipe, isLinkCopied,
-    handleOnCLickShareBtn, setIngredientsList,
+    handleOnClickShareBtn, setIngredientsList,
   } = useContext(detailsContext);
 
   const history = useHistory();
@@ -112,7 +112,7 @@ function RecipeDetails() {
     }
   }, [data, mealsOrDrinks, setIngredientsList]);
 
-  const handleOnCLickRedirectRecipeProgress = () => {
+  const handleOnClickRedirectRecipeProgress = () => {
     history.push(`/${mealsOrDrinks}/${id}/in-progress`);
   };
 
@@ -198,7 +198,7 @@ function RecipeDetails() {
       <Button
         dataTestid="share-btn"
         textContent="Share"
-        onClick={ () => handleOnCLickShareBtn(window.location.href) }
+        onClick={ () => handleOnClickShareBtn(window.location.href) }
       />
       <Button
         dataTestid="favorite-btn"
@@ -214,7 +214,7 @@ function RecipeDetails() {
           !isDoneRecipes ? (styles.startRecipeBtnActive
           ) : styles.startRecipeBtnInactive
         }
-        onClick={ handleOnCLickRedirectRecipeProgress }
+        onClick={ handleOnClickRedirectRecipeProgress }
         textContent={ isInProgressRecipe ? 'Continue Recipe' : 'Start Recipe' }
       />
     </main>

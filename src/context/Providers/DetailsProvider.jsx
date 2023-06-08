@@ -16,6 +16,7 @@ function DetailsProvider({ children }) {
   const [isInProgressRecipe, setIsInProgressRecipe] = useState(false);
   const [isLinkCopied, setIsLinkCopied] = useState(false);
   const [ingredientsList, setIngredientsList] = useState([]);
+  const [recipeInProgress, setRecipeInProgress] = useState([]);
 
   const getLocalStorageDoneRecipes = (id) => {
     const localStorageDoneRecipes = localStorage.getItem('doneRecipes');
@@ -37,11 +38,12 @@ function DetailsProvider({ children }) {
     }
   };
 
-  const handleOnCLickShareBtn = (page) => {
+  const handleOnClickShareBtn = (page) => {
     setIsLinkCopied(true);
     clipboardCopy(page);
     const intervalTime = 3000;
     setTimeout(() => { setIsLinkCopied(false); }, intervalTime);
+    console.log(page);
   };
 
   const value = useMemo(() => ({
@@ -60,13 +62,16 @@ function DetailsProvider({ children }) {
     isInProgressRecipe,
     getLocalStorageIsInProgressRecipe,
     isLinkCopied,
-    handleOnCLickShareBtn,
+    handleOnClickShareBtn,
     ingredientsList,
     setIngredientsList,
+    recipeInProgress,
+    setRecipeInProgress,
   }), [
     loading, setLoading, data, setData, mealsOrDrinks, setMealsOrDrinks,
     recommendations, setRecommendations, indexCarouselActive, setIndexCarouselActive,
-    isDoneRecipes, isInProgressRecipe, isLinkCopied, ingredientsList,
+    isDoneRecipes, isInProgressRecipe, isLinkCopied, ingredientsList, recipeInProgress,
+    setRecipeInProgress,
   ]);
 
   return (
