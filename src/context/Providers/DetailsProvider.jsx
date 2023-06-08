@@ -15,7 +15,7 @@ function DetailsProvider({ children }) {
   const [isDoneRecipes, setIsDoneRecipes] = useState(false);
   const [isInProgressRecipe, setIsInProgressRecipe] = useState(false);
   const [isLinkCopied, setIsLinkCopied] = useState(false);
-  const [recipeInProgress, setRecipeInProgress] = useState([]);
+  const [recipeInProgress, setRecipeInProgress] = useState(null);
 
   const getLocalStorageDoneRecipes = (id) => {
     const localStorageDoneRecipes = localStorage.getItem('doneRecipes');
