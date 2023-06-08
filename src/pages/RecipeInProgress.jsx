@@ -49,6 +49,10 @@ function RecipeInProgress() {
     }
   }, [setAPIURL, setLoading, setRecipeInProgress]);
 
+  useEffect(() => {
+    fetchById();
+  }, [pathname, id, fetchById]);
+
   const handleCheckbox = ({ target }) => {
     const { checked, value } = target;
     const { meals, drinks } = isChecked;
@@ -77,6 +81,8 @@ function RecipeInProgress() {
     setIsChecked(checkboxes);
   }, [id]);
 
+  useEffect(() => { getCheckedFromStore(); }, [getCheckedFromStore]);
+
   const handleCheckboxClass = (ingredient) => {
     const { meals, drinks } = isChecked;
     if (pathname.includes('meals')) {
@@ -85,13 +91,6 @@ function RecipeInProgress() {
       return drinks[id].includes(ingredient) ? 'checked-checkbox' : 'unchecked-checkbox';
     }
   };
-
-  useEffect(() => {
-    fetchById();
-    getCheckedFromStore();
-  }, [fetchById, getCheckedFromStore]);
-
-  if (loading) return <Loading />;
 
   const getMealsIngredientsList = () => {
     const mealsIngredientsNames = Object
@@ -116,66 +115,68 @@ function RecipeInProgress() {
   const mealsURL = `http://localhost:3000/meals/${id}`;
   const drinksURL = `http://localhost:3000/drinks/${id}`;
 
-  return (
-    <main>
-      {
-        pathname.includes('meals') && (
-          <div>
-            <img
-              data-testid="recipe-photo"
-              src={ recipeInProgress.meals[0].strMealThumb }
-              alt="img"
-            />
-            <h3 data-testid="recipe-title">{ recipeInProgress.meals[0].strMeal }</h3>
-            <span
-              data-testid="recipe-category"
-            >
-              { recipeInProgress.meals[0].strCategory }
-            </span>
-            <h4>Lista de ingredientes</h4>
-            <ul>
-              {
-                getMealsIngredientsList().map((ingredient, index) => (
-                  <label
-                    key={ index }
-                    data-testid={ `${index}-ingredient-step` }
-                    className={ handleCheckboxClass(ingredient) }
-                  >
-                    <input
-                      data-testid="ingredient-step"
-                      type="checkbox"
-                      value={ ingredient }
-                      onChange={ handleCheckbox }
-                      checked={ isChecked.meals[id]
-                        .some((item) => ingredient === item) }
-                    />
-                    {ingredient}
-                  </label>
-                ))
-              }
-            </ul>
-            <p
-              data-testid="instructions"
-            >
-              { recipeInProgress.meals[0].strInstructions }
-            </p>
-            { isLinkCopied && <section><h4>Link copied!</h4></section> }
-            <Button
-              dataTestid="share-btn"
-              textContent="Share"
-              onClick={ () => handleOnClickShareBtn(mealsURL) }
-            />
-            <Button
-              dataTestid="favorite-btn"
-              textContent="Favorite"
-              onClick={ () => handleSaveFavoriteMeal(recipeInProgress) }
-            />
-            <button data-testid="finish-recipe-btn">Finalizar</button>
-          </div>
-        )
-      }
-      {
-        pathname.includes('drinks')
+  if (loading) return <Loading />;
+  if (recipeInProgress) {
+    return (
+      <main>
+        {
+          pathname.includes('meals') && (
+            <div>
+              <img
+                data-testid="recipe-photo"
+                src={ recipeInProgress.meals[0].strMealThumb }
+                alt="img"
+              />
+              <h3 data-testid="recipe-title">{ recipeInProgress.meals[0].strMeal }</h3>
+              <span
+                data-testid="recipe-category"
+              >
+                { recipeInProgress.meals[0].strCategory }
+              </span>
+              <h4>Lista de ingredientes</h4>
+              <ul>
+                {
+                  getMealsIngredientsList().map((ingredient, index) => (
+                    <label
+                      key={ index }
+                      data-testid={ `${index}-ingredient-step` }
+                      className={ handleCheckboxClass(ingredient) }
+                    >
+                      <input
+                        data-testid="ingredient-step"
+                        type="checkbox"
+                        value={ ingredient }
+                        onChange={ handleCheckbox }
+                        checked={ isChecked.meals[id]
+                          .some((item) => ingredient === item) }
+                      />
+                      {ingredient}
+                    </label>
+                  ))
+                }
+              </ul>
+              <p
+                data-testid="instructions"
+              >
+                { recipeInProgress.meals[0].strInstructions }
+              </p>
+              { isLinkCopied && <section><h4>Link copied!</h4></section> }
+              <Button
+                dataTestid="share-btn"
+                textContent="Share"
+                onClick={ () => handleOnClickShareBtn(mealsURL) }
+              />
+              <Button
+                dataTestid="favorite-btn"
+                textContent="Favorite"
+                onClick={ () => handleSaveFavoriteMeal(recipeInProgress) }
+              />
+              <button data-testid="finish-recipe-btn">Finalizar</button>
+            </div>
+          )
+        }
+        {
+          pathname.includes('drinks')
       && (
         <div>
           <img
@@ -226,9 +227,10 @@ function RecipeInProgress() {
           <button data-testid="finish-recipe-btn">Finalizar</button>
         </div>
       )
-      }
-    </main>
-  );
+        }
+      </main>
+    );
+  }
 }
 
 export default RecipeInProgress;
