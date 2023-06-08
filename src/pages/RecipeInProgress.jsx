@@ -6,14 +6,16 @@ import Button from '../components/Button';
 import { handleSaveFavoriteMeal,
   handleSaveFavoriteDrink } from '../helpers/saveFavoriteOnLocalStorage';
 import getAndPutInProgRecipes from '../helpers/getAndPutInProgressRecipesOnLocalStorage';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
 import './styles/RecipeInProgress.css';
 
 function RecipeInProgress() {
   const { id } = useParams();
 
-  const { loading, setLoading, recipeInProgress,
-    setRecipeInProgress, isLinkCopied,
-    handleOnClickShareBtn } = useContext(detailsContext);
+  const { loading, setLoading, recipeInProgress, setRecipeInProgress, isLinkCopied,
+    handleOnClickShareBtn, isInTheFavorite,
+    setIsInTheFavorite } = useContext(detailsContext);
 
   const [isChecked, setIsChecked] = useState({
     drinks: { [id]: [] },
@@ -22,6 +24,7 @@ function RecipeInProgress() {
 
   const history = useHistory();
   const { pathname } = history.location;
+  console.log(pathname);
 
   useEffect(() => {
     const inProgressRecipesOnStorage = localStorage.getItem('inProgressRecipes');
@@ -63,7 +66,6 @@ function RecipeInProgress() {
     } else if (!checked && pathname.includes('meals')) {
       updatedList.meals[id].splice(meals[id].indexOf(value), 1);
     }
-
     if (checked && pathname.includes('drinks')) {
       updatedList = { ...isChecked, drinks: { ...drinks, [id]: [...drinks[id], value] } };
     } else if (!checked && pathname.includes('drinks')) {
@@ -95,7 +97,6 @@ function RecipeInProgress() {
   const getMealsIngredientsList = () => {
     const mealsIngredientsNames = Object
       .keys(recipeInProgress.meals[0]).filter((key) => key.includes('strIngredient'));
-
     const mealsIngredientsList = mealsIngredientsNames
       .map((ingredient) => recipeInProgress.meals[0][ingredient] || [])
       .filter((ingredientName) => ingredientName.length > 0);
@@ -105,7 +106,6 @@ function RecipeInProgress() {
   const getDrinksIngredientsList = () => {
     const drinksIngredientsNames = Object
       .keys(recipeInProgress.drinks[0]).filter((key) => key.includes('strMeasure'));
-
     const drinksIngredientsList = drinksIngredientsNames
       .map((ingredient) => recipeInProgress.drinks[0][ingredient] || [])
       .filter((ingredientName) => ingredientName.length > 0);
@@ -166,10 +166,17 @@ function RecipeInProgress() {
                 textContent="Share"
                 onClick={ () => handleOnClickShareBtn(mealsURL) }
               />
-              <Button
-                dataTestid="favorite-btn"
-                textContent="Favorite"
-                onClick={ () => handleSaveFavoriteMeal(recipeInProgress) }
+              <input
+                data-testid="favorite-btn"
+                type="image"
+                src={
+                  isInTheFavorite ? (blackHeartIcon) : (whiteHeartIcon)
+                }
+                onClick={ () => {
+                  handleSaveFavoriteMeal(recipeInProgress, id);
+                  setIsInTheFavorite(!isInTheFavorite);
+                } }
+                alt=""
               />
               <button data-testid="finish-recipe-btn">Finalizar</button>
             </div>
@@ -219,10 +226,17 @@ function RecipeInProgress() {
             textContent="Share"
             onClick={ () => handleOnClickShareBtn(drinksURL) }
           />
-          <Button
-            dataTestid="favorite-btn"
-            textContent="Favorite"
-            onClick={ () => handleSaveFavoriteDrink(recipeInProgress) }
+          <input
+            data-testid="favorite-btn"
+            type="image"
+            src={
+              isInTheFavorite ? (blackHeartIcon) : (whiteHeartIcon)
+            }
+            onClick={ () => {
+              handleSaveFavoriteDrink(recipeInProgress, id);
+              setIsInTheFavorite(!isInTheFavorite);
+            } }
+            alt=""
           />
           <button data-testid="finish-recipe-btn">Finalizar</button>
         </div>
