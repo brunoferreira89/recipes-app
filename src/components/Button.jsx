@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-function Button({ dataTestid, className = '', onClick, textContent }) {
+function Button({
+  dataTestid, className = '', onClick, textContent,
+}) {
   return (
     <button
       data-testid={ dataTestid }
@@ -14,10 +16,10 @@ function Button({ dataTestid, className = '', onClick, textContent }) {
 }
 
 Button.propTypes = {
-  className: PropTypes.any,
-  dataTestid: PropTypes.any,
-  onClick: PropTypes.any,
-  textContent: PropTypes.any,
+  className: PropTypes.string,
+  dataTestid: PropTypes.string,
+  onClick: PropTypes.func,
+  textContent: PropTypes.string,
 }.isRequired;
 
 export default Button;
