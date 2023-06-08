@@ -13,14 +13,17 @@ import {
 import {
   handleSaveFavoriteDrink, handleSaveFavoriteMeal,
 } from '../helpers/saveFavoriteOnLocalStorage';
+import checkIfItsFavoritedOnStorage from '../helpers/checkIfItsFavoritedOnStorage';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
 
 function RecipeDetails() {
   const { id } = useParams();
   const {
-    loading, setLoading, data, setData, mealsOrDrinks, setMealsOrDrinks,
+    setLoading, data, setData, mealsOrDrinks, setMealsOrDrinks,
     setRecommendations, getLocalStorageDoneRecipes, isDoneRecipes,
     isInProgressRecipe, getLocalStorageIsInProgressRecipe, isLinkCopied,
-    handleOnClickShareBtn,
+    handleOnClickShareBtn, isInTheFavorite, setIsInTheFavorite,
   } = useContext(detailsContext);
 
   const history = useHistory();
@@ -89,6 +92,9 @@ function RecipeDetails() {
   }, [
     getLocalStorageIsInProgressRecipe, mealsOrDrinks, id,
   ]);
+  useEffect(() => {
+    setIsInTheFavorite(checkIfItsFavoritedOnStorage(id));
+  }, [setIsInTheFavorite, id]);
 
   let ingredientsList = [];
   let ingredientsQuantityList = [];
@@ -107,8 +113,8 @@ function RecipeDetails() {
     history.push(`/${mealsOrDrinks}/${id}/in-progress`);
   };
 
-  if (loading) return <Loading />;
-  const objectPath = data[mealsOrDrinks][0] || [];
+  if (!data) return <Loading />;
+  const objectPath = data[mealsOrDrinks][0];
   return (
     <main>
       <img
@@ -151,7 +157,7 @@ function RecipeDetails() {
                 >
                   {ingredient}
                 </li>
-              ) || [])
+              ))
             }
           </ul>
         </div>
@@ -167,7 +173,7 @@ function RecipeDetails() {
                 >
                   {ingredientQtd}
                 </li>
-              ) || [])
+              ))
             }
           </ul>
         </div>
@@ -191,14 +197,43 @@ function RecipeDetails() {
         textContent="Share"
         onClick={ () => handleOnClickShareBtn(window.location.href) }
       />
-      <Button
-        dataTestid="favorite-btn"
-        textContent="Favorite"
-        onClick={
-          mealsOrDrinks === 'meals' ? () => handleSaveFavoriteMeal(data) : (
-            () => handleSaveFavoriteDrink(data))
+      <input
+        data-testid="favorite-btn"
+        type="image"
+        src={
+          isInTheFavorite ? (blackHeartIcon) : (whiteHeartIcon)
         }
+        onClick={
+          mealsOrDrinks === 'meals' ? (() => {
+            handleSaveFavoriteMeal(data, id); setIsInTheFavorite(!isInTheFavorite);
+          }) : (() => {
+            handleSaveFavoriteDrink(data, id); setIsInTheFavorite(!isInTheFavorite);
+          })
+        }
+        alt=""
       />
+      {/* <Button
+        dataTestid="favorite-btn"
+        textContent={
+          isInTheFavorite ? (
+            <img
+              src={ whiteHeartIcon }
+              alt="Black Heart Icon"
+            />
+          ) : (
+            <img
+              src={ blackHeartIcon }
+              alt="White Heart Icon"
+            />)
+        }
+        onClick={
+          mealsOrDrinks === 'meals' ? (() => {
+            handleSaveFavoriteMeal(data, id); setIsInTheFavorite(!isInTheFavorite);
+          }) : (() => {
+            handleSaveFavoriteDrink(data, id); setIsInTheFavorite(!isInTheFavorite);
+          })
+        }
+      /> */}
       <Button
         dataTestid="start-recipe-btn"
         className={
