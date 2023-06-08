@@ -21,6 +21,45 @@ function RecipeInProgress() {
   const history = useHistory();
   const { pathname } = history.location;
 
+  useEffect(() => {
+    const inProgressRecipesOnStorage = localStorage.getItem('inProgressRecipes');
+    if (pathname.includes('/meals')) {
+      let copyLocalStorage = {};
+      if (!inProgressRecipesOnStorage) {
+        copyLocalStorage = { drinks: {}, meals: { [id]: [] } };
+        localStorage.setItem('inProgressRecipes', JSON.stringify(copyLocalStorage));
+      }
+      if (inProgressRecipesOnStorage) {
+        const responseLocalStorage = JSON.parse(inProgressRecipesOnStorage);
+        copyLocalStorage = { ...responseLocalStorage };
+      }
+      const isAlreadyHaveOnLocalStorage = Object.keys(copyLocalStorage.meals)
+        .some((key) => Number(key) === Number(id));
+      if (!isAlreadyHaveOnLocalStorage) {
+        copyLocalStorage.meals[id] = [];
+        localStorage.setItem('inProgressRecipes', JSON.stringify(copyLocalStorage));
+      }
+    }
+
+    if (pathname.includes('/drinks')) {
+      let copyLocalStorage = {};
+      if (!inProgressRecipesOnStorage) {
+        copyLocalStorage = { drinks: { [id]: [] }, meals: {} };
+        localStorage.setItem('inProgressRecipes', JSON.stringify(copyLocalStorage));
+      }
+      if (inProgressRecipesOnStorage) {
+        const responseLocalStorage = JSON.parse(inProgressRecipesOnStorage);
+        copyLocalStorage = { ...responseLocalStorage };
+      }
+      const isAlreadyHaveOnLocalStorage = Object.keys(copyLocalStorage.drinks)
+        .some((key) => Number(key) === Number(id));
+      if (!isAlreadyHaveOnLocalStorage) {
+        copyLocalStorage.drinks[id] = [];
+        localStorage.setItem('inProgressRecipes', JSON.stringify(copyLocalStorage));
+      }
+    }
+  }, [id, pathname]);
+
   const setAPIURL = useCallback(() => {
     if (pathname.includes('/meals')) {
       return `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
