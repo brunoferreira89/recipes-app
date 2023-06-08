@@ -20,7 +20,7 @@ function RecipeDetails() {
     loading, setLoading, data, setData, mealsOrDrinks, setMealsOrDrinks,
     setRecommendations, getLocalStorageDoneRecipes, isDoneRecipes,
     isInProgressRecipe, getLocalStorageIsInProgressRecipe, isLinkCopied,
-    handleOnClickShareBtn, setIngredientsList,
+    handleOnClickShareBtn,
   } = useContext(detailsContext);
 
   const history = useHistory();
@@ -102,15 +102,6 @@ function RecipeDetails() {
     ingredientsList = getDrinkIngredientsList(data);
     ingredientsQuantityList = getDrinkIngredientsQuantityList(data);
   }
-
-  useEffect(() => {
-    if (data && mealsOrDrinks === 'meals') {
-      setIngredientsList(getMealIngredientsList(data));
-    }
-    if (data && mealsOrDrinks === 'drinks') {
-      setIngredientsList(getDrinkIngredientsList(data));
-    }
-  }, [data, mealsOrDrinks, setIngredientsList]);
 
   const handleOnClickRedirectRecipeProgress = () => {
     history.push(`/${mealsOrDrinks}/${id}/in-progress`);
