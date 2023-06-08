@@ -4,6 +4,7 @@ import recipesContext from '../context/Contexts/recipesContext';
 import Loading from '../components/Loading';
 import Button from '../components/Button';
 import './styles/RecipeInProgress.css';
+import getAndPutInProgRecipes from '../helpers/getAndPutInProgressRecipesOnLocalStorage';
 
 function RecipeInProgress() {
   const { id } = useParams();
@@ -23,41 +24,7 @@ function RecipeInProgress() {
 
   useEffect(() => {
     const inProgressRecipesOnStorage = localStorage.getItem('inProgressRecipes');
-    if (pathname.includes('/meals')) {
-      let copyLocalStorage = {};
-      if (!inProgressRecipesOnStorage) {
-        copyLocalStorage = { drinks: {}, meals: { [id]: [] } };
-        localStorage.setItem('inProgressRecipes', JSON.stringify(copyLocalStorage));
-      }
-      if (inProgressRecipesOnStorage) {
-        const responseLocalStorage = JSON.parse(inProgressRecipesOnStorage);
-        copyLocalStorage = { ...responseLocalStorage };
-      }
-      const isAlreadyHaveOnLocalStorage = Object.keys(copyLocalStorage.meals)
-        .some((key) => Number(key) === Number(id));
-      if (!isAlreadyHaveOnLocalStorage) {
-        copyLocalStorage.meals[id] = [];
-        localStorage.setItem('inProgressRecipes', JSON.stringify(copyLocalStorage));
-      }
-    }
-
-    if (pathname.includes('/drinks')) {
-      let copyLocalStorage = {};
-      if (!inProgressRecipesOnStorage) {
-        copyLocalStorage = { drinks: { [id]: [] }, meals: {} };
-        localStorage.setItem('inProgressRecipes', JSON.stringify(copyLocalStorage));
-      }
-      if (inProgressRecipesOnStorage) {
-        const responseLocalStorage = JSON.parse(inProgressRecipesOnStorage);
-        copyLocalStorage = { ...responseLocalStorage };
-      }
-      const isAlreadyHaveOnLocalStorage = Object.keys(copyLocalStorage.drinks)
-        .some((key) => Number(key) === Number(id));
-      if (!isAlreadyHaveOnLocalStorage) {
-        copyLocalStorage.drinks[id] = [];
-        localStorage.setItem('inProgressRecipes', JSON.stringify(copyLocalStorage));
-      }
-    }
+    getAndPutInProgRecipes(id, pathname, inProgressRecipesOnStorage);
   }, [id, pathname]);
 
   const setAPIURL = useCallback(() => {
