@@ -15,6 +15,7 @@ function DetailsProvider({ children }) {
   const [isDoneRecipes, setIsDoneRecipes] = useState(false);
   const [isInProgressRecipe, setIsInProgressRecipe] = useState(false);
   const [isLinkCopied, setIsLinkCopied] = useState(false);
+  const [ingredientsList, setIngredientsList] = useState([]);
 
   const getLocalStorageDoneRecipes = (id) => {
     const localStorageDoneRecipes = localStorage.getItem('doneRecipes');
@@ -60,10 +61,12 @@ function DetailsProvider({ children }) {
     getLocalStorageIsInProgressRecipe,
     isLinkCopied,
     handleOnCLickShareBtn,
+    ingredientsList,
+    setIngredientsList,
   }), [
     loading, setLoading, data, setData, mealsOrDrinks, setMealsOrDrinks,
     recommendations, setRecommendations, indexCarouselActive, setIndexCarouselActive,
-    isDoneRecipes, isInProgressRecipe, isLinkCopied,
+    isDoneRecipes, isInProgressRecipe, isLinkCopied, ingredientsList,
   ]);
 
   return (
