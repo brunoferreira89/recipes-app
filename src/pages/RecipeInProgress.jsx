@@ -1,18 +1,19 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import recipesContext from '../context/Contexts/recipesContext';
+import detailsContext from '../context/Contexts/detailsContext';
 import Loading from '../components/Loading';
 import Button from '../components/Button';
-import './styles/RecipeInProgress.css';
+import { handleSaveFavoriteMeal,
+  handleSaveFavoriteDrink } from '../helpers/saveFavoriteOnLocalStorage';
 import getAndPutInProgRecipes from '../helpers/getAndPutInProgressRecipesOnLocalStorage';
+import './styles/RecipeInProgress.css';
 
 function RecipeInProgress() {
   const { id } = useParams();
-  const {
-    loading,
-    setLoading,
-    recipeInProgress,
-    setRecipeInProgress } = useContext(recipesContext);
+
+  const { loading, setLoading, recipeInProgress,
+    setRecipeInProgress, isLinkCopied,
+    handleOnClickShareBtn } = useContext(detailsContext);
 
   const [isChecked, setIsChecked] = useState({
     drinks: { [id]: [] },
@@ -39,9 +40,8 @@ function RecipeInProgress() {
   const fetchById = useCallback(async () => {
     try {
       const response = await fetch(setAPIURL());
-      const dataJson = await response.json();
-      const data = Object.values(dataJson)[0] || [];
-      setRecipeInProgress(data);
+      const dataJson = await response.json() || {};
+      setRecipeInProgress(dataJson);
     } catch (error) {
       console.log(error);
     } finally {
@@ -77,13 +77,6 @@ function RecipeInProgress() {
     setIsChecked(checkboxes);
   }, [id]);
 
-  const ingredientsNames = Object
-    .keys(recipeInProgress[0] || []).filter((key) => key.includes('strIngredient'));
-
-  const ingredientsList = ingredientsNames
-    .map((ingredient) => recipeInProgress[0][ingredient] || [])
-    .filter((ingredientName) => ingredientName.length > 0);
-
   const handleCheckboxClass = (ingredient) => {
     const { meals, drinks } = isChecked;
     if (pathname.includes('meals')) {
@@ -100,14 +93,28 @@ function RecipeInProgress() {
 
   if (loading) return <Loading />;
 
-  const {
-    strMealThumb,
-    strMeal,
-    strCategory,
-    strInstructions,
-    strDrinkThumb,
-    strDrink,
-    strAlcoholic } = recipeInProgress[0];
+  const getMealsIngredientsList = () => {
+    const mealsIngredientsNames = Object
+      .keys(recipeInProgress.meals[0]).filter((key) => key.includes('strIngredient'));
+
+    const mealsIngredientsList = mealsIngredientsNames
+      .map((ingredient) => recipeInProgress.meals[0][ingredient] || [])
+      .filter((ingredientName) => ingredientName.length > 0);
+    return mealsIngredientsList;
+  };
+
+  const getDrinksIngredientsList = () => {
+    const drinksIngredientsNames = Object
+      .keys(recipeInProgress.drinks[0]).filter((key) => key.includes('strMeasure'));
+
+    const drinksIngredientsList = drinksIngredientsNames
+      .map((ingredient) => recipeInProgress.drinks[0][ingredient] || [])
+      .filter((ingredientName) => ingredientName.length > 0);
+    return drinksIngredientsList;
+  };
+
+  const mealsURL = `http://localhost:3000/meals/${id}`;
+  const drinksURL = `http://localhost:3000/drinks/${id}`;
 
   return (
     <main>
@@ -116,15 +123,19 @@ function RecipeInProgress() {
           <div>
             <img
               data-testid="recipe-photo"
-              src={ strMealThumb }
+              src={ recipeInProgress.meals[0].strMealThumb }
               alt="img"
             />
-            <h3 data-testid="recipe-title">{ strMeal }</h3>
-            <span data-testid="recipe-category">{ strCategory }</span>
+            <h3 data-testid="recipe-title">{ recipeInProgress.meals[0].strMeal }</h3>
+            <span
+              data-testid="recipe-category"
+            >
+              { recipeInProgress.meals[0].strCategory }
+            </span>
             <h4>Lista de ingredientes</h4>
             <ul>
               {
-                ingredientsList.map((ingredient, index) => (
+                getMealsIngredientsList().map((ingredient, index) => (
                   <label
                     key={ index }
                     data-testid={ `${index}-ingredient-step` }
@@ -143,9 +154,22 @@ function RecipeInProgress() {
                 ))
               }
             </ul>
-            <p data-testid="instructions">{ strInstructions }</p>
-            <button data-testid="share-btn">Compartilhar</button>
-            <button data-testid="favorite-btn">Favoritar</button>
+            <p
+              data-testid="instructions"
+            >
+              { recipeInProgress.meals[0].strInstructions }
+            </p>
+            { isLinkCopied && <section><h4>Link copied!</h4></section> }
+            <Button
+              dataTestid="share-btn"
+              textContent="Share"
+              onClick={ () => handleOnClickShareBtn(mealsURL) }
+            />
+            <Button
+              dataTestid="favorite-btn"
+              textContent="Favorite"
+              onClick={ () => handleSaveFavoriteMeal(recipeInProgress) }
+            />
             <button data-testid="finish-recipe-btn">Finalizar</button>
           </div>
         )
@@ -156,15 +180,19 @@ function RecipeInProgress() {
         <div>
           <img
             data-testid="recipe-photo"
-            src={ strDrinkThumb }
+            src={ recipeInProgress.drinks[0].strDrinkThumb }
             alt="img"
           />
-          <h3 data-testid="recipe-title">{ strDrink }</h3>
-          <span data-testid="recipe-category">{ strAlcoholic }</span>
+          <h3 data-testid="recipe-title">{ recipeInProgress.drinks[0].strDrink }</h3>
+          <span
+            data-testid="recipe-category"
+          >
+            { recipeInProgress.drinks[0].strAlcoholic }
+          </span>
           <h4>Lista de ingredientes</h4>
           <ul>
             {
-              ingredientsList.map((ingredient, index) => (
+              getDrinksIngredientsList().map((ingredient, index) => (
                 <label
                   key={ index }
                   data-testid={ `${index}-ingredient-step` }
@@ -183,14 +211,17 @@ function RecipeInProgress() {
               ))
             }
           </ul>
-          <p data-testid="instructions">{ strInstructions }</p>
+          <p data-testid="instructions">{ recipeInProgress.drinks[0].strInstructions }</p>
+          { isLinkCopied && <section><h4>Link copied!</h4></section> }
           <Button
             dataTestid="share-btn"
             textContent="Share"
+            onClick={ () => handleOnClickShareBtn(drinksURL) }
           />
           <Button
             dataTestid="favorite-btn"
             textContent="Favorite"
+            onClick={ () => handleSaveFavoriteDrink(recipeInProgress) }
           />
           <button data-testid="finish-recipe-btn">Finalizar</button>
         </div>
