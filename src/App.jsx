@@ -7,7 +7,6 @@ import Recipes from './pages/Recipes';
 import Header from './components/Header';
 import RecipeInProgress from './pages/RecipeInProgress';
 import FavoriteRecipes from './pages/FavoriteRecipes';
-import HeaderProvider from './context/Providers/HeaderProvider';
 import SearchProvider from './context/Providers/SearchProvider';
 import Profile from './pages/Profile';
 import DoneRecipes from './pages/DoneRecipes';
