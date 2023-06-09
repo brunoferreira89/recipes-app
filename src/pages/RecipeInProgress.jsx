@@ -12,7 +12,6 @@ import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import './styles/RecipeInProgress.css';
 import checkIfItsFavoritedOnStorage from '../helpers/checkIfItsFavoritedOnStorage';
-// import { saveDoneRecipeOnLocalStorage } from '../helpers/saveDoneRecipesOnLocalStorage';
 
 function RecipeInProgress() {
   const { id } = useParams();
@@ -23,8 +22,7 @@ function RecipeInProgress() {
     setMealOrDrinkInProgress } = useContext(detailsContext);
 
   const [isChecked, setIsChecked] = useState({
-    drinks: { [id]: [] },
-    meals: { [id]: [] },
+    drinks: { [id]: [] }, meals: { [id]: [] },
   });
 
   const [recipeInProgress, setRecipeInProgress] = useState(null);
@@ -50,6 +48,7 @@ function RecipeInProgress() {
     try {
       const response = await fetch(setAPIURL());
       const dataJson = await response.json() || {};
+      if (!dataJson) { throw new Error('erro'); }
       setRecipeInProgress(dataJson);
     } catch (error) {
       console.log(error);
@@ -140,10 +139,8 @@ function RecipeInProgress() {
       type: isItMeal ? 'meal' : 'drink',
       doneDate: date.toISOString(),
     };
-    // saveDoneRecipeOnLocalStorage(doneRecipe);
     localStorage.setItem('doneRecipes', JSON.stringify([doneRecipe]));
     history.push('/done-recipes');
-    console.log(doneRecipe);
   };
 
   return (
