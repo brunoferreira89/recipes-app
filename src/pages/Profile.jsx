@@ -11,6 +11,11 @@ function Profile() {
     setUserEmail(email);
   };
 
+  const handleLogout = () => {
+    history.push('/');
+    localStorage.clear();
+  };
+
   useEffect(() => {
     getUserFromStorage();
   }, []);
@@ -32,6 +37,7 @@ function Profile() {
         <Button
           dataTestid="profile-logout-btn"
           textContent="Logout"
+          onClick={ () => handleLogout() }
         />
       </div>
     </div>
