@@ -12,6 +12,7 @@ import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import './styles/RecipeInProgress.css';
 import checkIfItsFavoritedOnStorage from '../helpers/checkIfItsFavoritedOnStorage';
+// import { saveDoneRecipeOnLocalStorage } from '../helpers/saveDoneRecipesOnLocalStorage';
 
 function RecipeInProgress() {
   const { id } = useParams();
@@ -113,9 +114,7 @@ function RecipeInProgress() {
 
   if (recipeInProgress && mealOrDrinkInProgress === 'meals') {
     ingredientsList = getMealIngredientsList(recipeInProgress);
-  }
-
-  if (recipeInProgress && mealOrDrinkInProgress === 'drinks') {
+  } else if (recipeInProgress && mealOrDrinkInProgress === 'drinks') {
     ingredientsList = getDrinkIngredientsList(recipeInProgress);
   }
 
@@ -126,12 +125,33 @@ function RecipeInProgress() {
 
   const objectPath = recipeInProgress[mealOrDrinkInProgress][0];
 
+  const isItMeal = mealOrDrinkInProgress === 'meals';
+
+  const handleOnClickRedirectToDoneRecipes = () => {
+    const date = new Date();
+    const doneRecipe = {
+      id: isItMeal ? objectPath.idMeal : objectPath.idDrink,
+      nationality: objectPath.strArea || '',
+      name: isItMeal ? objectPath.strMeal : objectPath.strDrink,
+      category: objectPath.strCategory || '',
+      image: isItMeal ? objectPath.strMealThumb : objectPath.strDrinkThumb,
+      tags: objectPath.strTags || '',
+      alcoholicOrNot: objectPath.strAlcoholic || '',
+      type: isItMeal ? 'meal' : 'drink',
+      doneDate: date.toISOString(),
+    };
+    // saveDoneRecipeOnLocalStorage(doneRecipe);
+    localStorage.setItem('doneRecipes', JSON.stringify([doneRecipe]));
+    history.push('/done-recipes');
+    console.log(doneRecipe);
+  };
+
   return (
     <main>
       <img
         data-testid="recipe-photo"
         src={
-          mealOrDrinkInProgress === 'meals' ? objectPath.strMealThumb
+          isItMeal ? objectPath.strMealThumb
             : objectPath.strDrinkThumb
         }
         alt="img"
@@ -140,14 +160,14 @@ function RecipeInProgress() {
         data-testid="recipe-title"
       >
         {
-          mealOrDrinkInProgress === 'meals' ? objectPath.strMeal
+          isItMeal ? objectPath.strMeal
             : objectPath.strDrink
         }
       </h1>
       <p
         data-testid="recipe-category"
       >
-        { mealOrDrinkInProgress === 'meals' ? objectPath.strCategory
+        { isItMeal ? objectPath.strCategory
           : objectPath.strAlcoholic }
       </p>
       <section>
@@ -166,7 +186,7 @@ function RecipeInProgress() {
                     type="checkbox"
                     value={ ingredient }
                     onChange={ handleCheckbox }
-                    checked={ mealOrDrinkInProgress === 'meals' ? (
+                    checked={ isItMeal ? (
                       isChecked.meals[id].some((item) => ingredient === item)
                     ) : (
                       isChecked.drinks[id].some((item) => ingredient === item)
@@ -190,7 +210,7 @@ function RecipeInProgress() {
         dataTestid="share-btn"
         textContent="Share"
         onClick={ () => handleOnClickShareBtn(
-          mealOrDrinkInProgress === 'meals' ? mealsURL
+          isItMeal ? mealsURL
             : drinksURL,
         ) }
       />
@@ -201,7 +221,7 @@ function RecipeInProgress() {
           isInTheFavorite ? (blackHeartIcon) : (whiteHeartIcon)
         }
         onClick={
-          mealOrDrinkInProgress === 'meals' ? (() => {
+          isItMeal ? (() => {
             handleSaveFavoriteMeal(recipeInProgress, id);
             setIsInTheFavorite(!isInTheFavorite);
           }) : (() => {
@@ -216,6 +236,7 @@ function RecipeInProgress() {
         disabled={
           isChecked[mealOrDrinkInProgress][id].length !== ingredientsList.length
         }
+        onClick={ handleOnClickRedirectToDoneRecipes }
       >
         Finish Recipe
 
@@ -223,5 +244,4 @@ function RecipeInProgress() {
     </main>
   );
 }
-
 export default RecipeInProgress;
