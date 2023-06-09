@@ -1,14 +1,16 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import Login from './pages/Login';
 import RecipeDetails from './pages/RecipeDetails';
+import HeaderProvider from './context/Providers/HeaderProvider';
+import Login from './pages/Login';
 import Recipes from './pages/Recipes';
 import Header from './components/Header';
-import Profile from './pages/Profile';
 import RecipeInProgress from './pages/RecipeInProgress';
 import FavoriteRecipes from './pages/FavoriteRecipes';
 import HeaderProvider from './context/Providers/HeaderProvider';
 import SearchProvider from './context/Providers/SearchProvider';
+import Profile from './pages/Profile';
+import DoneRecipes from './pages/DoneRecipes';
 
 function App() {
   return (
@@ -28,7 +30,6 @@ function App() {
           <Route path="/favorite-recipes" component={ FavoriteRecipes } />
         </Switch>
       </SearchProvider>
-
     </HeaderProvider>
   );
 }

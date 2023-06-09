@@ -6,13 +6,24 @@ import styles from './RecipeDetails.module.css';
 import Recommendations from '../components/Recommendations';
 import Button from '../components/Button';
 import IframeYoutube from '../components/IframeYoutube';
+import {
+  getDrinkIngredientsList, getDrinkIngredientsQuantityList,
+  getMealIngredientsList, getMealIngredientsQuantityList,
+} from '../helpers/getIngredientsAndQuantityList';
+import {
+  handleSaveFavoriteDrink, handleSaveFavoriteMeal,
+} from '../helpers/saveFavoriteOnLocalStorage';
+import checkIfItsFavoritedOnStorage from '../helpers/checkIfItsFavoritedOnStorage';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
 
 function RecipeDetails() {
   const { id } = useParams();
   const {
-    loading, setLoading, data, setData, mealsOrDrinks, setMealsOrDrinks,
+    setLoading, data, setData, mealsOrDrinks, setMealsOrDrinks,
     setRecommendations, getLocalStorageDoneRecipes, isDoneRecipes,
-    isInProgressRecipe, getLocalStorageIsInProgressRecipe,
+    isInProgressRecipe, getLocalStorageIsInProgressRecipe, isLinkCopied,
+    handleOnClickShareBtn, isInTheFavorite, setIsInTheFavorite,
   } = useContext(detailsContext);
 
   const history = useHistory();
@@ -50,15 +61,15 @@ function RecipeDetails() {
   useEffect(() => {
     if (page.includes('meals')) {
       // Fetch inicial para pegar os detalhes das comidas
+      setMealsOrDrinks('meals');
       const API_URL = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
       refreshGetData(API_URL, 'details');
-      setMealsOrDrinks('meals');
     }
     if (page.includes('drinks')) {
       // Fetch inicial para pegar os detalhes das bebidas
+      setMealsOrDrinks('drinks');
       const API_URL = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
       refreshGetData(API_URL, 'details');
-      setMealsOrDrinks('drinks');
     }
   }, [id, page, refreshGetData, history, setMealsOrDrinks]);
 
@@ -76,68 +87,33 @@ function RecipeDetails() {
   }, [page, refreshGetData]);
 
   useEffect(() => { getLocalStorageDoneRecipes(id); }, [getLocalStorageDoneRecipes, id]);
-  useEffect(() => { getLocalStorageIsInProgressRecipe(mealsOrDrinks, id); }, [
+  useEffect(() => {
+    if (mealsOrDrinks && id) getLocalStorageIsInProgressRecipe(mealsOrDrinks, id);
+  }, [
     getLocalStorageIsInProgressRecipe, mealsOrDrinks, id,
   ]);
+  useEffect(() => {
+    setIsInTheFavorite(checkIfItsFavoritedOnStorage(id));
+  }, [setIsInTheFavorite, id]);
 
   let ingredientsList = [];
   let ingredientsQuantityList = [];
 
   if (data && mealsOrDrinks === 'meals') {
-    const ingredientsKey = Object.keys(data.meals[0])
-      .filter((key) => key.includes('strIngredient'));
-
-    ingredientsList = ingredientsKey.map((ingredient) => data.meals[0][ingredient])
-      .filter((element) => {
-        if (typeof element === 'string') {
-          return element.length > 0;
-        }
-        return element !== null;
-      });
-
-    const ingredientsQuantityKey = Object.keys(data.meals[0])
-      .filter((key) => key.includes('strMeasure'));
-
-    ingredientsQuantityList = ingredientsQuantityKey
-      .map((ingredient) => data.meals[0][ingredient])
-      .filter((element) => {
-        if (typeof element === 'string') {
-          return element.length > 0;
-        }
-        return element !== null;
-      });
+    ingredientsList = getMealIngredientsList(data);
+    ingredientsQuantityList = getMealIngredientsQuantityList(data);
   }
 
   if (data && mealsOrDrinks === 'drinks') {
-    const ingredientsKey = Object.keys(data.drinks[0])
-      .filter((key) => key.includes('strIngredient'));
-
-    ingredientsList = ingredientsKey.map((ingredient) => data.drinks[0][ingredient])
-      .filter((element) => {
-        if (typeof element === 'string') {
-          return element.length > 0;
-        }
-        return element !== null;
-      });
-
-    const ingredientsQuantityKey = Object.keys(data.drinks[0])
-      .filter((key) => key.includes('strMeasure'));
-
-    ingredientsQuantityList = ingredientsQuantityKey
-      .map((ingredient) => data.drinks[0][ingredient])
-      .filter((element) => {
-        if (typeof element === 'string') {
-          return element.length > 0;
-        }
-        return element !== null;
-      });
+    ingredientsList = getDrinkIngredientsList(data);
+    ingredientsQuantityList = getDrinkIngredientsQuantityList(data);
   }
 
-  const handleOnCLickRedirectRecipeProgress = () => {
+  const handleOnClickRedirectRecipeProgress = () => {
     history.push(`/${mealsOrDrinks}/${id}/in-progress`);
   };
 
-  if (loading) return <Loading />;
+  if (!data) return <Loading />;
   const objectPath = data[mealsOrDrinks][0];
   return (
     <main>
@@ -213,21 +189,58 @@ function RecipeDetails() {
           <IframeYoutube className={ styles.iframe } objectPath={ objectPath } />)
       }
       <Recommendations />
+
+      { isLinkCopied && <section><h4>Link copied!</h4></section> }
+
       <Button
         dataTestid="share-btn"
         textContent="Share"
+        onClick={ () => handleOnClickShareBtn(window.location.href) }
       />
-      <Button
+      <input
+        data-testid="favorite-btn"
+        type="image"
+        src={
+          isInTheFavorite ? (blackHeartIcon) : (whiteHeartIcon)
+        }
+        onClick={
+          mealsOrDrinks === 'meals' ? (() => {
+            handleSaveFavoriteMeal(data, id); setIsInTheFavorite(!isInTheFavorite);
+          }) : (() => {
+            handleSaveFavoriteDrink(data, id); setIsInTheFavorite(!isInTheFavorite);
+          })
+        }
+        alt=""
+      />
+      {/* <Button
         dataTestid="favorite-btn"
-        textContent="Favorite"
-      />
+        textContent={
+          isInTheFavorite ? (
+            <img
+              src={ whiteHeartIcon }
+              alt="Black Heart Icon"
+            />
+          ) : (
+            <img
+              src={ blackHeartIcon }
+              alt="White Heart Icon"
+            />)
+        }
+        onClick={
+          mealsOrDrinks === 'meals' ? (() => {
+            handleSaveFavoriteMeal(data, id); setIsInTheFavorite(!isInTheFavorite);
+          }) : (() => {
+            handleSaveFavoriteDrink(data, id); setIsInTheFavorite(!isInTheFavorite);
+          })
+        }
+      /> */}
       <Button
         dataTestid="start-recipe-btn"
         className={
           !isDoneRecipes ? (styles.startRecipeBtnActive
           ) : styles.startRecipeBtnInactive
         }
-        onClick={ handleOnCLickRedirectRecipeProgress }
+        onClick={ handleOnClickRedirectRecipeProgress }
         textContent={ isInProgressRecipe ? 'Continue Recipe' : 'Start Recipe' }
       />
     </main>

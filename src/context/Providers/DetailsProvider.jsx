@@ -1,11 +1,13 @@
 import PropTypes from 'prop-types';
 import React, { useMemo, useState } from 'react';
+import clipboardCopy from 'clipboard-copy';
 import detailsContext from '../Contexts/detailsContext';
 
 function DetailsProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
   const [mealsOrDrinks, setMealsOrDrinks] = useState('');
+  const [mealOrDrinkInProgress, setMealOrDrinkInProgress] = useState('');
   const [recommendations, setRecommendations] = useState(null);
   const [indexCarouselActive, setIndexCarouselActive] = useState({
     initial: 0,
@@ -13,6 +15,8 @@ function DetailsProvider({ children }) {
   });
   const [isDoneRecipes, setIsDoneRecipes] = useState(false);
   const [isInProgressRecipe, setIsInProgressRecipe] = useState(false);
+  const [isLinkCopied, setIsLinkCopied] = useState(false);
+  const [isInTheFavorite, setIsInTheFavorite] = useState(false);
 
   const getLocalStorageDoneRecipes = (id) => {
     const localStorageDoneRecipes = localStorage.getItem('doneRecipes');
@@ -34,6 +38,14 @@ function DetailsProvider({ children }) {
     }
   };
 
+  const handleOnClickShareBtn = (page) => {
+    setIsLinkCopied(true);
+    clipboardCopy(page);
+    const intervalTime = 3000;
+    setTimeout(() => { setIsLinkCopied(false); }, intervalTime);
+    console.log(page);
+  };
+
   const value = useMemo(() => ({
     loading,
     setLoading,
@@ -41,6 +53,8 @@ function DetailsProvider({ children }) {
     setData,
     mealsOrDrinks,
     setMealsOrDrinks,
+    mealOrDrinkInProgress,
+    setMealOrDrinkInProgress,
     recommendations,
     setRecommendations,
     indexCarouselActive,
@@ -49,11 +63,15 @@ function DetailsProvider({ children }) {
     getLocalStorageDoneRecipes,
     isInProgressRecipe,
     getLocalStorageIsInProgressRecipe,
+    isLinkCopied,
+    handleOnClickShareBtn,
+    isInTheFavorite,
+    setIsInTheFavorite,
   }), [
     loading, setLoading, data, setData, mealsOrDrinks, setMealsOrDrinks,
     recommendations, setRecommendations, indexCarouselActive, setIndexCarouselActive,
-    isDoneRecipes, isInProgressRecipe,
-  ]);
+    isDoneRecipes, isInProgressRecipe, isLinkCopied, isInTheFavorite,
+    mealOrDrinkInProgress, setMealOrDrinkInProgress]);
 
   return (
     <detailsContext.Provider value={ value }>
