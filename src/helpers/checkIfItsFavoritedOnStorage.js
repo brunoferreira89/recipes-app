@@ -4,7 +4,6 @@ const checkIfItsFavoritedOnStorage = (id) => {
     const favoriteRecipes = JSON.parse(getLocalStorage);
     const haveTheRecipeInTheFavorite = favoriteRecipes
       .some((recipe) => recipe.id === id);
-    console.log(haveTheRecipeInTheFavorite);
     return haveTheRecipeInTheFavorite;
   }
   return false;

@@ -135,7 +135,7 @@ function RecipeInProgress() {
       name: isItMeal ? objectPath.strMeal : objectPath.strDrink,
       category: objectPath.strCategory || '',
       image: isItMeal ? objectPath.strMealThumb : objectPath.strDrinkThumb,
-      tags: objectPath.strTags || '',
+      tags: objectPath.strTags ? objectPath.strTags.split(',') : [],
       alcoholicOrNot: objectPath.strAlcoholic || '',
       type: isItMeal ? 'meal' : 'drink',
       doneDate: date.toISOString(),
