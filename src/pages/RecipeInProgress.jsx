@@ -211,10 +211,15 @@ function RecipeInProgress() {
         }
         alt=""
       />
-      <Button
-        dataTestid="finish-recipe-btn"
-        textContent="Finish Recipe"
-      />
+      <button
+        data-testid="finish-recipe-btn"
+        disabled={
+          isChecked[mealOrDrinkInProgress][id].length !== ingredientsList.length
+        }
+      >
+        Finish Recipe
+
+      </button>
     </main>
   );
 }
