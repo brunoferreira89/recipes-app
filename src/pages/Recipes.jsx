@@ -3,8 +3,11 @@ import recipesContext from '../context/Contexts/recipesContext';
 import Loading from '../components/Loading';
 import RecipeCard from '../components/RecipeCard';
 import CategoriesButtons from '../components/CategoriesButtons';
+import searchContext from '../context/Contexts/searchContext';
+import SearchResultCard from '../components/SearchResultCard';
 
 function Recipes() {
+  const { bool } = useContext(searchContext);
   const {
     loading, fetchRecipes, fetchButtonsCategories } = useContext(recipesContext);
 
@@ -17,8 +20,15 @@ function Recipes() {
 
   return (
     <section>
-      <CategoriesButtons />
-      <RecipeCard />
+      {
+        bool ? <SearchResultCard /> : (
+          <>
+            <CategoriesButtons />
+            <RecipeCard />
+          </>
+        )
+      }
+
     </section>
   );
 }
