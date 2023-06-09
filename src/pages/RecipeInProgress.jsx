@@ -5,26 +5,31 @@ import Loading from '../components/Loading';
 import Button from '../components/Button';
 import { handleSaveFavoriteMeal,
   handleSaveFavoriteDrink } from '../helpers/saveFavoriteOnLocalStorage';
+import { getDrinkIngredientsList,
+  getMealIngredientsList } from '../helpers/getIngredientsAndQuantityList';
 import getAndPutInProgRecipes from '../helpers/getAndPutInProgressRecipesOnLocalStorage';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import './styles/RecipeInProgress.css';
+import checkIfItsFavoritedOnStorage from '../helpers/checkIfItsFavoritedOnStorage';
 
 function RecipeInProgress() {
   const { id } = useParams();
 
-  const { loading, setLoading, recipeInProgress, setRecipeInProgress, isLinkCopied,
+  const { setLoading, isLinkCopied,
     handleOnClickShareBtn, isInTheFavorite,
-    setIsInTheFavorite } = useContext(detailsContext);
+    setIsInTheFavorite, mealOrDrinkInProgress,
+    setMealOrDrinkInProgress } = useContext(detailsContext);
 
   const [isChecked, setIsChecked] = useState({
     drinks: { [id]: [] },
     meals: { [id]: [] },
   });
 
+  const [recipeInProgress, setRecipeInProgress] = useState(null);
+
   const history = useHistory();
   const { pathname } = history.location;
-  console.log(pathname);
 
   useEffect(() => {
     const inProgressRecipesOnStorage = localStorage.getItem('inProgressRecipes');
@@ -53,8 +58,28 @@ function RecipeInProgress() {
   }, [setAPIURL, setLoading, setRecipeInProgress]);
 
   useEffect(() => {
+    if (pathname.includes('meals')) {
+      setMealOrDrinkInProgress('meals');
+    }
+    if (pathname.includes('drinks')) {
+      setMealOrDrinkInProgress('drinks');
+    }
     fetchById();
-  }, [pathname, id, fetchById]);
+  }, [pathname, id, fetchById, setMealOrDrinkInProgress]);
+
+  const getCheckedFromStore = useCallback(() => {
+    const checkboxes = JSON.parse(localStorage.getItem('inProgressRecipes')) || {
+      drinks: { [id]: [] },
+      meals: { [id]: [] },
+    };
+    setIsChecked(checkboxes);
+  }, [id]);
+
+  useEffect(() => { getCheckedFromStore(); }, [getCheckedFromStore]);
+
+  useEffect(() => {
+    setIsInTheFavorite(checkIfItsFavoritedOnStorage(id));
+  }, [setIsInTheFavorite, id]);
 
   const handleCheckbox = ({ target }) => {
     const { checked, value } = target;
@@ -75,16 +100,6 @@ function RecipeInProgress() {
     localStorage.setItem('inProgressRecipes', JSON.stringify({ ...updatedList }));
   };
 
-  const getCheckedFromStore = useCallback(() => {
-    const checkboxes = JSON.parse(localStorage.getItem('inProgressRecipes')) || {
-      drinks: { [id]: [] },
-      meals: { [id]: [] },
-    };
-    setIsChecked(checkboxes);
-  }, [id]);
-
-  useEffect(() => { getCheckedFromStore(); }, [getCheckedFromStore]);
-
   const handleCheckboxClass = (ingredient) => {
     const { meals, drinks } = isChecked;
     if (pathname.includes('meals')) {
@@ -94,115 +109,55 @@ function RecipeInProgress() {
     }
   };
 
-  const getMealsIngredientsList = () => {
-    const mealsIngredientsNames = Object
-      .keys(recipeInProgress.meals[0]).filter((key) => key.includes('strIngredient'));
-    const mealsIngredientsList = mealsIngredientsNames
-      .map((ingredient) => recipeInProgress.meals[0][ingredient] || [])
-      .filter((ingredientName) => ingredientName.length > 0);
-    return mealsIngredientsList;
-  };
+  let ingredientsList = [];
 
-  const getDrinksIngredientsList = () => {
-    const drinksIngredientsNames = Object
-      .keys(recipeInProgress.drinks[0]).filter((key) => key.includes('strMeasure'));
-    const drinksIngredientsList = drinksIngredientsNames
-      .map((ingredient) => recipeInProgress.drinks[0][ingredient] || [])
-      .filter((ingredientName) => ingredientName.length > 0);
-    return drinksIngredientsList;
-  };
+  if (recipeInProgress && mealOrDrinkInProgress === 'meals') {
+    ingredientsList = getMealIngredientsList(recipeInProgress);
+  }
+
+  if (recipeInProgress && mealOrDrinkInProgress === 'drinks') {
+    ingredientsList = getDrinkIngredientsList(recipeInProgress);
+  }
 
   const mealsURL = `http://localhost:3000/meals/${id}`;
   const drinksURL = `http://localhost:3000/drinks/${id}`;
 
-  if (loading) return <Loading />;
-  if (recipeInProgress) {
-    return (
-      <main>
-        {
-          pathname.includes('meals') && (
-            <div>
-              <img
-                data-testid="recipe-photo"
-                src={ recipeInProgress.meals[0].strMealThumb }
-                alt="img"
-              />
-              <h3 data-testid="recipe-title">{ recipeInProgress.meals[0].strMeal }</h3>
-              <span
-                data-testid="recipe-category"
-              >
-                { recipeInProgress.meals[0].strCategory }
-              </span>
-              <h4>Lista de ingredientes</h4>
-              <ul>
-                {
-                  getMealsIngredientsList().map((ingredient, index) => (
-                    <label
-                      key={ index }
-                      data-testid={ `${index}-ingredient-step` }
-                      className={ handleCheckboxClass(ingredient) }
-                    >
-                      <input
-                        data-testid="ingredient-step"
-                        type="checkbox"
-                        value={ ingredient }
-                        onChange={ handleCheckbox }
-                        checked={ isChecked.meals[id]
-                          .some((item) => ingredient === item) }
-                      />
-                      {ingredient}
-                    </label>
-                  ))
-                }
-              </ul>
-              <p
-                data-testid="instructions"
-              >
-                { recipeInProgress.meals[0].strInstructions }
-              </p>
-              { isLinkCopied && <section><h4>Link copied!</h4></section> }
-              <Button
-                dataTestid="share-btn"
-                textContent="Share"
-                onClick={ () => handleOnClickShareBtn(mealsURL) }
-              />
-              <input
-                data-testid="favorite-btn"
-                type="image"
-                src={
-                  isInTheFavorite ? (blackHeartIcon) : (whiteHeartIcon)
-                }
-                onClick={ () => {
-                  handleSaveFavoriteMeal(recipeInProgress, id);
-                  setIsInTheFavorite(!isInTheFavorite);
-                } }
-                alt=""
-              />
-              <button data-testid="finish-recipe-btn">Finalizar</button>
-            </div>
-          )
+  if (!recipeInProgress) return <Loading />;
+
+  const objectPath = recipeInProgress[mealOrDrinkInProgress][0];
+
+  return (
+    <main>
+      <img
+        data-testid="recipe-photo"
+        src={
+          mealOrDrinkInProgress === 'meals' ? objectPath.strMealThumb
+            : objectPath.strDrinkThumb
         }
+        alt="img"
+      />
+      <h1
+        data-testid="recipe-title"
+      >
         {
-          pathname.includes('drinks')
-      && (
+          mealOrDrinkInProgress === 'meals' ? objectPath.strMeal
+            : objectPath.strDrink
+        }
+      </h1>
+      <p
+        data-testid="recipe-category"
+      >
+        { mealOrDrinkInProgress === 'meals' ? objectPath.strCategory
+          : objectPath.strAlcoholic }
+      </p>
+      <section>
         <div>
-          <img
-            data-testid="recipe-photo"
-            src={ recipeInProgress.drinks[0].strDrinkThumb }
-            alt="img"
-          />
-          <h3 data-testid="recipe-title">{ recipeInProgress.drinks[0].strDrink }</h3>
-          <span
-            data-testid="recipe-category"
-          >
-            { recipeInProgress.drinks[0].strAlcoholic }
-          </span>
           <h4>Lista de ingredientes</h4>
           <ul>
             {
-              getDrinksIngredientsList().map((ingredient, index) => (
+              ingredientsList.map((ingredient, index) => (
                 <label
-                  key={ index }
+                  key={ `${ingredient} ${index}` }
                   data-testid={ `${index}-ingredient-step` }
                   className={ handleCheckboxClass(ingredient) }
                 >
@@ -211,40 +166,57 @@ function RecipeInProgress() {
                     type="checkbox"
                     value={ ingredient }
                     onChange={ handleCheckbox }
-                    checked={ isChecked.drinks[id]
-                      .some((item) => ingredient === item) }
+                    checked={ mealOrDrinkInProgress === 'meals' ? (
+                      isChecked.meals[id].some((item) => ingredient === item)
+                    ) : (
+                      isChecked.drinks[id].some((item) => ingredient === item)
+                    ) }
                   />
                   {ingredient}
                 </label>
               ))
             }
           </ul>
-          <p data-testid="instructions">{ recipeInProgress.drinks[0].strInstructions }</p>
-          { isLinkCopied && <section><h4>Link copied!</h4></section> }
-          <Button
-            dataTestid="share-btn"
-            textContent="Share"
-            onClick={ () => handleOnClickShareBtn(drinksURL) }
-          />
-          <input
-            data-testid="favorite-btn"
-            type="image"
-            src={
-              isInTheFavorite ? (blackHeartIcon) : (whiteHeartIcon)
-            }
-            onClick={ () => {
-              handleSaveFavoriteDrink(recipeInProgress, id);
-              setIsInTheFavorite(!isInTheFavorite);
-            } }
-            alt=""
-          />
-          <button data-testid="finish-recipe-btn">Finalizar</button>
         </div>
-      )
+      </section>
+
+      <p
+        data-testid="instructions"
+      >
+        { objectPath.strInstructions }
+      </p>
+      { isLinkCopied && <section><h4>Link copied!</h4></section> }
+      <Button
+        dataTestid="share-btn"
+        textContent="Share"
+        onClick={ () => handleOnClickShareBtn(
+          mealOrDrinkInProgress === 'meals' ? mealsURL
+            : drinksURL,
+        ) }
+      />
+      <input
+        data-testid="favorite-btn"
+        type="image"
+        src={
+          isInTheFavorite ? (blackHeartIcon) : (whiteHeartIcon)
         }
-      </main>
-    );
-  }
+        onClick={
+          mealOrDrinkInProgress === 'meals' ? (() => {
+            handleSaveFavoriteMeal(recipeInProgress, id);
+            setIsInTheFavorite(!isInTheFavorite);
+          }) : (() => {
+            handleSaveFavoriteDrink(recipeInProgress, id);
+            setIsInTheFavorite(!isInTheFavorite);
+          })
+        }
+        alt=""
+      />
+      <Button
+        dataTestid="finish-recipe-btn"
+        textContent="Finish Recipe"
+      />
+    </main>
+  );
 }
 
 export default RecipeInProgress;

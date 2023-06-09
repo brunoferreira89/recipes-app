@@ -7,6 +7,7 @@ function DetailsProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
   const [mealsOrDrinks, setMealsOrDrinks] = useState('');
+  const [mealOrDrinkInProgress, setMealOrDrinkInProgress] = useState('');
   const [recommendations, setRecommendations] = useState(null);
   const [indexCarouselActive, setIndexCarouselActive] = useState({
     initial: 0,
@@ -15,7 +16,6 @@ function DetailsProvider({ children }) {
   const [isDoneRecipes, setIsDoneRecipes] = useState(false);
   const [isInProgressRecipe, setIsInProgressRecipe] = useState(false);
   const [isLinkCopied, setIsLinkCopied] = useState(false);
-  const [recipeInProgress, setRecipeInProgress] = useState(null);
   const [isInTheFavorite, setIsInTheFavorite] = useState(false);
 
   const getLocalStorageDoneRecipes = (id) => {
@@ -53,6 +53,8 @@ function DetailsProvider({ children }) {
     setData,
     mealsOrDrinks,
     setMealsOrDrinks,
+    mealOrDrinkInProgress,
+    setMealOrDrinkInProgress,
     recommendations,
     setRecommendations,
     indexCarouselActive,
@@ -63,16 +65,13 @@ function DetailsProvider({ children }) {
     getLocalStorageIsInProgressRecipe,
     isLinkCopied,
     handleOnClickShareBtn,
-    recipeInProgress,
-    setRecipeInProgress,
     isInTheFavorite,
     setIsInTheFavorite,
   }), [
     loading, setLoading, data, setData, mealsOrDrinks, setMealsOrDrinks,
     recommendations, setRecommendations, indexCarouselActive, setIndexCarouselActive,
-    isDoneRecipes, isInProgressRecipe, isLinkCopied, recipeInProgress,
-    setRecipeInProgress, isInTheFavorite,
-  ]);
+    isDoneRecipes, isInProgressRecipe, isLinkCopied, isInTheFavorite,
+    mealOrDrinkInProgress, setMealOrDrinkInProgress]);
 
   return (
     <detailsContext.Provider value={ value }>
