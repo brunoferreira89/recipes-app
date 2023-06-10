@@ -27,6 +27,12 @@ const mockFetch = (url) => {
       json: () => Promise.resolve(dataRecommDrinks),
     });
   }
+
+  if (url === 'https://www.themealdb.com/api/json/v1/1/lookup.php?i=999999') {
+    return Promise.resolve({
+      json: () => Promise.resolve({ meals: null }),
+    });
+  }
 };
 
 export default mockFetch;

@@ -20,8 +20,8 @@ import blackHeartIcon from '../images/blackHeartIcon.svg';
 function RecipeDetails() {
   const { id } = useParams();
   const {
-    setLoading, data, setData, mealsOrDrinks, setMealsOrDrinks,
-    setRecommendations, getLocalStorageDoneRecipes, isDoneRecipes,
+    setLoading, data, setData, mealsOrDrinks,
+    setMealsOrDrinks, setRecommendations, getLocalStorageDoneRecipes, isDoneRecipes,
     isInProgressRecipe, getLocalStorageIsInProgressRecipe, isLinkCopied,
     handleOnClickShareBtn, isInTheFavorite, setIsInTheFavorite,
   } = useContext(detailsContext);
@@ -34,6 +34,7 @@ function RecipeDetails() {
       const response = await fetch(API_URL);
       const dataJson = await response.json();
       if (detailOrRecommendation === 'details') {
+        // if (!dataJson[mealsOrDrinks]) { throw new Error('Problems requesting the API'); }
         setData(dataJson);
       }
       // Fetch para pegar as recomendações
@@ -52,7 +53,7 @@ function RecipeDetails() {
         setRecommendations(sixRecommendations);
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error.toString());
     } finally {
       setLoading(false);
     }
@@ -147,7 +148,7 @@ function RecipeDetails() {
 
       <section>
         <div>
-          <h2>Ingredientes</h2>
+          <h2>Ingredients</h2>
           <ul>
             {
               ingredientsList.map((ingredient, index) => (
@@ -163,7 +164,7 @@ function RecipeDetails() {
         </div>
 
         <div>
-          <h2>Quantidades</h2>
+          <h2>Quantities</h2>
           <ul>
             {
               ingredientsQuantityList.map((ingredientQtd, index) => (
@@ -184,10 +185,13 @@ function RecipeDetails() {
       >
         { objectPath.strInstructions }
       </p>
-      {
-        mealsOrDrinks === 'meals' && (
-          <IframeYoutube className={ styles.iframe } objectPath={ objectPath } />)
-      }
+
+      <IframeYoutube
+        mealsOrDrinks={ mealsOrDrinks }
+        className={ styles.iframe }
+        objectPath={ objectPath }
+      />
+
       <Recommendations />
 
       { isLinkCopied && <section><h4>Link copied!</h4></section> }
@@ -212,28 +216,7 @@ function RecipeDetails() {
         }
         alt=""
       />
-      {/* <Button
-        dataTestid="favorite-btn"
-        textContent={
-          isInTheFavorite ? (
-            <img
-              src={ whiteHeartIcon }
-              alt="Black Heart Icon"
-            />
-          ) : (
-            <img
-              src={ blackHeartIcon }
-              alt="White Heart Icon"
-            />)
-        }
-        onClick={
-          mealsOrDrinks === 'meals' ? (() => {
-            handleSaveFavoriteMeal(data, id); setIsInTheFavorite(!isInTheFavorite);
-          }) : (() => {
-            handleSaveFavoriteDrink(data, id); setIsInTheFavorite(!isInTheFavorite);
-          })
-        }
-      /> */}
+
       <Button
         dataTestid="start-recipe-btn"
         className={

@@ -5,6 +5,7 @@ import detailsContext from '../Contexts/detailsContext';
 
 function DetailsProvider({ children }) {
   const [loading, setLoading] = useState(true);
+  const [msgError, setMsgError] = useState('');
   const [data, setData] = useState(null);
   const [mealsOrDrinks, setMealsOrDrinks] = useState('');
   const [mealOrDrinkInProgress, setMealOrDrinkInProgress] = useState('');
@@ -43,7 +44,6 @@ function DetailsProvider({ children }) {
     clipboardCopy(page);
     const intervalTime = 3000;
     setTimeout(() => { setIsLinkCopied(false); }, intervalTime);
-    console.log(page);
   };
 
   const value = useMemo(() => ({
@@ -67,11 +67,14 @@ function DetailsProvider({ children }) {
     handleOnClickShareBtn,
     isInTheFavorite,
     setIsInTheFavorite,
+    msgError,
+    setMsgError,
   }), [
     loading, setLoading, data, setData, mealsOrDrinks, setMealsOrDrinks,
     recommendations, setRecommendations, indexCarouselActive, setIndexCarouselActive,
     isDoneRecipes, isInProgressRecipe, isLinkCopied, isInTheFavorite,
-    mealOrDrinkInProgress, setMealOrDrinkInProgress]);
+    mealOrDrinkInProgress, setMealOrDrinkInProgress, msgError,
+  ]);
 
   return (
     <detailsContext.Provider value={ value }>
