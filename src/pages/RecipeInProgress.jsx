@@ -7,11 +7,12 @@ import { handleSaveFavoriteMeal,
   handleSaveFavoriteDrink } from '../helpers/saveFavoriteOnLocalStorage';
 import { getDrinkIngredientsList,
   getMealIngredientsList } from '../helpers/getIngredientsAndQuantityList';
+import checkIfItsFavoritedOnStorage from '../helpers/checkIfItsFavoritedOnStorage';
+import { handleSaveDoneRecipe } from '../helpers/saveDoneRecipesOnLocalStorage';
 import getAndPutInProgRecipes from '../helpers/getAndPutInProgressRecipesOnLocalStorage';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import './styles/RecipeInProgress.css';
-import checkIfItsFavoritedOnStorage from '../helpers/checkIfItsFavoritedOnStorage';
 
 function RecipeInProgress() {
   const { id } = useParams();
@@ -141,7 +142,7 @@ function RecipeInProgress() {
       type: isItMeal ? 'meal' : 'drink',
       doneDate: date.toISOString(),
     };
-    localStorage.setItem('doneRecipes', JSON.stringify([doneRecipe]));
+    handleSaveDoneRecipe(doneRecipe, id);
     history.push('/done-recipes');
   };
 
