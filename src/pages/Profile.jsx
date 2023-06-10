@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Button from '../components/Button';
+import Footer from '../components/Footer';
 
 function Profile() {
   const [userEmail, setUserEmail] = useState('');
@@ -40,6 +41,7 @@ function Profile() {
           onClick={ () => handleLogout() }
         />
       </div>
+      <Footer />
     </div>
   );
 }

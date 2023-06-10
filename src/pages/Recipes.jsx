@@ -5,6 +5,7 @@ import RecipeCard from '../components/RecipeCard';
 import CategoriesButtons from '../components/CategoriesButtons';
 import searchContext from '../context/Contexts/searchContext';
 import SearchResultCard from '../components/SearchResultCard';
+import Footer from '../components/Footer';
 
 function Recipes() {
   const { bool } = useContext(searchContext);
@@ -25,6 +26,7 @@ function Recipes() {
           <>
             <CategoriesButtons />
             <RecipeCard />
+            <Footer />
           </>
         )
       }
