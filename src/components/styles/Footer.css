@@ -1,9 +1,9 @@
 footer {
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  width: 100%;
   background: var(--gray-900);
+  bottom: 0;
   color: white;
+  left: 0;
+  position: fixed;
   text-align: center;
+  width: 100%;
 }
