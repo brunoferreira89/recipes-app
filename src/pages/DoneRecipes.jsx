@@ -42,6 +42,8 @@ function DoneRecipes() {
   const mealsURL = 'http://localhost:3000/meals/';
   const drinksURL = 'http://localhost:3000/drinks/';
 
+  console.log(filteredRecipes);
+
   return (
     <main>
       <section>
