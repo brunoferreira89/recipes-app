@@ -18,11 +18,16 @@ function DetailsProvider({ children }) {
   const [isInProgressRecipe, setIsInProgressRecipe] = useState(false);
   const [isLinkCopied, setIsLinkCopied] = useState(false);
   const [isInTheFavorite, setIsInTheFavorite] = useState(false);
+  const [doneMeals, setDoneMeals] = useState([]);
+  const [whatDone, setWhatDone] = useState('all');
+  const [doneDrinks, setDoneDrinks] = useState([]);
+  const [doneAll, setDoneAll] = useState([]);
 
   const getLocalStorageDoneRecipes = (id) => {
     const localStorageDoneRecipes = localStorage.getItem('doneRecipes');
     if (localStorageDoneRecipes) {
       const doneRecipesList = JSON.parse(localStorageDoneRecipes);
+
       const isDone = doneRecipesList
         .some((recipe) => Number(recipe.id) === Number(id));
       setIsDoneRecipes(isDone);
@@ -69,11 +74,21 @@ function DetailsProvider({ children }) {
     setIsInTheFavorite,
     msgError,
     setMsgError,
+    doneMeals,
+    setDoneMeals,
+    doneDrinks,
+    setDoneDrinks,
+    doneAll,
+    setDoneAll,
+    whatDone,
+    setWhatDone,
   }), [
     loading, setLoading, data, setData, mealsOrDrinks, setMealsOrDrinks,
     recommendations, setRecommendations, indexCarouselActive, setIndexCarouselActive,
     isDoneRecipes, isInProgressRecipe, isLinkCopied, isInTheFavorite,
     mealOrDrinkInProgress, setMealOrDrinkInProgress, msgError,
+    doneMeals, setDoneMeals, doneDrinks, setDoneDrinks, doneAll,
+    setDoneAll, whatDone, setWhatDone,
   ]);
 
   return (
