@@ -22,7 +22,6 @@ function Footer() {
         <img data-testid="meals-bottom-btn" src={ mealIcon } alt="Meals" />
       </button>
     </footer>
-
   );
 }
 
