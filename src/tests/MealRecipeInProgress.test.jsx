@@ -12,6 +12,9 @@ const shareBtnStr = 'share-btn';
 const favoriteBtnStr = 'favorite-btn';
 const finishBtnStr = 'finish-recipe-btn';
 
+const ingredientsList = ['penne rigate', 'olive oil', 'garlic', 'chopped tomatoes',
+  'red chile flakes', 'italian seasoning', 'basil', 'Parmigiano-Reggiano'];
+
 describe('1 - Testa a página de Receita em Progresso (Meal)', () => {
   beforeEach(() => {
     jest.spyOn(global, 'fetch');
@@ -48,9 +51,6 @@ describe('1 - Testa a página de Receita em Progresso (Meal)', () => {
     expect(mealTitle).toBeInTheDocument();
     const mealCategory = await screen.findByTestId('recipe-category');
     expect(mealCategory).toBeInTheDocument();
-
-    const ingredientsList = ['penne rigate', 'olive oil', 'garlic', 'chopped tomatoes',
-      'red chile flakes', 'italian seasoning', 'basil', 'Parmigiano-Reggiano'];
 
     ingredientsList.forEach((ingredient) => {
       expect(screen.getByText(ingredient)).toBeInTheDocument();
@@ -159,3 +159,15 @@ describe('1 - Testa a página de Receita em Progresso (Meal)', () => {
     expect(pathname).toBe('/done-recipes');
   });
 });
+
+// describe('Testa se houver falha na api', () => {
+//   beforeEach(() => jest.spyOn(global, 'fetch').mockImplementation(mockFetch));
+//   afterEach(() => jest.clearAllMocks());
+
+//   it('Testa ao acessar um progresso de receita que não existe', async () => {
+//     const spyConsoleLog = jest.spyOn(console, 'log');
+//     renderWithRouterAndContext(<App />, ['/meals/999999/in-progress']);
+//     await waitFor(() => expect(global.fetch).toHaveBeenCalled());
+//     expect(spyConsoleLog).toHaveBeenCalledWith('Error: Problems requesting the API');
+//   });
+// });
