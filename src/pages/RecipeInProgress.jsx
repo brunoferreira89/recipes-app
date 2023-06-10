@@ -48,10 +48,12 @@ function RecipeInProgress() {
     try {
       const response = await fetch(setAPIURL());
       const dataJson = await response.json() || {};
-      if (!dataJson) { throw new Error('erro'); }
+      // if (!dataJson) {
+      //   throw new Error('Problems requesting the API');
+      // }
       setRecipeInProgress(dataJson);
     } catch (error) {
-      console.log(error);
+      // console.log(error.toString());
     } finally {
       setLoading(false);
     }
