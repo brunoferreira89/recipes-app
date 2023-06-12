@@ -1,7 +1,10 @@
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-import FilterDrinks from '../services/filterDrinks';
 import searchContext from '../context/Contexts/searchContext';
+import getFetchMealsOrDrinksAndFilter from '../helpers/getFetchMealsOrDrinksAndFilter';
+
+const alertOfSearchNotFound = () => global
+  .alert('Sorry, we haven\'t found any recipes for these filters.');
 
 function SearchBar() {
   const history = useHistory();
@@ -19,42 +22,33 @@ function SearchBar() {
   const { pathname } = history.location;
   const limitQuantity = 12;
   const fetchRecipes = async (parameter) => {
-    const fl = 'First letter';
     try {
-      if (pathname === '/meals' && radio === 'Ingredient') {
-        const API_URL = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${parameter}`;
-        const response = await fetch(API_URL);
-        const dataJson = await response.json();
-        const data = Object.values(dataJson)[0].slice(0, limitQuantity);
-        setMeals(data);
-      }
-      if (pathname === '/meals' && radio === 'Name') {
-        const API_URL = `https://www.themealdb.com/api/json/v1/1/search.php?s=${parameter}`;
-        const response = await fetch(API_URL);
-        const dataJson = await response.json();
-        const data = Object.values(dataJson)[0].slice(0, limitQuantity);
-        setMeals(data);
-      }
-      if (pathname === '/meals' && radio === fl && parameter.length <= 1) {
-        const API_URL = `https://www.themealdb.com/api/json/v1/1/search.php?f=${parameter}`;
-        const response = await fetch(API_URL);
-        const dataJson = await response.json();
-        const data = Object.values(dataJson)[0].slice(0, limitQuantity);
-        setMeals(data);
-      } if (parameter.length > 1 && radio === fl) {
+      if (parameter.length > 1 && radio === 'First letter') {
         global.alert('Your search must have only 1 (one) character');
       }
-      FilterDrinks(parameter, radio, setDrinks, pathname);
+
+      const dataJson = await getFetchMealsOrDrinksAndFilter(pathname, radio, parameter);
+
+      if (pathname === '/meals' && dataJson.meals !== null) {
+        const data = Object.values(dataJson)[0].slice(0, limitQuantity);
+        setMeals(data);
+      }
+      if (pathname === '/meals' && dataJson.meals === null) alertOfSearchNotFound();
+
+      if (pathname === '/drinks' && dataJson.drinks !== null) {
+        const data = Object.values(dataJson)[0].slice(0, limitQuantity);
+        setDrinks(data);
+      }
+      if (pathname === '/drinks' && dataJson.drinks === null) alertOfSearchNotFound();
     } catch (error) {
-      console.log(error);
+      // if (error.toString() === 'SyntaxError: Unexpected end of JSON input') {
+      //   alertOfSearchNotFound();
+      // }
     } finally {
       setBool(true);
     }
   };
 
-  // useEffect(() => {
-  //   fetchRecipes();
-  // }, [fetchRecipes]);
   if (meals.length === 1) {
     history.push(`/meals/${meals[0].idMeal}`);
   }
