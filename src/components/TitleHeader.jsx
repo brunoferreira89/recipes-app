@@ -11,7 +11,6 @@ function TitleHeader() {
     page = pageUrl;
   }
 
-  console.log(page);
   return (
     <h1 data-testid="page-title">
       {
