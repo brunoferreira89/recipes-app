@@ -1,0 +1,55 @@
+.container {
+  overflow: hidden;
+  position: relative;
+}
+
+.content {
+  display: flex;
+  transition: transform 0.3s ease;
+}
+
+.item {
+  flex-shrink: 0;
+  width: 80%;
+  margin: 0 10%;
+  padding: 0;
+  border-radius: 4px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.itemImg {
+  max-width: 100%;
+  border-radius: 4px 4px 0 0;
+}
+
+.itemTitle {
+  cursor: pointer;
+  border: none;
+  background-color: lightcoral;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0 0 4px 4px;
+  height: 1.5rem;
+}
+
+.nav {
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  top: calc(50% - 1.5rem);
+  padding: 0 1rem;
+  width: 100%;
+}
+
+.navBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+}
