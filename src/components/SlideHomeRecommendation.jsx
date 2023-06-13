@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-import { CaretCircleLeft, CaretCircleRight } from '@phosphor-icons/react';
+import { BookOpenText, CaretCircleLeft, CaretCircleRight } from '@phosphor-icons/react';
 import {
   dataRecoDrinks, dataRecoMeals,
 } from '../helpers/mock/dataHomeSlideRecommendation';
@@ -64,29 +64,52 @@ function SlideHomeRecommendation() {
                 key={ isMealOrDrink === 'meals' ? recipe.idMeal : recipe.idDrink }
                 className={ styles.item }
               >
-                <input
+                {
+                  isMealOrDrink === 'meals' && (
+                    <div className={ styles.tagsContainerMeal }>
+                      <span className={ styles.tagsContentMeal }>
+                        { recipe.strCategory }
+                      </span>
+                    </div>
+                  )
+                }
+                {
+                  isMealOrDrink === 'drinks' && (
+                    <div className={ styles.tagsContainerDrinks }>
+                      <span
+                        className={ styles.tagsContentDrinksCategory }
+                      >
+                        { recipe.strCategory }
+                      </span>
+                      <span
+                        className={ styles.tagsContentDrinksAlcohol }
+                      >
+                        { recipe.strAlcoholic }
+                      </span>
+                    </div>
+                  )
+                }
+                <img
                   className={ styles.itemImg }
-                  type="image"
                   src={
                     isMealOrDrink === 'meals' ? recipe.strMealThumb : recipe.strDrinkThumb
                   }
                   alt=""
+                />
+                <button
+                  className={ styles.btnSeeMore }
                   onClick={
                     isMealOrDrink === 'meals' ? (
                       () => handleClickGoToMealOrDrink(recipe.idMeal)
                     ) : () => handleClickGoToMealOrDrink(recipe.idDrink)
                   }
-                />
-                <input
-                  type="button"
-                  className={ styles.itemTitle }
-                  value={ isMealOrDrink === 'meals' ? recipe.strMeal : recipe.strDrink }
-                  onClick={
-                    isMealOrDrink === 'meals' ? (
-                      () => handleClickGoToMealOrDrink(recipe.idMeal)
-                    ) : () => handleClickGoToMealOrDrink(recipe.idDrink)
-                  }
-                />
+                >
+                  See More
+                  <BookOpenText size={ 24 } />
+                </button>
+                <strong className={ styles.itemTitle }>
+                  { isMealOrDrink === 'meals' ? recipe.strMeal : recipe.strDrink }
+                </strong>
               </div>
             ))
           }

@@ -9,6 +9,7 @@
 }
 
 .item {
+  position: relative;
   border-radius: 4px;
   display: flex;
   flex-direction: column;
@@ -20,9 +21,47 @@
   width: 80%;
 }
 
+.tagsContainerMeal {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tagsContentMeal,.tagsContentDrinksCategory,.tagsContentDrinksAlcohol {
+  padding: 0.3rem;
+  border-radius: 4px;
+}
+
+.tagsContentMeal, .tagsContentDrinksCategory {
+  background-color: lightsalmon;
+}
+
+.tagsContentDrinksAlcohol {
+  background-color: lightgrey;
+}
+
 .itemImg {
   border-radius: 4px 4px 0 0;
   max-width: 100%;
+}
+
+.btnSeeMore {
+  position: absolute;
+  bottom: 2rem;
+  right: 30%;
+  width: 40%;
+  align-items: center;
+  background-color: lightgreen;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  height: 2rem;
+  gap: 0.5rem;
+  justify-content: center;
 }
 
 .itemTitle {
@@ -30,7 +69,6 @@
   background-color: lightcoral;
   border: none;
   border-radius: 0 0 4px 4px;
-  cursor: pointer;
   display: flex;
   height: 1.5rem;
   justify-content: center;
