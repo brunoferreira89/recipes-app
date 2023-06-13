@@ -9,47 +9,47 @@
 }
 
 .item {
-  flex-shrink: 0;
-  width: 80%;
-  margin: 0 10%;
-  padding: 0;
   border-radius: 4px;
-  text-align: center;
   display: flex;
   flex-direction: column;
+  flex-shrink: 0;
   justify-content: center;
+  margin: 0 10%;
+  padding: 0;
+  text-align: center;
+  width: 80%;
 }
 
 .itemImg {
-  max-width: 100%;
   border-radius: 4px 4px 0 0;
+  max-width: 100%;
 }
 
 .itemTitle {
-  cursor: pointer;
-  border: none;
-  background-color: lightcoral;
-  display: flex;
-  justify-content: center;
   align-items: center;
+  background-color: lightcoral;
+  border: none;
   border-radius: 0 0 4px 4px;
+  cursor: pointer;
+  display: flex;
   height: 1.5rem;
+  justify-content: center;
 }
 
 .nav {
-  position: absolute;
   display: flex;
   justify-content: space-between;
-  top: calc(50% - 1.5rem);
   padding: 0 1rem;
+  position: absolute;
+  top: calc(50% - 1.5rem);
   width: 100%;
 }
 
 .navBtn {
-  display: flex;
-  justify-content: center;
   align-items: center;
   border: none;
   border-radius: 50%;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
 }
