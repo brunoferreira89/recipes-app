@@ -4,8 +4,12 @@ import userEvent from '@testing-library/user-event';
 import { act } from 'react-dom/test-utils';
 import App from '../App';
 import renderWithRouterAndContext from './helpers/renderWithRouterAndContext';
+import favoriteRecipesMockData from './helpers/mocks/favoriteRecipesMockData';
 
 describe('Testa a página Profile', () => {
+  beforeEach(() => {
+    favoriteRecipesMockData();
+  });
   test('Verifica se a tela de profile é renderizada corretamente', () => {
     renderWithRouterAndContext(<App />, ['/profile']);
 
