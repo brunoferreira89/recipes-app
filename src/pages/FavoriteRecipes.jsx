@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
-
+import styles from './styles/FavoriteRecipes.module.css';
 import shareIcon from '../images/shareIcon.svg';
 import desfavorIcon from '../images/blackHeartIcon.svg';
 import useFilterButtons from '../helpers/useFilterButtons';
@@ -25,6 +25,9 @@ function FavoriteRecipes() {
     setFavorites(updateStorage);
     localStorage.setItem('favoriteRecipes', JSON.stringify(updateStorage));
   };
+
+  console.log(favorites);
+
   return (
     <section>
       <div>
@@ -46,7 +49,8 @@ function FavoriteRecipes() {
         </button>
         <button
           onClick={ () => {
-            const filterDrink = favorites.filter((favorite) => favorite.type === 'drink');
+            const filterDrink = favorites
+              .filter((favorite) => favorite.type === 'drink');
             setFavorites(filterDrink);
             setFilter([...favorites, filterDrink]);
           } }
@@ -57,7 +61,7 @@ function FavoriteRecipes() {
       </div>
       <section>
         {
-          favorites.map(({ id, name, image,
+          favorites && favorites.map(({ id, name, image,
             category, nationality, type,
             alcoholicOrNot,
           }, index) => (
@@ -66,6 +70,7 @@ function FavoriteRecipes() {
                 <Link to={ `/drinks/${id}` }>
                   <img
                     data-testid={ `${index}-horizontal-image` }
+                    className={ styles.horizontalImage }
                     src={ image }
                     alt="foto da receita"
                   />
@@ -97,6 +102,7 @@ function FavoriteRecipes() {
                 <Link to={ `/meals/${id}` }>
                   <img
                     data-testid={ `${index}-horizontal-image` }
+                    className={ styles.horizontalImage }
                     src={ image }
                     alt="foto da receita"
                   />
