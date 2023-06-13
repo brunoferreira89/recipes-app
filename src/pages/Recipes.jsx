@@ -5,6 +5,7 @@ import RecipeCard from '../components/RecipeCard';
 import CategoriesButtons from '../components/CategoriesButtons';
 import searchContext from '../context/Contexts/searchContext';
 import SearchResultCard from '../components/SearchResultCard';
+import SlideHomeRecommendation from '../components/SlideHomeRecommendation';
 
 function Recipes() {
   const { bool } = useContext(searchContext);
@@ -23,6 +24,7 @@ function Recipes() {
       {
         bool ? <SearchResultCard /> : (
           <>
+            <SlideHomeRecommendation />
             <CategoriesButtons />
             <RecipeCard />
           </>
