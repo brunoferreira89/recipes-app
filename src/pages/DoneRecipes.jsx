@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import shareIcon from '../images/shareIcon.svg';
 import detailsContext from '../context/Contexts/detailsContext';
+import headerContext from '../context/Contexts/headerContext';
 
 function DoneRecipes() {
   const [doneRecipesList, setDoneRecipesList] = useState([]);
@@ -10,6 +11,7 @@ function DoneRecipes() {
   const [doneDrinks, setDoneDrinks] = useState([]);
 
   const { isLinkCopied, handleOnClickShareBtn } = useContext(detailsContext);
+  const { setPageUrl } = useContext(headerContext);
 
   const getDoneRecipeFromStorage = () => {
     const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes')) || [];
@@ -29,6 +31,10 @@ function DoneRecipes() {
     setDoneDrinks(filterDoneDrinks);
   };
 
+  const handleClickImage = () => {
+    setPageUrl('/mealOrDrinkDoneDetails');
+  };
+
   let filteredRecipes = [];
 
   if (whatDone === 'all') {
@@ -41,8 +47,6 @@ function DoneRecipes() {
 
   const mealsURL = 'http://localhost:3000/meals/';
   const drinksURL = 'http://localhost:3000/drinks/';
-
-  console.log(filteredRecipes);
 
   return (
     <main>
@@ -77,6 +81,7 @@ function DoneRecipes() {
             ) => (
               <div key={ id }>
                 <Link
+                  onClick={ handleClickImage }
                   to={ type === 'meal' ? (`/meals/${id}`) : (`/drinks/${id}`) }
                 >
                   <img

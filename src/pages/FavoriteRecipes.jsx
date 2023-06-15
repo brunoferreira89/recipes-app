@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import styles from './styles/FavoriteRecipes.module.css';
 import shareIcon from '../images/shareIcon.svg';
 import desfavorIcon from '../images/blackHeartIcon.svg';
 import useFilterButtons from '../helpers/useFilterButtons';
+import headerContext from '../context/Contexts/headerContext';
 
 function FavoriteRecipes() {
   const [favorites, setFavorites] = useState([]);
   const [filter, setFilter] = useState([]);
+
+  const { setPageUrl } = useContext(headerContext);
 
   const {
     isLinkCopied,
@@ -26,7 +29,9 @@ function FavoriteRecipes() {
     localStorage.setItem('favoriteRecipes', JSON.stringify(updateStorage));
   };
 
-  console.log(favorites);
+  const handleClickImage = () => {
+    setPageUrl('/mealOrDrinkFavoriteDetails');
+  };
 
   return (
     <section>
@@ -67,7 +72,10 @@ function FavoriteRecipes() {
           }, index) => (
             type === 'drink' ? (
               <div key={ id }>
-                <Link to={ `/drinks/${id}` }>
+                <Link
+                  onClick={ handleClickImage }
+                  to={ `/drinks/${id}` }
+                >
                   <img
                     data-testid={ `${index}-horizontal-image` }
                     className={ styles.horizontalImage }
@@ -99,7 +107,10 @@ function FavoriteRecipes() {
               </div>
             ) : (
               <div key={ id }>
-                <Link to={ `/meals/${id}` }>
+                <Link
+                  onClick={ handleClickImage }
+                  to={ `/meals/${id}` }
+                >
                   <img
                     data-testid={ `${index}-horizontal-image` }
                     className={ styles.horizontalImage }

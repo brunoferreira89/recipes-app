@@ -2,7 +2,7 @@ import React, { useCallback, useContext, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import detailsContext from '../context/Contexts/detailsContext';
 import Loading from '../components/Loading';
-import styles from './RecipeDetails.module.css';
+import styles from './styles/RecipeDetails.module.css';
 import Recommendations from '../components/Recommendations';
 import Button from '../components/Button';
 import IframeYoutube from '../components/IframeYoutube';
@@ -120,7 +120,7 @@ function RecipeDetails() {
   if (!data) return <Loading />;
   const objectPath = data[mealsOrDrinks][0];
   return (
-    <main>
+    <main className={ styles.mainRecipeDetails }>
       <img
         data-testid="recipe-photo"
         className={ styles.imageMealOrDrink }

@@ -1,3 +1,7 @@
+.mainRecipeDetails {
+  margin-bottom: 10rem;
+}
+
 .imageMealOrDrink {
   width: 18.75rem;
 }
@@ -7,7 +11,7 @@
 }
 
 .startRecipeBtnActive, .startRecipeBtnInactive {
-  bottom: 0;
+  bottom: 4.75rem;
   position: fixed;
   right: 0;
 }

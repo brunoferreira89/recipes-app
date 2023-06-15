@@ -3,7 +3,7 @@ import HeaderProvider from './context/Providers/HeaderProvider';
 import SearchProvider from './context/Providers/SearchProvider';
 import RouterSwitch from './Router';
 import Header from './components/Header';
-// import Footer from './components/Footer';
+import Footer from './components/Footer';
 
 function App() {
   return (
@@ -11,7 +11,7 @@ function App() {
       <SearchProvider>
         <Header />
         <RouterSwitch />
-        {/* <Footer /> */}
+        <Footer />
       </SearchProvider>
     </HeaderProvider>
   );

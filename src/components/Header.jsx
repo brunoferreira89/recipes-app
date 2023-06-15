@@ -20,6 +20,9 @@ export default function Header() {
     const barsOnUrlPage = pageUrl.match(regexGetBarOnUrlPage);
     const numOfBarsOnUrlPage = barsOnUrlPage.length;
 
+    if (pageUrl === '/mealOrDrinkDoneDetails') setPageUrl('/done-recipes');
+    if (pageUrl === '/mealOrDrinkFavoriteDetails') setPageUrl('/favorite-recipes');
+
     if (numOfBarsOnUrlPage === 2 || pageUrl === '/profile') setPageUrl('/meals');
     if (numOfBarsOnUrlPage > 2) {
       const newPage = pageUrl.replace('/in-progress', '');
@@ -39,7 +42,7 @@ export default function Header() {
       <section>
         {
           (pageUrl !== '/meals' && pageUrl !== '/drinks'
-            && pageUrl !== '/done-recipes')
+            && pageUrl !== '/done-recipes' && pageUrl !== '/favorite-recipes')
             && (
               <button type="button" onClick={ handleGoBackPage }>
                 Go Back
