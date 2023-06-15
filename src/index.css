@@ -1,20 +1,41 @@
 :root {
   --white: white;
-  --gray-100: #e1e1e6;
-  --gray-300: #c4c4cc;
-  --gray-400: #8d8d99;
-  --gray-600: #323238;
-  --gray-700: #29292e;
-  --gray-800: #202024;
-  --gray-900: #121214;
+  --gray-100: #fafafa;
+  --gray-300: #FBF7FC;
+  --gray-400: #F1ECF9;
+  --gray-600: #E7E1F0;
+  --gray-700: #DBD4E7;
+
+  --purple-50: #D79EFF;
+  --purple-100: #C39EFF;
+  --purple-200: #A57BEC;
+  --purple-300: #8C5FD6;
+  --purple-400: #7548BF;
+  --purple-500: #6438AD;
+  --purple-600: #552B9B;
+  --purple-700: #3E197C;
+  --purple-800: #2B0B5F;
+  --purple-900: #1E0548;
+
+  --orange-100: #FFC815;
+  --orange-200: #FFB915;
+  --orange-300: #FFA915;
+  --orange-400: #FF9D15;
+  --orange-500: #FF8B15;
+  --orange-600: #FF7715;
+  --orange-700: #F16C0D;
+  --orange-800: #E14E04;
+  --orange-900: #D13F00;
+
 
   --green-500: #00875f;
+  --red-500: #C34949;
 }
 
-:focus {
+/* :focus {
   outline: transparent;
   box-shadow: 0 0 0 2px var(--green-500);
-}
+} */
 
 * {
   box-sizing: border-box;
@@ -23,14 +44,14 @@
 }
 
 body {
-  background: var(--gray-900);
-  color: var(--white);
+  background: var(--gray-100);
+  color: var(--purple-900);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 body, input, textarea, button {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Alegreya Sans', sans-serif;
   font-weight: 400;
   font-size: 1rem;
 }
