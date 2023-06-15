@@ -7,29 +7,30 @@ import SearchBar from './SearchBar';
 import headerContext from '../context/Contexts/headerContext';
 
 export default function Header() {
-  const {
-    pageUrl, setPageUrl, isGoBackAtive, setIsGoBackAtive,
-  } = useContext(headerContext);
+  const { pageUrl, setPageUrl } = useContext(headerContext);
   const [search, setSearch] = useState(false);
 
   const history = useHistory();
   const page = history.location.pathname;
 
-  useEffect(() => {
-    console.log(pageUrl);
-  }, [pageUrl]);
+  useEffect(() => {}, [pageUrl]);
 
   const handleGoBackPage = () => {
-    history.goBack();
-    if (pageUrl === '/meals' || pageUrl === '/drinks') {
-      setIsGoBackAtive(true);
-    } else {
-      setPageUrl('/meals');
-      setIsGoBackAtive(false);
+    const regexGetBarOnUrlPage = /\/+/g;
+    const barsOnUrlPage = pageUrl.match(regexGetBarOnUrlPage);
+    const numOfBarsOnUrlPage = barsOnUrlPage.length;
+
+    if (numOfBarsOnUrlPage === 2 || pageUrl === '/profile') setPageUrl('/meals');
+    if (numOfBarsOnUrlPage > 2) {
+      const newPage = pageUrl.replace('/in-progress', '');
+      setPageUrl(newPage);
     }
+
+    history.goBack();
   };
 
   const handleOnClikPageProfile = () => {
+    setPageUrl('/profile');
     history.push('/profile');
   };
 
@@ -37,11 +38,12 @@ export default function Header() {
     return (
       <section>
         {
-          isGoBackAtive && (
-            <button type="button" onClick={ handleGoBackPage }>
-              Go Back
-            </button>
-          )
+          (pageUrl !== '/meals' && pageUrl !== '/drinks'
+            && pageUrl !== '/done-recipes')
+            && (
+              <button type="button" onClick={ handleGoBackPage }>
+                Go Back
+              </button>)
         }
         {
           page.includes('profile') || page.includes('done-recipes')

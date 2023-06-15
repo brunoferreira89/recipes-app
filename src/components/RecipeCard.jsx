@@ -5,11 +5,10 @@ import headerContext from '../context/Contexts/headerContext';
 
 function RecipeCard() {
   const { mealsRecipes, drinksRecipes } = useContext(recipesContext);
-  const { setPageUrl, setIsGoBackAtive } = useContext(headerContext);
+  const { setPageUrl } = useContext(headerContext);
 
   const handleClickImage = (page) => {
     setPageUrl(page);
-    setIsGoBackAtive(true);
   };
 
   return (

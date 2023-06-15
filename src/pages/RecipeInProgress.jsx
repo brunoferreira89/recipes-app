@@ -13,6 +13,7 @@ import getAndPutInProgRecipes from '../helpers/getAndPutInProgressRecipesOnLocal
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import './styles/RecipeInProgress.css';
+import headerContext from '../context/Contexts/headerContext';
 
 function RecipeInProgress() {
   const { id } = useParams();
@@ -22,6 +23,7 @@ function RecipeInProgress() {
     setIsInTheFavorite, mealOrDrinkInProgress,
     setMealOrDrinkInProgress } = useContext(detailsContext);
 
+  const { setPageUrl } = useContext(headerContext);
   const [isChecked, setIsChecked] = useState({
     drinks: { [id]: [] }, meals: { [id]: [] },
   });
@@ -143,6 +145,7 @@ function RecipeInProgress() {
       doneDate: date.toISOString(),
     };
     handleSaveDoneRecipe(doneRecipe, id);
+    setPageUrl('/done-recipes');
     history.push('/done-recipes');
   };
 
