@@ -16,6 +16,7 @@ import {
 import checkIfItsFavoritedOnStorage from '../helpers/checkIfItsFavoritedOnStorage';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
+import headerContext from '../context/Contexts/headerContext';
 
 function RecipeDetails() {
   const { id } = useParams();
@@ -25,6 +26,7 @@ function RecipeDetails() {
     isInProgressRecipe, getLocalStorageIsInProgressRecipe, isLinkCopied,
     handleOnClickShareBtn, isInTheFavorite, setIsInTheFavorite,
   } = useContext(detailsContext);
+  const { setPageUrl, setIsGoBackAtive } = useContext(headerContext);
 
   const history = useHistory();
   const page = history.location.pathname;
@@ -111,6 +113,8 @@ function RecipeDetails() {
   }
 
   const handleOnClickRedirectRecipeProgress = () => {
+    setPageUrl(`/${mealsOrDrinks}/${id}/in-progress`);
+    setIsGoBackAtive(true);
     history.push(`/${mealsOrDrinks}/${id}/in-progress`);
   };
 

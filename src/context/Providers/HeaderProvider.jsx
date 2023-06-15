@@ -4,10 +4,11 @@ import headerContext from '../Contexts/headerContext';
 
 function HeaderProvider({ children }) {
   const [pageUrl, setPageUrl] = useState('');
+  const [isGoBackAtive, setIsGoBackAtive] = useState(false);
 
   const value = useMemo(
-    () => ({ pageUrl, setPageUrl }),
-    [pageUrl, setPageUrl],
+    () => ({ pageUrl, setPageUrl, isGoBackAtive, setIsGoBackAtive }),
+    [pageUrl, setPageUrl, isGoBackAtive],
   );
 
   return (
