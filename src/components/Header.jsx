@@ -46,18 +46,16 @@ export default function Header() {
               </button>)
         }
         {
-          page.includes('profile') || page.includes('done-recipes')
-          || page.includes('favorite-recipes') ? ''
-            : (
-              <button
-                onClick={ () => (search ? setSearch(false) : setSearch(true)) }
-              >
-                <img
-                  data-testid="search-top-btn"
-                  src={ searchIcon }
-                  alt="icone de pesquisa"
-                />
-              </button>)
+          (pageUrl === '/meals' || pageUrl === '/drinks') && (
+            <button
+              onClick={ () => (search ? setSearch(false) : setSearch(true)) }
+            >
+              <img
+                data-testid="search-top-btn"
+                src={ searchIcon }
+                alt="icone de pesquisa"
+              />
+            </button>)
         }
         <button onClick={ handleOnClikPageProfile }>
           <img data-testid="profile-top-btn" src={ userIcon } alt="icone de usuario" />
