@@ -1,8 +1,12 @@
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import Swal from 'sweetalert2';
+import { SignIn } from '@phosphor-icons/react';
 import userContext from '../context/Contexts/userContext';
 import headerContext from '../context/Contexts/headerContext';
+import imageLoginHeader from '../images/login-header.jpg';
+import logo from '../images/logo.svg';
+import styles from './styles/Login.module.css';
 
 function Login() {
   const history = useHistory();
@@ -35,7 +39,7 @@ function Login() {
       + '<p><a href="//sweetalert2.github.io">Felipe Lima Coelho</a></p>'
       + '<p><a href="//sweetalert2.github.io">Louis Phillipi</a></p>'
       + '<p><a href="//sweetalert2.github.io">Luiz Fernando Heilig</a></p>',
-      showCloseButton: true,
+      showCloseButton: false,
       showCancelButton: false,
       focusConfirm: false,
       confirmButtonText:
@@ -48,47 +52,77 @@ function Login() {
   };
 
   return (
-    <form>
-      <label htmlFor="email">
-        <input
-          data-testid="email-input"
-          type="email"
-          name="email"
-          value={ email }
-          id="email"
-          onChange={ handleOnChange }
+    <div className={ styles.wrapContainerLogin }>
+      <header>
+        <img
+          className={ styles.imageLoginHeader }
+          src={ imageLoginHeader }
+          alt="Fotos de várias comidas e bebidas"
         />
-      </label>
-      <label htmlFor="password">
-        <input
-          data-testid="password-input"
-          type="password"
-          name="password"
-          value={ password }
-          id="password"
-          onChange={ handleOnChange }
-        />
-      </label>
-      <button
-        data-testid="login-submit-btn"
-        type="button"
-        disabled={ !(isValidEmail(email) && isValidPassword(password)) }
-        onClick={ handleOnClick }
-      >
-        Enter
-      </button>
+      </header>
 
-      <p>
-        Made by
-        {' '}
-        <button
-          type="button"
-          onClick={ handleClickShowMadeBy }
-        >
-          <u>Group 3</u>
-        </button>
-      </p>
-    </form>
+      <form className={ styles.formLogin }>
+        <header className={ styles.logoContainer }>
+          <img
+            className={ styles.logo }
+            src={ logo }
+            alt="Desenho de campainha alaranjada com um coração vermelho"
+          />
+        </header>
+
+        <main className={ styles.mainLogin }>
+          <label htmlFor="email" className={ styles.emailLabel }>
+            Email
+          </label>
+          <input
+            data-testid="email-input"
+            className={ styles.emailInput }
+            type="email"
+            autoComplete="off"
+            name="email"
+            value={ email }
+            id="email"
+            onChange={ handleOnChange }
+          />
+          <label htmlFor="password" className={ styles.passwordLabel }>
+            Password
+          </label>
+          <input
+            data-testid="password-input"
+            className={ styles.passwordInput }
+            type="password"
+            name="password"
+            value={ password }
+            id="password"
+            onChange={ handleOnChange }
+          />
+        </main>
+
+        <footer className={ styles.footerLogin }>
+          <button
+            data-testid="login-submit-btn"
+            type="button"
+            className={ styles.btnEnterLogin }
+            disabled={ !(isValidEmail(email) && isValidPassword(password)) }
+            onClick={ handleOnClick }
+          >
+            Enter
+            <SignIn size={ 18 } />
+          </button>
+
+          <p className={ styles.infoMadeLogin }>
+            Made by
+            {' '}
+            <button
+              type="button"
+              onClick={ handleClickShowMadeBy }
+            >
+              Group 3
+            </button>
+          </p>
+        </footer>
+      </form>
+    </div>
   );
 }
 

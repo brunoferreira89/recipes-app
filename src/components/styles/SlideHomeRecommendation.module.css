@@ -9,7 +9,6 @@
 }
 
 .item {
-  position: relative;
   border-radius: 4px;
   display: flex;
   flex-direction: column;
@@ -17,22 +16,23 @@
   justify-content: center;
   margin: 0 10%;
   padding: 0;
+  position: relative;
   text-align: center;
   width: 80%;
 }
 
 .tagsContainerMeal {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
+  align-items: center;
   display: flex;
   justify-content: center;
-  align-items: center;
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
 }
 
-.tagsContentMeal,.tagsContentDrinksCategory,.tagsContentDrinksAlcohol {
-  padding: 0.3rem;
+.tagsContentMeal, .tagsContentDrinksCategory, .tagsContentDrinksAlcohol {
   border-radius: 4px;
+  padding: 0.3rem;
 }
 
 .tagsContentMeal, .tagsContentDrinksCategory {
@@ -49,19 +49,19 @@
 }
 
 .btnSeeMore {
-  position: absolute;
-  bottom: 2rem;
-  right: 30%;
-  width: 40%;
   align-items: center;
   background-color: lightgreen;
   border: none;
   border-radius: 4px;
+  bottom: 2rem;
   cursor: pointer;
   display: flex;
-  height: 2rem;
   gap: 0.5rem;
+  height: 2rem;
   justify-content: center;
+  position: absolute;
+  right: 30%;
+  width: 40%;
 }
 
 .itemTitle {
