@@ -32,3 +32,10 @@
   display: flex;
   justify-content: center;
 }
+
+.searchActive {
+  background: transparent;
+  border: none;
+  color: var(--orange-100);
+  padding-top: 0.312rem;
+}

@@ -67,12 +67,13 @@ export default function Header() {
           {
             (pageUrl === '/meals' || pageUrl === '/drinks') && (
               <button
-                className={ styles.btnHeader }
+                className={ search ? styles.searchActive : styles.btnHeader }
                 onClick={ () => (search ? setSearch(false) : setSearch(true)) }
               >
                 <ListMagnifyingGlass
                   data-testid="search-top-btn"
                   size={ 38 }
+                  weight={ search ? 'fill' : 'regular' }
                 />
               </button>)
           }

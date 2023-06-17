@@ -1,11 +1,23 @@
 .searchBarContainer {
+  animation: showSearchBar 0.3s forwards;
   background: var(--purple-900);
   box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.15);
+  opacity: 0;
   padding: 0.5rem 1rem 0.75rem;
   position: fixed;
   top: 3.75rem;
+  transform: translateY(-0.625rem);
+  transition: ease-in;
   width: 100%;
   z-index: 2;
+}
+
+@keyframes showSearchBar {
+
+  to {
+    opacity: initial;
+    transform: initial;
+  }
 }
 
 .inputAndBtnSearchContainer {
