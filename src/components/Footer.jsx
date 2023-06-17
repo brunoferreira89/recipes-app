@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-import drinkIcon from '../images/drinkIcon.svg';
-import mealIcon from '../images/mealIcon.svg';
+import { Brandy, CheckSquareOffset, CookingPot, Heart } from '@phosphor-icons/react';
 import styles from './styles/Footer.module.css';
 import headerContext from '../context/Contexts/headerContext';
 
@@ -24,29 +23,48 @@ function Footer() {
     return (
       <footer className={ styles.footer } data-testid="footer">
         <button
+          className={ styles.btnFooter }
+          type="button"
           onClick={ () => handleClick('/meals') }
         >
-          Home
-        </button>
-
-        <button type="button" onClick={ () => handleClick('/drinks') }>
-          <img data-testid="drinks-bottom-btn" src={ drinkIcon } alt="Drinks" />
-        </button>
-
-        <button type="button" onClick={ () => handleClick('/meals') }>
-          <img data-testid="meals-bottom-btn" src={ mealIcon } alt="Meals" />
+          <CookingPot
+            data-testid="meals-bottom-btn"
+            className={ pageUrl === '/meals' && styles.btnFooterFilled }
+            size={ 32 }
+            weight={ pageUrl === '/meals' ? 'fill' : 'regular' }
+          />
         </button>
 
         <button
+          className={ styles.btnFooter }
+          type="button"
+          onClick={ () => handleClick('/drinks') }
+        >
+          <Brandy
+            data-testid="drinks-bottom-btn"
+            className={ pageUrl === '/drinks' && styles.btnFooterFilled }
+            size={ 32 }
+          />
+        </button>
+
+        <button
+          className={ styles.btnFooter }
           onClick={ () => handleClick('/done-recipes') }
         >
-          Done Recipes
+          <CheckSquareOffset
+            className={ pageUrl === '/done-recipes' && styles.btnFooterFilled }
+            size={ 32 }
+          />
         </button>
 
         <button
+          className={ styles.btnFooter }
           onClick={ () => handleClick('/favorite-recipes') }
         >
-          Favorite Recipes
+          <Heart
+            className={ pageUrl === '/favorite-recipes' && styles.btnFooterFilled }
+            size={ 32 }
+          />
         </button>
       </footer>
     );

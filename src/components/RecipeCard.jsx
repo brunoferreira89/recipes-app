@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import recipesContext from '../context/Contexts/recipesContext';
 import headerContext from '../context/Contexts/headerContext';
+import styles from './styles/RecipeCard.module.css';
 
 function RecipeCard() {
   const { mealsRecipes, drinksRecipes } = useContext(recipesContext);
@@ -12,7 +13,7 @@ function RecipeCard() {
   };
 
   return (
-    <div>
+    <div className={ styles.cardsContainer }>
       {
         mealsRecipes && mealsRecipes
           .map(({ idMeal, strMealThumb, strMeal }, index) => (
@@ -23,6 +24,7 @@ function RecipeCard() {
               >
                 <img
                   data-testid={ `${index}-card-img` }
+                  className={ styles.card }
                   src={ strMealThumb }
                   alt={ strMeal }
                 />
@@ -45,6 +47,7 @@ function RecipeCard() {
               >
                 <img
                   data-testid={ `${index}-card-img` }
+                  className={ styles.card }
                   src={ strDrinkThumb }
                   alt={ strDrink }
                 />

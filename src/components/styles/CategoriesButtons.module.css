@@ -1,0 +1,57 @@
+.categoryContainer {
+  align-items: center;
+  background-color: var(--gray-600);
+  border-radius: 4px;
+  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.15);
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  margin: 2rem 1rem 0;
+  padding: 0.5rem 0;
+  position: relative;
+}
+
+.categoryContainer:after {
+  animation: seta 0.5s ease-in 0s infinite alternate;
+  bottom: -25px;
+  color: rgba(0, 0, 0, 0.3);
+  content: '→';
+  position: absolute;
+  right: 0;
+}
+
+@keyframes seta {
+
+  from {
+    right: 10px;
+  }
+
+  to {
+    right: 0;
+  }
+}
+
+.categoryContentBtn {
+  background-color: transparent;
+  border: none;
+}
+
+.categoryContent {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.categoryContent img {
+  width: 2.5rem;
+}
+
+.categoryContent span {
+  color: var(--purple-500);
+  font-family: Roboto , sans-serif;
+  font-size: 0.75rem;
+  font-weight: 300;
+  margin-top: 0.25rem;
+}

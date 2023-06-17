@@ -5,6 +5,7 @@
   --gray-400: #F1ECF9;
   --gray-600: #E7E1F0;
   --gray-700: #DBD4E7;
+  --gray-800: #cdc6da;
 
   --purple-50: #D79EFF;
   --purple-100: #C39EFF;
@@ -27,9 +28,13 @@
   --orange-800: #E14E04;
   --orange-900: #D13F00;
 
+  --blue-150: #13938B;
+  --green-700: #615E0C;
 
   --green-500: #00875f;
   --red-500: #C34949;
+
+
 }
 
 /* :focus {

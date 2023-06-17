@@ -1,0 +1,35 @@
+.cardsContainer {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+  margin-left: 2rem;
+  margin-top: 2rem;
+  overflow: auto;
+}
+
+.cardsContainer div:last-child {
+  margin-right: 2rem;
+}
+
+.card {
+  border-radius: 4px;
+  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.1);
+  flex: 1 0 60px;
+  max-width: 200px;
+}
+
+::-webkit-scrollbar {
+  background-color: var(--gray-400);
+  border-radius: 4px;
+  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.1);
+  height: 10px; /* Largura da barra de rolagem */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--gray-300); /* Cor do polegar */
+  border-radius: 4px; /* Raio do canto do polegar */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--gray-300); /* Cor do polegar ao passar o mouse */
+}

@@ -1,0 +1,67 @@
+.searchBarContainer {
+  background: var(--purple-900);
+  box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.15);
+  padding: 0.5rem 1rem 0.75rem;
+  position: fixed;
+  top: 3.75rem;
+  width: 100%;
+  z-index: 2;
+}
+
+.inputAndBtnSearchContainer {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.inputSearch {
+  background-color: var(--gray-400);
+  border: none;
+  border-radius: 4px;
+  box-shadow: inset 0 0 1px 1px rgba(0, 0, 0, 0.1);
+  color: var(--purple-700);
+  padding: 0.375rem 0.625rem;
+  width: 10.25rem;
+}
+
+.inputSearch::placeholder {
+  color: var(--gray-800);
+}
+
+.searchBtn {
+  align-items: center;
+  background-color: var(--orange-700);
+  border: none;
+  border-radius: 4px;
+  color: var(--gray-600);
+  display: flex;
+  font-family: Roboto , sans-serif;
+  font-weight: 700;
+  gap: 0.625rem;
+  justify-content: center;
+  letter-spacing: 0.025em;
+  padding: 0.25rem 1rem;
+  text-transform: uppercase;
+}
+
+.radioBtnSearchContainer {
+  align-items: center;
+  color: var(--gray-300);
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  margin-top: 0.75rem;
+}
+
+.radioBtn {
+  appearance: none;
+  background-color: var(--gray-400);
+  border-radius: 50%;
+  height: 0.75rem;
+  margin-left: 0.5rem;
+  width: 0.75rem;
+}
+
+.radioBtn:checked {
+  background-color: var(--orange-900);
+}
