@@ -15,6 +15,7 @@ function Footer() {
   useEffect(() => {}, [pageUrl]);
 
   const handleClick = (path) => {
+    console.log(path);
     setPageUrl(path);
     setPageMealOrDrink(path);
     history.push(path);

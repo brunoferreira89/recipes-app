@@ -7,6 +7,9 @@ import headerContext from '../context/Contexts/headerContext';
 import styles from './styles/Header.module.css';
 import logo from '../images/logo.svg';
 
+const doneRecipesText = '/done-recipes';
+const favoriteRecipesText = '/favorite-recipes';
+
 export default function Header() {
   const { pageUrl, setPageUrl } = useContext(headerContext);
   const [search, setSearch] = useState(false);
@@ -21,8 +24,8 @@ export default function Header() {
     const barsOnUrlPage = pageUrl.match(regexGetBarOnUrlPage);
     const numOfBarsOnUrlPage = barsOnUrlPage.length;
 
-    if (pageUrl === '/mealOrDrinkDoneDetails') setPageUrl('/done-recipes');
-    if (pageUrl === '/mealOrDrinkFavoriteDetails') setPageUrl('/favorite-recipes');
+    if (pageUrl === '/mealOrDrinkDoneDetails') setPageUrl(doneRecipesText);
+    if (pageUrl === '/mealOrDrinkFavoriteDetails') setPageUrl(favoriteRecipesText);
 
     if (numOfBarsOnUrlPage === 2 || pageUrl === '/profile') setPageUrl('/meals');
     if (numOfBarsOnUrlPage > 2) {
@@ -43,8 +46,13 @@ export default function Header() {
       <>
         <header className={ styles.header }>
           {
-            (pageUrl !== '/meals' && pageUrl !== '/drinks'
-            && pageUrl !== '/done-recipes' && pageUrl !== '/favorite-recipes')
+            (pageUrl === '/profile' || pageUrl === doneRecipesText
+              || pageUrl === favoriteRecipesText)
+                && (<div className={ styles.contentNoGoBack } />)
+          }
+          {
+            (pageUrl !== '/meals' && pageUrl !== '/drinks' && pageUrl !== '/profile'
+            && pageUrl !== doneRecipesText && pageUrl !== favoriteRecipesText)
             && (
               <button
                 type="button"

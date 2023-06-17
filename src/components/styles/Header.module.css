@@ -18,6 +18,11 @@
   height: 2.375rem;
 }
 
+.contentNoGoBack {
+  height: 2.375rem;
+  width: 2.375rem;
+}
+
 .btnHeader {
   align-items: center;
   background: transparent;
