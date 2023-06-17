@@ -30,7 +30,7 @@ function Recipes() {
         bool ? <SearchResultCard /> : (
           <>
             <h1 className={ styles.principalTitle }>
-              { pageUrl === 'meals' ? 'Meals' : 'Drinks'}
+              { pageUrl === '/meals' ? 'Meals' : 'Drinks'}
             </h1>
             <SlideHomeRecommendation />
             <CategoriesButtons />

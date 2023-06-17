@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import recipesContext from '../context/Contexts/recipesContext';
 import headerContext from '../context/Contexts/headerContext';
@@ -6,7 +6,9 @@ import styles from './styles/RecipeCard.module.css';
 
 function RecipeCard() {
   const { mealsRecipes, drinksRecipes } = useContext(recipesContext);
-  const { setPageUrl } = useContext(headerContext);
+  const { pageUrl, setPageUrl } = useContext(headerContext);
+
+  useEffect(() => {}, [pageUrl]);
 
   const handleClickImage = (page) => {
     setPageUrl(page);
@@ -15,7 +17,7 @@ function RecipeCard() {
   return (
     <div className={ styles.cardsContainer }>
       {
-        mealsRecipes && mealsRecipes
+        pageUrl === '/meals' && mealsRecipes && mealsRecipes
           .map(({ idMeal, strMealThumb, strMeal }, index) => (
             <div key={ idMeal } data-testid={ `${index}-recipe-card` }>
               <Link
@@ -38,7 +40,7 @@ function RecipeCard() {
           ))
       }
       {
-        drinksRecipes && drinksRecipes
+        pageUrl === '/drinks' && drinksRecipes && drinksRecipes
           .map(({ idDrink, strDrinkThumb, strDrink }, index) => (
             <div key={ idDrink } data-testid={ `${index}-recipe-card` }>
               <Link

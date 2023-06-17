@@ -1,4 +1,7 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import headerContext from '../context/Contexts/headerContext';
+import styles from './styles/CategoriesButtons.module.css';
+
 import recipesContext from '../context/Contexts/recipesContext';
 import iconCategoryAllMeals from '../images/icons/AllMeals.svg';
 import iconCategoryAllDrinks from '../images/icons/AllDrinks.svg';
@@ -12,45 +15,71 @@ import iconCategoryCocoa from '../images/icons/cocoa.svg';
 import iconCategoryOrdinaryDrink from '../images/icons/ordinaryDrink.svg';
 import iconCategoryOtherUnknow from '../images/icons/other.svg';
 import iconCategoryShake from '../images/icons/shake.svg';
-import headerContext from '../context/Contexts/headerContext';
-import styles from './styles/CategoriesButtons.module.css';
+
+import iconCategoryAllMealsActive from '../images/icons/AllMealsActive.svg';
+import iconCategoryAllDrinksActive from '../images/icons/AllDrinksActive.svg';
+import iconCategoryBeefActive from '../images/icons/beefActive.svg';
+import iconCategoryGoatActive from '../images/icons/goatActive.svg';
+import iconCategoryChickenActive from '../images/icons/chickenActive.svg';
+import iconCategoryBreakfastActive from '../images/icons/breakfastActive.svg';
+import iconCategoryDessertActive from '../images/icons/dessertActive.svg';
+import iconCategoryCocktailActive from '../images/icons/cocktailActive.svg';
+import iconCategoryCocoaActive from '../images/icons/cocoaActive.svg';
+import iconCategoryOrdinaryDrinkActive from '../images/icons/ordinaryDrinkActive.svg';
+import iconCategoryOtherUnknowActive from '../images/icons/otherActive.svg';
+import iconCategoryShakeActive from '../images/icons/shakeActive.svg';
 
 function CategoriesButtons() {
   const {
-    mealsCategoryButtons,
-    drinksCategoryButtons,
-    filterByCategory,
-    fetchRecipes,
-    filteredRecipes,
-    setFilteredRecipes } = useContext(recipesContext);
+    mealsCategoryButtons, drinksCategoryButtons, filterByCategory,
+    fetchRecipes, filteredRecipes, setFilteredRecipes, pageMealOrDrink,
+  } = useContext(recipesContext);
   const { pageUrl } = useContext(headerContext);
 
-  useEffect(() => {}, [pageUrl]);
+  const [categoryActive, setCategoryActive] = useState('All');
 
-  console.log(filteredRecipes);
+  useEffect(() => {}, [pageUrl]);
+  useEffect(() => {}, [pageMealOrDrink]);
 
   return (
     <section className={ styles.categoryContainer }>
       <button
         data-testid="All-category-filter"
         className={ styles.categoryContentBtn }
-        onClick={ fetchRecipes }
+        onClick={ () => {
+          setCategoryActive('All');
+          fetchRecipes();
+        } }
       >
         <div className={ styles.categoryContent }>
-          { pageUrl === '/meals' ? (
-            <img src={ iconCategoryAllMeals } alt="" />
-          ) : <img src={ iconCategoryAllDrinks } alt="" /> }
+          { pageUrl === '/meals' && pageMealOrDrink !== '/drinks' ? (
+            <img
+              src={
+                categoryActive === 'All'
+                  ? iconCategoryAllMealsActive
+                  : iconCategoryAllMeals
+              }
+              alt=""
+            />
+          ) : <img
+            src={
+              categoryActive === 'All' ? iconCategoryAllDrinksActive
+                : iconCategoryAllDrinks
+            }
+            alt=""
+          /> }
           <span>All</span>
         </div>
       </button>
       {
-        mealsCategoryButtons && mealsCategoryButtons
+        pageMealOrDrink !== '/drinks' && mealsCategoryButtons && mealsCategoryButtons
           .map(({ strCategory }, index) => (
             <button
               key={ index + 1 }
               className={ styles.categoryContentBtn }
               data-testid={ `${strCategory}-category-filter` }
               onClick={ () => {
+                setCategoryActive(strCategory);
                 if (filteredRecipes === strCategory) {
                   fetchRecipes();
                   setFilteredRecipes('');
@@ -62,7 +91,10 @@ function CategoriesButtons() {
               { strCategory === 'Beef' && (
                 <div className={ styles.categoryContent }>
                   <img
-                    src={ iconCategoryBeef }
+                    src={
+                      categoryActive === 'Beef' ? iconCategoryBeefActive
+                        : iconCategoryBeef
+                    }
                     alt=""
                   />
                   <span>{strCategory}</span>
@@ -70,25 +102,49 @@ function CategoriesButtons() {
               ) }
               { strCategory === 'Breakfast' && (
                 <div className={ styles.categoryContent }>
-                  <img src={ iconCategoryBreakfast } alt="" />
+                  <img
+                    src={
+                      categoryActive === 'Breakfast' ? iconCategoryBreakfastActive
+                        : iconCategoryBreakfast
+                    }
+                    alt=""
+                  />
                   <span>{strCategory}</span>
                 </div>
               ) }
               { strCategory === 'Chicken' && (
                 <div className={ styles.categoryContent }>
-                  <img src={ iconCategoryChicken } alt="" />
+                  <img
+                    src={
+                      categoryActive === 'Chicken' ? iconCategoryChickenActive
+                        : iconCategoryChicken
+                    }
+                    alt=""
+                  />
                   <span>{strCategory}</span>
                 </div>
               ) }
               { strCategory === 'Dessert' && (
                 <div className={ styles.categoryContent }>
-                  <img src={ iconCategoryDessert } alt="" />
+                  <img
+                    src={
+                      categoryActive === 'Dessert' ? iconCategoryDessertActive
+                        : iconCategoryDessert
+                    }
+                    alt=""
+                  />
                   <span>{strCategory}</span>
                 </div>
               ) }
               { strCategory === 'Goat' && (
                 <div className={ styles.categoryContent }>
-                  <img src={ iconCategoryGoat } alt="" />
+                  <img
+                    src={
+                      categoryActive === 'Goat' ? iconCategoryGoatActive
+                        : iconCategoryGoat
+                    }
+                    alt=""
+                  />
                   <span>{strCategory}</span>
                 </div>
               ) }
@@ -96,13 +152,14 @@ function CategoriesButtons() {
           ))
       }
       {
-        drinksCategoryButtons && drinksCategoryButtons
+        pageMealOrDrink === '/drinks' && drinksCategoryButtons && drinksCategoryButtons
           .map(({ strCategory }, index) => (
             <button
               key={ index + 1 }
               className={ styles.categoryContentBtn }
               data-testid={ `${strCategory}-category-filter` }
               onClick={ () => {
+                setCategoryActive(strCategory);
                 if (filteredRecipes === strCategory) {
                   fetchRecipes();
                   setFilteredRecipes('');
@@ -113,31 +170,63 @@ function CategoriesButtons() {
             >
               { strCategory === 'Cocktail' && (
                 <div className={ styles.categoryContent }>
-                  <img src={ iconCategoryCocktail } alt="" />
+                  <img
+                    src={
+                      categoryActive === 'Cocktail' ? iconCategoryCocktailActive
+                        : iconCategoryCocktail
+                    }
+                    alt=""
+                  />
                   <span>{strCategory}</span>
                 </div>
               ) }
               { strCategory === 'Cocoa' && (
                 <div className={ styles.categoryContent }>
-                  <img src={ iconCategoryCocoa } alt="" />
+                  <img
+                    src={
+                      categoryActive === 'Cocoa' ? iconCategoryCocoaActive
+                        : iconCategoryCocoa
+                    }
+                    alt=""
+                  />
                   <span>{strCategory}</span>
                 </div>
               ) }
               { strCategory === 'Ordinary Drink' && (
                 <div className={ styles.categoryContent }>
-                  <img src={ iconCategoryOrdinaryDrink } alt="" />
+                  <img
+                    src={
+                      categoryActive === 'Ordinary Drink'
+                        ? iconCategoryOrdinaryDrinkActive
+                        : iconCategoryOrdinaryDrink
+                    }
+                    alt=""
+                  />
                   <span>{strCategory}</span>
                 </div>
               ) }
               { strCategory === 'Other / Unknown' && (
                 <div className={ styles.categoryContent }>
-                  <img src={ iconCategoryOtherUnknow } alt="" />
+                  <img
+                    src={
+                      categoryActive === 'Other / Unknown'
+                        ? iconCategoryOtherUnknowActive
+                        : iconCategoryOtherUnknow
+                    }
+                    alt=""
+                  />
                   <span>{strCategory}</span>
                 </div>
               ) }
               { strCategory === 'Shake' && (
                 <div className={ styles.categoryContent }>
-                  <img src={ iconCategoryShake } alt="" />
+                  <img
+                    src={
+                      categoryActive === 'Shake' ? iconCategoryShakeActive
+                        : iconCategoryShake
+                    }
+                    alt=""
+                  />
                   <span>{strCategory}</span>
                 </div>
               ) }

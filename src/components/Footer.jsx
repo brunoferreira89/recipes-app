@@ -3,11 +3,12 @@ import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { Brandy, CheckSquareOffset, CookingPot, Heart } from '@phosphor-icons/react';
 import styles from './styles/Footer.module.css';
 import headerContext from '../context/Contexts/headerContext';
+import recipesContext from '../context/Contexts/recipesContext';
 
 function Footer() {
   const { pageUrl, setPageUrl } = useContext(headerContext);
+  const { setPageMealOrDrink } = useContext(recipesContext);
   const history = useHistory();
-  // const refreshPage = () => window.location.reload(true);
 
   const page = history.location.pathname;
 
@@ -15,8 +16,8 @@ function Footer() {
 
   const handleClick = (path) => {
     setPageUrl(path);
+    setPageMealOrDrink(path);
     history.push(path);
-    // refreshPage();
   };
 
   if (page !== '/') {
