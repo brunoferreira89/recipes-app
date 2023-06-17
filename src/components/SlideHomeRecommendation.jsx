@@ -68,7 +68,7 @@ function SlideHomeRecommendation() {
               >
                 {
                   isMealOrDrink === 'meals' && (
-                    <div className={ styles.tagsContainerMeal }>
+                    <div className={ styles.tagsContainer }>
                       <span className={ styles.tagsContentMeal }>
                         { recipe.strCategory }
                       </span>
@@ -77,7 +77,7 @@ function SlideHomeRecommendation() {
                 }
                 {
                   isMealOrDrink === 'drinks' && (
-                    <div className={ styles.tagsContainerDrinks }>
+                    <div className={ styles.tagsContainer }>
                       <span
                         className={ styles.tagsContentDrinksCategory }
                       >
