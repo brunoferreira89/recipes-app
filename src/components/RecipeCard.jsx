@@ -30,12 +30,12 @@ function RecipeCard() {
                   src={ strMealThumb }
                   alt={ strMeal }
                 />
+                <h3
+                  data-testid={ `${index}-card-name` }
+                >
+                  { strMeal }
+                </h3>
               </Link>
-              <h3
-                data-testid={ `${index}-card-name` }
-              >
-                { strMeal }
-              </h3>
             </div>
           ))
       }

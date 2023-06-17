@@ -1,29 +1,31 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { BookOpenText, CaretCircleLeft, CaretCircleRight } from '@phosphor-icons/react';
 import {
   dataRecoDrinks, dataRecoMeals,
 } from '../helpers/mock/dataHomeSlideRecommendation';
 import styles from './styles/SlideHomeRecommendation.module.css';
+import headerContext from '../context/Contexts/headerContext';
 
 function SlideHomeRecommendation() {
   const [isMealOrDrink, setIsMealOrDrink] = useState('');
+  const { pageUrl } = useContext(headerContext);
   const [data, setData] = useState([]);
   const [active, setActive] = useState(0);
   const [position, setPosition] = useState(0);
   const content = useRef();
 
   const history = useHistory();
-  const page = history.location.pathname;
+  // const page = history.location.pathname;
 
   useEffect(() => {
-    if (page.includes('meals')) {
+    if (pageUrl === '/meals') {
       setIsMealOrDrink('meals');
     }
-    if (page.includes('drinks')) {
+    if (pageUrl === '/drinks') {
       setIsMealOrDrink('drinks');
     }
-  }, [page]);
+  }, [pageUrl]);
 
   useEffect(() => {
     if (isMealOrDrink === 'meals') setData(dataRecoMeals);

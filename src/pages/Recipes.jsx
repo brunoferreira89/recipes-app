@@ -11,11 +11,12 @@ import headerContext from '../context/Contexts/headerContext';
 
 function Recipes() {
   const { pageUrl } = useContext(headerContext);
-  const { bool } = useContext(searchContext);
+  const { isSearch } = useContext(searchContext);
   const {
     loading, fetchRecipes, fetchButtonsCategories } = useContext(recipesContext);
 
   useEffect(() => {}, [pageUrl]);
+  useEffect(() => {}, [isSearch]);
 
   useEffect(() => {
     fetchRecipes();
@@ -27,7 +28,7 @@ function Recipes() {
   return (
     <section className={ styles.wrapPrincipalContainer }>
       {
-        bool ? <SearchResultCard /> : (
+        isSearch ? <SearchResultCard /> : (
           <>
             <h1 className={ styles.principalTitle }>
               { pageUrl === '/meals' ? 'Meals' : 'Drinks'}

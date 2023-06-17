@@ -4,10 +4,15 @@ import { Brandy, CheckSquareOffset, CookingPot, Heart } from '@phosphor-icons/re
 import styles from './styles/Footer.module.css';
 import headerContext from '../context/Contexts/headerContext';
 import recipesContext from '../context/Contexts/recipesContext';
+import searchContext from '../context/Contexts/searchContext';
+
+const doneRecipesText = '/done-recipes';
+const favoriteRecipesText = '/favorite-recipes';
 
 function Footer() {
   const { pageUrl, setPageUrl } = useContext(headerContext);
   const { setPageMealOrDrink } = useContext(recipesContext);
+  const { setIsSearch } = useContext(searchContext);
   const history = useHistory();
 
   const page = history.location.pathname;
@@ -15,7 +20,6 @@ function Footer() {
   useEffect(() => {}, [pageUrl]);
 
   const handleClick = (path) => {
-    console.log(path);
     setPageUrl(path);
     setPageMealOrDrink(path);
     history.push(path);
@@ -27,7 +31,10 @@ function Footer() {
         <button
           className={ styles.btnFooter }
           type="button"
-          onClick={ () => handleClick('/meals') }
+          onClick={ () => {
+            setIsSearch(false);
+            handleClick('/meals');
+          } }
         >
           <CookingPot
             data-testid="meals-bottom-btn"
@@ -40,32 +47,44 @@ function Footer() {
         <button
           className={ styles.btnFooter }
           type="button"
-          onClick={ () => handleClick('/drinks') }
+          onClick={ () => {
+            setIsSearch(false);
+            handleClick('/drinks');
+          } }
         >
           <Brandy
             data-testid="drinks-bottom-btn"
             className={ pageUrl === '/drinks' && styles.btnFooterFilled }
             size={ 32 }
+            weight={ pageUrl === '/drinks' ? 'fill' : 'regular' }
           />
         </button>
 
         <button
           className={ styles.btnFooter }
-          onClick={ () => handleClick('/done-recipes') }
+          onClick={ () => {
+            setIsSearch(false);
+            handleClick(doneRecipesText);
+          } }
         >
           <CheckSquareOffset
-            className={ pageUrl === '/done-recipes' && styles.btnFooterFilled }
+            className={ pageUrl === doneRecipesText && styles.btnFooterFilled }
             size={ 32 }
+            weight={ pageUrl === doneRecipesText ? 'fill' : 'regular' }
           />
         </button>
 
         <button
           className={ styles.btnFooter }
-          onClick={ () => handleClick('/favorite-recipes') }
+          onClick={ () => {
+            setIsSearch(false);
+            handleClick(favoriteRecipesText);
+          } }
         >
           <Heart
-            className={ pageUrl === '/favorite-recipes' && styles.btnFooterFilled }
+            className={ pageUrl === favoriteRecipesText && styles.btnFooterFilled }
             size={ 32 }
+            weight={ pageUrl === favoriteRecipesText ? 'fill' : 'regular' }
           />
         </button>
       </footer>

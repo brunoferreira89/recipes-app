@@ -1,53 +1,65 @@
+import PropTypes from 'prop-types';
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { MagnifyingGlass } from '@phosphor-icons/react';
 import searchContext from '../context/Contexts/searchContext';
 import getFetchMealsOrDrinksAndFilter from '../helpers/getFetchMealsOrDrinksAndFilter';
 import styles from './styles/SearchBar.module.css';
+import headerContext from '../context/Contexts/headerContext';
 
-const alertOfSearchNotFound = () => global
-  .alert('Sorry, we haven\'t found any recipes for these filters.');
+// const alertOfSearchNotFound = () => global
+//   .alert('Sorry, we haven\'t found any recipes for these filters.');
 
-function SearchBar() {
+function SearchBar({ setSearch: setSearchBar }) {
   const history = useHistory();
   const {
-    search,
-    setSearch,
-    radio,
-    setRadio,
-    meals,
-    setMeals,
-    drinks,
-    setDrinks,
-    setBool,
+    search, setSearch, radio, setRadio, meals, setMeals, drinks,
+    setDrinks, setIsSearch, setIsNotResult, setIsNotFirstLetter,
   } = useContext(searchContext);
-  const { pathname } = history.location;
+  const { pageUrl } = useContext(headerContext);
+
   const limitQuantity = 12;
   const fetchRecipes = async (parameter) => {
     try {
       if (parameter.length > 1 && radio === 'First letter') {
-        global.alert('Your search must have only 1 (one) character');
+        // global.alert('Your search must have only 1 (one) character');
+        setMeals([]);
+        setDrinks([]);
+        setIsNotResult(false);
+        setIsNotFirstLetter(true);
       }
 
-      const dataJson = await getFetchMealsOrDrinksAndFilter(pathname, radio, parameter);
+      const dataJson = await getFetchMealsOrDrinksAndFilter(pageUrl, radio, parameter);
 
-      if (pathname === '/meals' && dataJson.meals !== null) {
+      if (pageUrl === '/meals' && dataJson.meals !== null) {
         const data = Object.values(dataJson)[0].slice(0, limitQuantity);
+        setDrinks([]);
+        setIsNotResult(false);
+        setIsNotFirstLetter(false);
         setMeals(data);
       }
-      if (pathname === '/meals' && dataJson.meals === null) alertOfSearchNotFound();
 
-      if (pathname === '/drinks' && dataJson.drinks !== null) {
+      if (pageUrl === '/drinks' && dataJson.drinks !== null) {
         const data = Object.values(dataJson)[0].slice(0, limitQuantity);
+        setMeals([]);
+        setIsNotResult(false);
+        setIsNotFirstLetter(false);
         setDrinks(data);
       }
-      if (pathname === '/drinks' && dataJson.drinks === null) alertOfSearchNotFound();
+
+      if ((pageUrl === '/meals' && dataJson.meals === null)
+        || (pageUrl === '/drinks' && dataJson.drinks === null)) {
+        setMeals([]);
+        setDrinks([]);
+        setIsNotFirstLetter(false);
+        setIsNotResult(true);
+      }
     } catch (error) {
       // if (error.toString() === 'SyntaxError: Unexpected end of JSON input') {
       //   alertOfSearchNotFound();
       // }
     } finally {
-      setBool(true);
+      setIsSearch(true);
     }
   };
 
@@ -64,14 +76,19 @@ function SearchBar() {
         <input
           data-testid="search-input"
           className={ styles.inputSearch }
-          placeholder={ `Search ${pathname === '/meals' ? 'meal' : 'drink'}` }
+          placeholder={ `Search ${pageUrl === '/meals' ? 'meal' : 'drink'}` }
           type="text"
           value={ search }
           onChange={ ({ target }) => setSearch(target.value) }
         />
         <button
           className={ styles.searchBtn }
-          onClick={ () => fetchRecipes(search) }
+          onClick={ () => {
+            setSearchBar(false);
+            fetchRecipes(search);
+            setSearch('');
+            setRadio('');
+          } }
           data-testid="exec-search-btn"
         >
           Search
@@ -122,5 +139,9 @@ function SearchBar() {
     </div>
   );
 }
+
+SearchBar.propTypes = {
+  setSearch: PropTypes.func.isRequired,
+};
 
 export default SearchBar;

@@ -4,10 +4,12 @@ import searchContext from '../Contexts/searchContext';
 
 function SearchProvider({ children }) {
   const [search, setSearch] = useState('');
-  const [radio, setRadio] = useState();
+  const [radio, setRadio] = useState('');
   const [meals, setMeals] = useState([]);
   const [drinks, setDrinks] = useState([]);
-  const [bool, setBool] = useState(false);
+  const [isSearch, setIsSearch] = useState(false);
+  const [isNotResult, setIsNotResult] = useState(false);
+  const [isNotFirstLetter, setIsNotFirstLetter] = useState(false);
 
   const value = useMemo(() => ({
     search,
@@ -18,9 +20,13 @@ function SearchProvider({ children }) {
     setMeals,
     drinks,
     setDrinks,
-    bool,
-    setBool,
-  }), [search, radio, meals, drinks, bool]);
+    isSearch,
+    setIsSearch,
+    isNotResult,
+    setIsNotResult,
+    isNotFirstLetter,
+    setIsNotFirstLetter,
+  }), [search, radio, meals, drinks, isSearch, isNotResult, isNotFirstLetter]);
   return (
     <searchContext.Provider value={ value }>
       {children}

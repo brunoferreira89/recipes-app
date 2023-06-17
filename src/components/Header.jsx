@@ -1,17 +1,19 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { Link, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { ArrowCircleLeft, ListMagnifyingGlass, UserCircle } from '@phosphor-icons/react';
 // import TitleHeader from './TitleHeader';
 import SearchBar from './SearchBar';
 import headerContext from '../context/Contexts/headerContext';
 import styles from './styles/Header.module.css';
 import logo from '../images/logo.svg';
+import searchContext from '../context/Contexts/searchContext';
 
 const doneRecipesText = '/done-recipes';
 const favoriteRecipesText = '/favorite-recipes';
 
 export default function Header() {
   const { pageUrl, setPageUrl } = useContext(headerContext);
+  const { setIsSearch } = useContext(searchContext);
   const [search, setSearch] = useState(false);
 
   const history = useHistory();
@@ -77,12 +79,16 @@ export default function Header() {
                 />
               </button>)
           }
-
-          <img
-            className={ styles.logo }
-            src={ logo }
-            alt="Desenho de campainha alaranjada com um coração vermelho"
-          />
+          <Link
+            onClick={ () => setIsSearch(false) }
+            to="/meals"
+          >
+            <img
+              className={ styles.logo }
+              src={ logo }
+              alt="Desenho de campainha alaranjada com um coração vermelho"
+            />
+          </Link>
 
           <button
             className={ styles.btnHeader }
@@ -99,7 +105,7 @@ export default function Header() {
         </header>
         {
           search && (
-            <SearchBar />
+            <SearchBar setSearch={ setSearch } />
           )
         }
       </>

@@ -74,6 +74,7 @@ function RecipeDetails() {
       const API_URL = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
       refreshGetData(API_URL, 'details');
     }
+    window.scrollTo(0, 0);
   }, [id, page, refreshGetData, history, setMealsOrDrinks]);
 
   useEffect(() => {
