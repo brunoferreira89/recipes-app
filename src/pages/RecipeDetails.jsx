@@ -28,7 +28,7 @@ function RecipeDetails() {
   } = useContext(detailsContext);
   const { setPageUrl } = useContext(headerContext);
 
-  useEffect(() => { window.scrollTo(0, 0); }, [data]);
+  // useEffect(() => { window.scrollTo(0, 0); }, [data]);
 
   const history = useHistory();
   const page = history.location.pathname;
