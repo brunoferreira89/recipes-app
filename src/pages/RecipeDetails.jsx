@@ -28,7 +28,7 @@ function RecipeDetails() {
   } = useContext(detailsContext);
   const { setPageUrl } = useContext(headerContext);
 
-  // useEffect(() => { window.scrollTo(0, 0); }, [data]);
+  useEffect(() => { window.scrollTo(0, 0); }, [data]);
 
   const history = useHistory();
   const page = history.location.pathname;
@@ -67,29 +67,22 @@ function RecipeDetails() {
     if (page.includes('meals')) {
       // Fetch inicial para pegar os detalhes das comidas
       setMealsOrDrinks('meals');
-      const API_URL = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
+      let API_URL = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
       refreshGetData(API_URL, 'details');
+      // Fetch para pegar as recomendações para as comidas
+      API_URL = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+      refreshGetData(API_URL, 'recommendation');
     }
     if (page.includes('drinks')) {
       // Fetch inicial para pegar os detalhes das bebidas
       setMealsOrDrinks('drinks');
-      const API_URL = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
+      let API_URL = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
       refreshGetData(API_URL, 'details');
+      // Fetch para pegar as recomendações para as bebidas
+      API_URL = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
+      refreshGetData(API_URL, 'recommendation');
     }
   }, [id, page, refreshGetData, history, setMealsOrDrinks]);
-
-  useEffect(() => {
-    if (page.includes('meals')) {
-      // Fetch para pegar as recomendações para as comidas
-      const API_URL = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
-      refreshGetData(API_URL, 'recommendation');
-    }
-    if (page.includes('drinks')) {
-      // Fetch para pegar as recomendações para as bebidas
-      const API_URL = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
-      refreshGetData(API_URL, 'recommendation');
-    }
-  }, [page, refreshGetData]);
 
   useEffect(() => { getLocalStorageDoneRecipes(id); }, [getLocalStorageDoneRecipes, id]);
   useEffect(() => {
@@ -122,6 +115,7 @@ function RecipeDetails() {
 
   if (!data) return <Loading />;
   const objectPath = data[mealsOrDrinks][0];
+
   return (
     <main className={ styles.mainRecipeDetails }>
       <img
@@ -157,7 +151,7 @@ function RecipeDetails() {
           <h2>Ingredients</h2>
           <ul>
             {
-              ingredientsList.map((ingredient, index) => (
+              ingredientsList.length > 0 && ingredientsList.map((ingredient, index) => (
                 <li
                   key={ `${ingredient} ${index}` }
                   data-testid={ `${index}-ingredient-name-and-measure` }
