@@ -28,39 +28,35 @@ function RecipeDetails() {
   } = useContext(detailsContext);
   const { setPageUrl } = useContext(headerContext);
 
-  useEffect(() => { window.scrollTo(0, 0); }, [data]);
+  // useEffect(() => { window.scrollTo(0, 0); }, [data]);
 
   const history = useHistory();
   const page = history.location.pathname;
 
   const refreshGetData = useCallback(async (API_URL, detailOrRecommendation) => {
-    try {
-      const response = await fetch(API_URL);
-      const dataJson = await response.json();
-      if (detailOrRecommendation === 'details') {
-        // if (!dataJson[mealsOrDrinks]) { throw new Error('Problems requesting the API'); }
-        setData(dataJson);
-      }
-      // Fetch para pegar as recomendações
-      if (detailOrRecommendation === 'recommendation') {
-        const indexNumberThree = 3;
-        const indexNumberFour = 4;
-        const indexNumberFive = 5;
-        const index = [0, 1, 2, indexNumberThree, indexNumberFour, indexNumberFive];
-        const sixRecommendations = [];
-        if (page.includes('meals')) {
-          index.forEach((i) => sixRecommendations.push(dataJson.drinks[i]));
-        }
-        if (page.includes('drinks')) {
-          index.forEach((i) => sixRecommendations.push(dataJson.meals[i]));
-        }
-        setRecommendations(sixRecommendations);
-      }
-    } catch (error) {
-      // console.log(error.toString());
-    } finally {
-      setLoading(false);
+    setLoading(true);
+    const response = await fetch(API_URL);
+    const dataJson = await response.json();
+    if (detailOrRecommendation === 'details') {
+      // if (!dataJson[mealsOrDrinks]) { throw new Error('Problems requesting the API'); }
+      setData(dataJson);
     }
+    // Fetch para pegar as recomendações
+    if (detailOrRecommendation === 'recommendation') {
+      const indexNumberThree = 3;
+      const indexNumberFour = 4;
+      const indexNumberFive = 5;
+      const index = [0, 1, 2, indexNumberThree, indexNumberFour, indexNumberFive];
+      const sixRecommendations = [];
+      if (page.includes('meals')) {
+        index.forEach((i) => sixRecommendations.push(dataJson.drinks[i]));
+      }
+      if (page.includes('drinks')) {
+        index.forEach((i) => sixRecommendations.push(dataJson.meals[i]));
+      }
+      setRecommendations(sixRecommendations);
+    }
+    setLoading(false);
   }, [setData, setLoading, setRecommendations, page]);
 
   useEffect(() => {
@@ -114,7 +110,10 @@ function RecipeDetails() {
   };
 
   if (!data) return <Loading />;
-  const objectPath = data[mealsOrDrinks][0];
+  // const objectPath = data[mealsOrDrinks][0];
+
+  console.log(data);
+  console.log(mealsOrDrinks);
 
   return (
     <main className={ styles.mainRecipeDetails }>
@@ -122,8 +121,8 @@ function RecipeDetails() {
         data-testid="recipe-photo"
         className={ styles.imageMealOrDrink }
         src={
-          mealsOrDrinks === 'meals' ? objectPath.strMealThumb
-            : data[mealsOrDrinks][0].strDrinkThumb
+          mealsOrDrinks === 'meals' ? data?.[mealsOrDrinks][0].strMealThumb
+            : data?.[mealsOrDrinks][0].strDrinkThumb
         }
         alt="imagem"
       />
@@ -132,8 +131,8 @@ function RecipeDetails() {
         data-testid="recipe-title"
       >
         {
-          mealsOrDrinks === 'meals' ? objectPath.strMeal
-            : objectPath.strDrink
+          mealsOrDrinks === 'meals' ? data?.[mealsOrDrinks][0].strMeal
+            : data?.[mealsOrDrinks][0].strDrink
         }
       </h1>
 
@@ -141,8 +140,8 @@ function RecipeDetails() {
         data-testid="recipe-category"
       >
         {
-          mealsOrDrinks === 'meals' ? objectPath.strCategory
-            : objectPath.strAlcoholic
+          mealsOrDrinks === 'meals' ? data?.[mealsOrDrinks][0].strCategory
+            : data?.[mealsOrDrinks][0].strAlcoholic
         }
       </p>
 
@@ -183,13 +182,13 @@ function RecipeDetails() {
       <p
         data-testid="instructions"
       >
-        { objectPath.strInstructions }
+        { data?.[mealsOrDrinks][0].strInstructions }
       </p>
 
       <IframeYoutube
         mealsOrDrinks={ mealsOrDrinks }
         className={ styles.iframe }
-        objectPath={ objectPath }
+        objectPath={ data?.[mealsOrDrinks][0] }
       />
 
       <Recommendations />

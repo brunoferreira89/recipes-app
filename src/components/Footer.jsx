@@ -5,6 +5,7 @@ import styles from './styles/Footer.module.css';
 import headerContext from '../context/Contexts/headerContext';
 import recipesContext from '../context/Contexts/recipesContext';
 import searchContext from '../context/Contexts/searchContext';
+import detailsContext from '../context/Contexts/detailsContext';
 
 const doneRecipesText = '/done-recipes';
 const favoriteRecipesText = '/favorite-recipes';
@@ -13,6 +14,8 @@ function Footer() {
   const { pageUrl, setPageUrl } = useContext(headerContext);
   const { setPageMealOrDrink } = useContext(recipesContext);
   const { setIsSearch } = useContext(searchContext);
+  const { setData } = useContext(detailsContext);
+
   const history = useHistory();
 
   const page = history.location.pathname;
@@ -32,6 +35,7 @@ function Footer() {
           className={ styles.btnFooter }
           type="button"
           onClick={ () => {
+            setData(null);
             setIsSearch(false);
             handleClick('/meals');
           } }
@@ -48,6 +52,7 @@ function Footer() {
           className={ styles.btnFooter }
           type="button"
           onClick={ () => {
+            setData(null);
             setIsSearch(false);
             handleClick('/drinks');
           } }
@@ -63,6 +68,7 @@ function Footer() {
         <button
           className={ styles.btnFooter }
           onClick={ () => {
+            setData(null);
             setIsSearch(false);
             handleClick(doneRecipesText);
           } }
@@ -77,6 +83,7 @@ function Footer() {
         <button
           className={ styles.btnFooter }
           onClick={ () => {
+            setData(null);
             setIsSearch(false);
             handleClick(favoriteRecipesText);
           } }

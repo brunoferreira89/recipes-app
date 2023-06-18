@@ -29,7 +29,6 @@ export const getMealIngredientsQuantityList = (data) => {
         }
         return element !== null;
       });
-    console.log(ingredientsQuantityList);
     return ingredientsQuantityList;
   }
 
