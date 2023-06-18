@@ -1,3 +1,166 @@
-.horizontalImage {
-  max-width: 100%;
+.noFavoritesContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.favoritesContainer {
+  padding: 6rem 2rem;
+  width: 100%;
+}
+
+.favoritesHeader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.favoritesTitle {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.favoritesNav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  background: var(--gray-600);
+  padding: 1rem 1.5rem;
+  box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+}
+
+.favoritesNavBtn {
+  border-radius: 4px;
+  padding: 0.5rem;
+  border: none;
+  box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.15);
+  color: var(--purple-900);
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+}
+
+.favoritesNavBtn:hover {
+  background-color: var(--gray-800);
+}
+
+.favoritesNavBtnIconActive {
+  color: var(--orange-100);
+}
+
+.favoritesNavSpan {
+  font-size: 0.875rem;
+}
+
+.favoritesCards {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.favoritesCardsContainer {
+  position: relative;
+}
+
+.favoritesCardsContent {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cardImage {
+  width: 18.5rem;
+  height: 10rem;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 4px;
+  box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.cardTitle {
+  position: absolute;
+  border-radius: 0px 0px 4px 4px;
+  bottom: 0;
+  padding: 0.75rem 0;
+  background-color: var(--gray-300);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--purple-900);
+  font-size: 1.5rem;
+  font-weight: 700;
+  box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.cardTag {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  color: var(--gray-100);
+  background-color: var(--green-200);
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+}
+
+.cardActions {
+  position: absolute;
+  bottom: 2.5rem;
+  right: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.linkCopied {
+  position: absolute;
+  background-color: var(--purple-900);
+  color: var(--gray-100);
+  bottom: 0;
+  padding: 0.5rem 1rem;
+  font-weight: 700;
+  font-family: 'Roboto', sans-serif;
+  right: 1.5rem;
+}
+
+.cardActionsBorder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(231, 225, 240, 0.6);
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
+  border-radius: 50%;
+  padding: 0.25rem;
+}
+
+.cardActions button {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background-color: var(--purple-900);
+  color: var(--gray-100);
+  border: none;
+  padding: 0.25rem;
+}
+
+.heartIcon {
+  color: var(--orange-100);
 }
