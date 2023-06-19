@@ -35,8 +35,6 @@ function SlideHomeRecommendation() {
     if (mealsOrDrinks === 'meals') history.push(`/drinks/${id}`);
   };
 
-  console.log(recommendations);
-
   if (recommendations.length > 0) {
     return (
       <section className={ styles.container }>

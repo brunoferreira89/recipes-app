@@ -68,11 +68,17 @@
   font-weight: 700;
   gap: 0.625rem;
   justify-content: center;
-  left: 4.687rem;
+  left: 50%;
+  transform: translateX(-50%);
   letter-spacing: 0.025em;
   padding: 0.5rem 1rem;
   position: absolute;
   text-transform: uppercase;
+  transition: 0.25s ease-in;
+}
+
+.btnSeeMore:hover {
+  background-color: var(--purple-900);
 }
 
 .itemTitle {
