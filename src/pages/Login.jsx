@@ -34,11 +34,16 @@ function Login() {
       title: '<strong>Group 3</strong>',
       icon: 'info',
       html:
-      '<p><a href="//sweetalert2.github.io">Bruno Ferreira</a></p>'
-      + '<p><a href="//sweetalert2.github.io">Diego Cordeiro</a></p>'
-      + '<p><a href="//sweetalert2.github.io">Felipe Lima Coelho</a></p>'
-      + '<p><a href="//sweetalert2.github.io">Louis Phillipi</a></p>'
-      + '<p><a href="//sweetalert2.github.io">Luiz Fernando Heilig</a></p>',
+      '<p><a href="https://github.com/brunoferreira89" target="_blank">'
+      + 'Bruno Ferreira</a></p>'
+      + '<p><a href="https://github.com/Diego-Cordeiro0406" target="_blank">'
+      + 'Diego Cordeiro</a></p>'
+      + '<p><a href="https://github.com/felipe-lima-coelho" target="_blank">'
+      + 'Felipe Lima Coelho</a></p>'
+      + '<p><a href="https://github.com/Louisph08" target="_blank">'
+      + 'Louis Phillipi</a></p>'
+      + '<p><a href="https://github.com/luizheilig" target="_blank">'
+      + 'Luiz Fernando Heilig</a></p>',
       showCloseButton: false,
       showCancelButton: false,
       focusConfirm: false,
