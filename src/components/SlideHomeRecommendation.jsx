@@ -9,7 +9,7 @@ import headerContext from '../context/Contexts/headerContext';
 
 function SlideHomeRecommendation() {
   const [isMealOrDrink, setIsMealOrDrink] = useState('');
-  const { pageUrl } = useContext(headerContext);
+  const { pageUrl, setPageUrl } = useContext(headerContext);
   const [data, setData] = useState([]);
   const [active, setActive] = useState(0);
   const [position, setPosition] = useState(0);
@@ -48,8 +48,14 @@ function SlideHomeRecommendation() {
   };
 
   const handleClickGoToMealOrDrink = (id) => {
-    if (isMealOrDrink === 'meals') history.push(`/meals/${id}`);
-    if (isMealOrDrink === 'drinks') history.push(`/drinks/${id}`);
+    if (isMealOrDrink === 'meals') {
+      setPageUrl(`/meals/${id}`);
+      history.push(`/meals/${id}`);
+    }
+    if (isMealOrDrink === 'drinks') {
+      setPageUrl(`/drinks/${id}`);
+      history.push(`/drinks/${id}`);
+    }
   };
 
   if (data.length > 0) {

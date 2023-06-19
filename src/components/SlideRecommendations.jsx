@@ -3,9 +3,11 @@ import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { BookOpenText, CaretCircleLeft, CaretCircleRight } from '@phosphor-icons/react';
 import styles from './styles/SlideHomeRecommendation.module.css';
 import detailsContext from '../context/Contexts/detailsContext';
+import headerContext from '../context/Contexts/headerContext';
 
 function SlideHomeRecommendation() {
   const { mealsOrDrinks, recommendations } = useContext(detailsContext);
+  const { setPageUrl } = useContext(headerContext);
   const [active, setActive] = useState(0);
   const [position, setPosition] = useState(0);
   const { setData } = useContext(detailsContext);
@@ -31,8 +33,15 @@ function SlideHomeRecommendation() {
 
   const handleClickGoToMealOrDrink = (id) => {
     setData(null);
-    if (mealsOrDrinks === 'drinks') history.push(`/meals/${id}`);
-    if (mealsOrDrinks === 'meals') history.push(`/drinks/${id}`);
+
+    if (mealsOrDrinks === 'meals') {
+      setPageUrl(`/drinks/${id}`);
+      history.push(`/drinks/${id}`);
+    }
+    if (mealsOrDrinks === 'drinks') {
+      setPageUrl(`/meals/${id}`);
+      history.push(`/meals/${id}`);
+    }
   };
 
   if (recommendations.length > 0) {
