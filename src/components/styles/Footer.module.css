@@ -17,6 +17,12 @@
   background-color: transparent;
   border: none;
   color: var(--gray-600);
+  transition: 0.25s ease-in;
+  cursor: pointer;
+}
+
+.btnFooter:hover {
+  color: var(--orange-100);
 }
 
 .btnFooterFilled {
