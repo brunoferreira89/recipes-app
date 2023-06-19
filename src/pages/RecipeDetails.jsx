@@ -1,11 +1,10 @@
 import React, { useCallback, useContext, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom/cjs/react-router-dom.min';
+import { Heart, ShareNetwork } from '@phosphor-icons/react';
 import detailsContext from '../context/Contexts/detailsContext';
 import Loading from '../components/Loading';
 import styles from './styles/RecipeDetails.module.css';
-import Recommendations from '../components/Recommendations';
 import Button from '../components/Button';
-import IframeYoutube from '../components/IframeYoutube';
 import {
   getDrinkIngredientsList, getDrinkIngredientsQuantityList,
   getMealIngredientsList, getMealIngredientsQuantityList,
@@ -14,9 +13,10 @@ import {
   handleSaveFavoriteDrink, handleSaveFavoriteMeal,
 } from '../helpers/saveFavoriteOnLocalStorage';
 import checkIfItsFavoritedOnStorage from '../helpers/checkIfItsFavoritedOnStorage';
-import whiteHeartIcon from '../images/whiteHeartIcon.svg';
-import blackHeartIcon from '../images/blackHeartIcon.svg';
 import headerContext from '../context/Contexts/headerContext';
+import PlayerOnDetails from '../components/PlayerOnDetails';
+import BtnInstructionsShow from '../components/BtnInstructionsShow';
+import SlideHomeRecommendation from '../components/SlideRecommendations';
 
 function RecipeDetails() {
   const { id } = useParams();
@@ -27,9 +27,7 @@ function RecipeDetails() {
     handleOnClickShareBtn, isInTheFavorite, setIsInTheFavorite,
   } = useContext(detailsContext);
   const { setPageUrl } = useContext(headerContext);
-
-  // useEffect(() => { window.scrollTo(0, 0); }, [data]);
-
+  useEffect(() => { window.scrollTo(0, 0); }, [data]);
   const history = useHistory();
   const page = history.location.pathname;
 
@@ -94,128 +92,132 @@ function RecipeDetails() {
   let ingredientsQuantityList = [];
 
   if (data && mealsOrDrinks === 'meals') {
-    console.log(data);
     ingredientsList = getMealIngredientsList(data);
     ingredientsQuantityList = getMealIngredientsQuantityList(data);
   }
-
   if (data && mealsOrDrinks === 'drinks') {
     ingredientsList = getDrinkIngredientsList(data);
     ingredientsQuantityList = getDrinkIngredientsQuantityList(data);
   }
-
   const handleOnClickRedirectRecipeProgress = () => {
     setPageUrl(`/${mealsOrDrinks}/${id}/in-progress`);
     history.push(`/${mealsOrDrinks}/${id}/in-progress`);
   };
-
   if (!data) return <Loading />;
-  // const objectPath = data[mealsOrDrinks][0];
-
-  console.log(data);
-  console.log(mealsOrDrinks);
+  const objectPath = data?.[mealsOrDrinks][0];
 
   return (
     <main className={ styles.mainRecipeDetails }>
-      <img
-        data-testid="recipe-photo"
-        className={ styles.imageMealOrDrink }
-        src={
-          mealsOrDrinks === 'meals' ? data?.[mealsOrDrinks][0].strMealThumb
-            : data?.[mealsOrDrinks][0].strDrinkThumb
-        }
-        alt="imagem"
-      />
+      <header>
+        <img
+          data-testid="recipe-photo"
+          className={ styles.imageMealOrDrink }
+          src={
+            mealsOrDrinks === 'meals' ? objectPath.strMealThumb
+              : objectPath.strDrinkThumb
+          }
+          alt="imagem"
+        />
+        <span
+          data-testid="recipe-category"
+          className={ styles.category }
+        >
+          {
+            mealsOrDrinks === 'meals' ? objectPath.strCategory
+              : objectPath.strAlcoholic
+          }
+        </span>
+        <PlayerOnDetails mealsOrDrinks={ mealsOrDrinks } objectPath={ objectPath } />
+      </header>
 
-      <h1
-        data-testid="recipe-title"
-      >
-        {
-          mealsOrDrinks === 'meals' ? data?.[mealsOrDrinks][0].strMeal
-            : data?.[mealsOrDrinks][0].strDrink
-        }
-      </h1>
+      <main className={ styles.mainDetails }>
+        <section className={ styles.titleContainer }>
+          <h1
+            data-testid="recipe-title"
+          >
+            { mealsOrDrinks === 'meals' ? objectPath.strMeal
+              : objectPath.strDrink}
+          </h1>
 
-      <p
-        data-testid="recipe-category"
-      >
-        {
-          mealsOrDrinks === 'meals' ? data?.[mealsOrDrinks][0].strCategory
-            : data?.[mealsOrDrinks][0].strAlcoholic
-        }
-      </p>
+          { isLinkCopied && <section><h4>Link copied!</h4></section> }
 
-      <section>
-        <div>
-          <h2>Ingredients</h2>
-          <ul>
-            {
-              ingredientsList.length > 0 && ingredientsList.map((ingredient, index) => (
-                <li
-                  key={ `${ingredient} ${index}` }
-                  data-testid={ `${index}-ingredient-name-and-measure` }
-                >
-                  {ingredient}
-                </li>
-              ))
-            }
-          </ul>
-        </div>
-
-        <div>
-          <h2>Quantities</h2>
-          <ul>
-            {
-              ingredientsQuantityList.map((ingredientQtd, index) => (
-                <li
-                  key={ `${ingredientQtd} ${index}` }
-                  data-testid={ `${index}-ingredient-name-and-measure` }
-                >
-                  {ingredientQtd}
-                </li>
-              ))
-            }
-          </ul>
-        </div>
-      </section>
-
-      <p
-        data-testid="instructions"
-      >
-        { data?.[mealsOrDrinks][0].strInstructions }
-      </p>
-
-      <IframeYoutube
-        mealsOrDrinks={ mealsOrDrinks }
-        className={ styles.iframe }
-        objectPath={ data?.[mealsOrDrinks][0] }
-      />
-
-      <Recommendations />
-
-      { isLinkCopied && <section><h4>Link copied!</h4></section> }
-
-      <Button
-        dataTestid="share-btn"
-        textContent="Share"
-        onClick={ () => handleOnClickShareBtn(window.location.href) }
-      />
-      <input
-        data-testid="favorite-btn"
-        type="image"
-        src={
-          isInTheFavorite ? (blackHeartIcon) : (whiteHeartIcon)
-        }
-        onClick={
-          mealsOrDrinks === 'meals' ? (() => {
-            handleSaveFavoriteMeal(data, id); setIsInTheFavorite(!isInTheFavorite);
-          }) : (() => {
-            handleSaveFavoriteDrink(data, id); setIsInTheFavorite(!isInTheFavorite);
-          })
-        }
-        alt=""
-      />
-
+          <div className={ styles.iconsActionsContainer }>
+            <Button
+              dataTestid="share-btn"
+              textContent={ <ShareNetwork size={ 24 } /> }
+              onClick={ () => handleOnClickShareBtn(window.location.href) }
+              className={ styles.shareIcon }
+            />
+            <Button
+              dataTestid="favorite-btn"
+              textContent={ isInTheFavorite ? (
+                <Heart size={ 24 } weight="fill" />
+              ) : (<Heart size={ 24 } weight="regular" />) }
+              onClick={ mealsOrDrinks === 'meals' ? (() => {
+                handleSaveFavoriteMeal(data, id); setIsInTheFavorite(!isInTheFavorite);
+              }) : (() => {
+                handleSaveFavoriteDrink(data, id); setIsInTheFavorite(!isInTheFavorite);
+              }) }
+              className={ isInTheFavorite ? styles.heartIconActive : styles.heartIcon }
+            />
+          </div>
+        </section>
+        <div className={ styles.separator } />
+        <section>
+          <div className={ styles.ingredientsTitleContainer }>
+            <h2>Ingredients</h2>
+            <h2 className={ styles.ingredientsQtdTitle }>
+              { `${ingredientsList.length} item` }
+            </h2>
+          </div>
+          <div className={ styles.ingredientsContainer }>
+            <ul className={ styles.ingredientsContent }>
+              {
+                ingredientsList.map((ingredient, index) => (
+                  <li
+                    key={ `${ingredient} ${index}` }
+                    data-testid={ `${index}-ingredient-name-and-measure` }
+                    className={ styles.ingredient }
+                  >
+                    <div className={ styles.ingredientImgContainer }>
+                      <img
+                        className={ styles.ingredientImg }
+                        src={
+                          mealsOrDrinks === 'meals' ? (
+                            `https://www.themealdb.com/images/ingredients/${ingredient}-Small.png`
+                          ) : (
+                            `https://www.thecocktaildb.com/images/ingredients/${ingredient}-Small.png`)
+                        }
+                        alt={ ingredient }
+                      />
+                    </div>
+                    {ingredient}
+                  </li>
+                ))
+              }
+            </ul>
+            <ul className={ styles.qtdIngredientsContent }>
+              {
+                ingredientsQuantityList.map((ingredientQtd, index) => (
+                  <li
+                    key={ `${ingredientQtd} ${index}` }
+                    data-testid={ `${index}-ingredient-name-and-measure` }
+                  >
+                    {ingredientQtd}
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+        </section>
+        <div className={ styles.separator } />
+        <BtnInstructionsShow objectPath={ objectPath } />
+        <div className={ styles.separator } />
+      </main>
+      <footer className={ styles.footerRecommendation }>
+        <h3>Recommendations</h3>
+        <SlideHomeRecommendation />
+      </footer>
       <Button
         dataTestid="start-recipe-btn"
         className={
@@ -223,7 +225,9 @@ function RecipeDetails() {
           ) : styles.startRecipeBtnInactive
         }
         onClick={ handleOnClickRedirectRecipeProgress }
-        textContent={ isInProgressRecipe ? 'Continue Recipe' : 'Start Recipe' }
+        textContent={
+          isInProgressRecipe ? 'Continue Recipe' : 'Start Recipe'
+        }
       />
     </main>
   );

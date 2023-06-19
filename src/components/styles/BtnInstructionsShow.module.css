@@ -1,0 +1,41 @@
+.instructionsBtnInactive, .instructionsBtnActive {
+  background-color: var(--gray-300);
+  box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  border: none;
+  width: 100%;
+  padding: 0.75rem 5rem;
+  font-weight: 700;
+  font-size: 1.25rem;
+  cursor: pointer;
+  transition: 0.2s ease-in;
+}
+
+.instructionsBtnInactive::after {
+  content: '⌄';
+  margin-left: 1rem;
+}
+
+.instructionsBtnActive::after {
+  content: '⌃';
+  margin-left: 1rem;
+}
+
+.instructionsBtnInactive:hover, .instructionsBtnActive:hover {
+  background-color: var(--gray-600);
+}
+
+.instructionsResponseInactive {
+  display: none;
+}
+
+.instructionsResponseActive {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--gray-300);
+  padding: 1rem;
+  box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.1);
+  border-radius: 0 0 4px 4px;
+  border-top: 4px solid var(--gray-600);
+}

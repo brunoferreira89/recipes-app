@@ -1,19 +1,179 @@
+.separator {
+  margin: 1rem 0;
+  height: 4px;
+  border-radius: 4px;
+  width: 100%;
+  background-color: var(--gray-400);
+}
+
 .mainRecipeDetails {
-  margin-bottom: 10rem;
+  padding-top: 3.75rem;
 }
 
 .imageMealOrDrink {
-  width: 18.75rem;
+  width: 100%;
+  position: relative;
 }
 
-.iframe {
-  width: 18.75rem;
+.category {
+  position: absolute;
+  top: 6rem;
+  right: 2rem;
+  background-color: var(--green-200);
+  color: var(--gray-100);
+  padding: 0.25rem 0.5rem;
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  font-size: 0.75rem;
+}
+
+.mainDetails {
+  position: relative;
+  top: -1rem;
+  background: var(--gray-100);
+  border-radius: 16px 16px 0px 0px;
+  padding: 1.5rem 2rem 0 2rem;
+}
+
+.titleContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.125rem;
+  font-weight: 700;
+  position: relative;
+}
+
+.titleContainer section {
+  position: absolute;
+  background-color: var(--purple-900);
+  color: var(--gray-100);
+  padding: 0.5rem 1rem;
+  right: 0;
+  bottom: -1.5rem;
+}
+
+.iconsActionsContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.shareIcon, .heartIcon, .heartIconActive {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  border: none;
+}
+
+.heartIconActive {
+  color: var(--orange-100);
+}
+
+.ingredientsTitleContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1rem;
+}
+
+.ingredientsQtdTitle {
+  color: var(--purple-500);
+}
+
+.ingredientsContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items:flex-start;
+  margin-top: 1rem;
+}
+
+.ingredientsContent, .qtdIngredientsContent {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.ingredientsContent {
+  align-items: flex-start;
+}
+
+.qtdIngredientsContent {
+  align-items: flex-end;
+}
+
+.qtdIngredientsContent li {
+  height: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.ingredient {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  font-weight: 700;
+
+}
+
+.ingredientImgContainer, .ingredientImg {
+  width: 2rem;
+  height: 2rem;
+}
+
+.ingredientImgContainer {
+  background-color: var(--gray-400);
+  border-radius: 4px;
+}
+
+.footerRecommendation {
+  margin-bottom: 7.75rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.footerRecommendation h3 {
+  align-self: flex-start;
+  padding-left: 2rem;
+  font-weight: 700;
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
 }
 
 .startRecipeBtnActive, .startRecipeBtnInactive {
   bottom: 4.75rem;
   position: fixed;
-  right: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+  background-color: var(--purple-900);
+  color: var(--gray-600);
+  border: none;
+  padding: 0.5rem 1rem;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.025em;
+  cursor: pointer;
+  transition: 0.25s ease-in;
+}
+
+.startRecipeBtnActive:hover, .startRecipeBtnInactive:hover {
+  background-color: var(--purple-700);
 }
 
 .startRecipeBtnInactive {

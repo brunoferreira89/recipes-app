@@ -1,0 +1,79 @@
+.playContainer {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(231, 225, 240, 0.6);
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
+  border-radius: 50%;
+  height: 3.75rem;
+  width: 3.75rem;
+  border: none;
+  position: absolute;
+  top: 19rem;
+  left: 2rem;
+}
+
+.playContent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.275rem;
+  background: var(--purple-900);
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
+  border-radius: 50%;
+}
+
+.playIcon {
+  color: var(--orange-500);
+  transition: 0.1s ease-in;
+}
+
+.playIcon:hover {
+  color: var(--orange-800);
+}
+
+.iframeInactive {
+  display: none;
+}
+
+.iframeActive {
+  display: block;
+  position: absolute;
+  top: 14rem;
+  left: 1.5rem;
+  animation: showIframe 0.2s ease-in forwards;
+}
+
+@keyframes showIframe {
+  from {
+    opacity: 0;
+    top: 0rem;
+  }
+
+  to {
+    opacity: 1;
+    top: 14rem;
+  }
+}
+
+.closeIframe {
+  position: absolute;
+  right: -1rem;
+  top: -1.5rem;
+  background-color: var(--red-500);
+  border: none;
+  font-size: 2rem;
+  padding: 0.5rem 1rem;
+  border-radius: 55%;
+  color: var(--gray-100);
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  transition: 0.2s ease-in;
+}
+
+.closeIframe:hover {
+  background-color: var(--red-600);
+}

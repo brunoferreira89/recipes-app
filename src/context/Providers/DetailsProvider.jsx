@@ -9,7 +9,7 @@ function DetailsProvider({ children }) {
   const [data, setData] = useState(null);
   const [mealsOrDrinks, setMealsOrDrinks] = useState('');
   const [mealOrDrinkInProgress, setMealOrDrinkInProgress] = useState('');
-  const [recommendations, setRecommendations] = useState(null);
+  const [recommendations, setRecommendations] = useState([]);
   const [indexCarouselActive, setIndexCarouselActive] = useState({
     initial: 0,
     final: 1,
