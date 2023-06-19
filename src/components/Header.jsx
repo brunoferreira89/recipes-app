@@ -1,12 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-import { ArrowCircleLeft, ListMagnifyingGlass, UserCircle } from '@phosphor-icons/react';
+import { ArrowCircleLeft, ListMagnifyingGlass } from '@phosphor-icons/react';
 // import TitleHeader from './TitleHeader';
 import SearchBar from './SearchBar';
 import headerContext from '../context/Contexts/headerContext';
 import styles from './styles/Header.module.css';
 import logo from '../images/logo.svg';
 import searchContext from '../context/Contexts/searchContext';
+import HeaderShowIconProfile from './HeaderShowIconProfile';
 
 const doneRecipesText = '/done-recipes';
 const favoriteRecipesText = '/favorite-recipes';
@@ -94,10 +95,7 @@ export default function Header() {
             className={ styles.btnHeader }
             onClick={ handleOnClikPageProfile }
           >
-            <UserCircle
-              data-testid="profile-top-btn"
-              size={ 38 }
-            />
+            <HeaderShowIconProfile pageUrl={ pageUrl } />
           </button>
           {/* <div>
           <TitleHeader />
