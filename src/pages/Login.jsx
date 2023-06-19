@@ -58,6 +58,12 @@ function Login() {
 
   return (
     <div className={ styles.wrapContainerLogin }>
+      <section className={ styles.resolutionNotice }>
+        <h1>Redimensione o tamanho da página para melhor usufruir da aplicação</h1>
+        <h1>Recomendamos a resolução de tela de 360 x 640</h1>
+        <h1>(360 pixels de largura por 640 pixels de altura)</h1>
+      </section>
+
       <header>
         <img
           className={ styles.imageLoginHeader }
