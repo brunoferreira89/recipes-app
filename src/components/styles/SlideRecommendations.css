@@ -24,13 +24,13 @@
 .tagsContainer {
   align-items: center;
   display: flex;
+  font-size: 0.75rem;
+  font-weight: 700;
+  gap: 1rem;
   justify-content: center;
   position: absolute;
-  gap: 1rem;
   right: 1rem;
   top: 1rem;
-  font-weight: 700;
-  font-size: 0.75rem;
 }
 
 .tagsContentMeal, .tagsContentDrinksCategory, .tagsContentDrinksAlcohol {

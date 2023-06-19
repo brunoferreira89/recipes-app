@@ -6,8 +6,8 @@
   width: 100%;
 }
 
-.mainRecipeDetails {
-  padding-top: 3.75rem;
+.mainRecipeProgress {
+  padding: 3.75rem 0 6rem;
 }
 
 .imageMealOrDrink {
@@ -88,84 +88,22 @@
   color: var(--purple-500);
 }
 
-.ingredientsContainer {
-  align-items: flex-start;
+.uncheckedCheckbox, .checkedCheckbox {
+  align-items: center;
   display: flex;
-  justify-content: space-between;
-  margin-top: 1rem;
-}
-
-.ingredientsContent, .qtdIngredientsContent {
-  display: flex;
-  flex-direction: column;
   gap: 0.5rem;
   justify-content: center;
-  list-style: none;
 }
 
-.ingredientsContent {
-  align-items: flex-start;
+.checkedCheckbox {
+  text-decoration: line-through solid var(--purple-900);
 }
 
-.qtdIngredientsContent {
-  align-items: flex-end;
-}
-
-.qtdIngredientsContent li {
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  height: 2rem;
-  justify-content: center;
-}
-
-.ingredient {
-  align-items: center;
-  display: flex;
-  font-weight: 700;
-  gap: 1rem;
-  justify-content: center;
-
-}
-
-.ingredientImgContainer, .ingredientImg {
-  height: 2rem;
-  width: 2rem;
-}
-
-.ingredientImgContainer {
-  background-color: var(--gray-400);
-  border-radius: 4px;
-}
-
-.footerRecommendation {
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin-bottom: 7.75rem;
-}
-
-.footerRecommendation h3 {
-  align-self: flex-start;
-  font-size: 1.25rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-  padding-left: 2rem;
-}
-
-.startRecipeBtnInactive {
-  display: none;
-}
-
-.startRecipeBtnActive, .startRecipeBtnInactive {
-  background-color: var(--purple-900);
+.finishRecipeBtnInactive, .finishRecipeBtnActive {
   border: none;
   border-radius: 8px;
   bottom: 4.75rem;
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.5);
-  color: var(--gray-600);
-  cursor: pointer;
   font-family: Roboto , sans-serif;
   font-weight: 700;
   left: 50%;
@@ -176,6 +114,16 @@
   transition: 0.25s ease-in;
 }
 
-.startRecipeBtnActive:hover, .startRecipeBtnInactive:hover {
+.finishRecipeBtnInactive {
+  cursor: not-allowed;
+}
+
+.finishRecipeBtnActive {
+  background-color: var(--purple-900);
+  color: var(--gray-600);
+  cursor: pointer;
+}
+
+.finishRecipeBtnActive:hover {
   background-color: var(--purple-700);
 }

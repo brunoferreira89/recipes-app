@@ -1,10 +1,10 @@
 .noDoneRecipesContainer {
-  display: flex;
-  justify-content: center;
   align-items: center;
-  height: 100vh;
+  display: flex;
   font-size: 1.5rem;
   font-weight: 700;
+  height: 100vh;
+  justify-content: center;
 }
 
 .doneContainer {
@@ -13,11 +13,11 @@
 }
 
 .doneHeader {
-  display: flex;
-  justify-content: center;
   align-items: center;
+  display: flex;
   flex-direction: column;
   gap: 1rem;
+  justify-content: center;
 }
 
 .doneTitle {
@@ -26,23 +26,23 @@
 }
 
 .doneNav {
-  display: flex;
-  justify-content: center;
   align-items: center;
-  gap: 2rem;
   background: var(--gray-600);
-  padding: 1rem 1.5rem;
-  box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.15);
   border-radius: 4px;
+  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.15);
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  padding: 1rem 1.5rem;
 }
 
 .doneNavBtn {
-  border-radius: 4px;
-  padding: 0.5rem;
   border: none;
-  box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.15);
   color: var(--purple-900);
   cursor: pointer;
+  padding: 0.5rem;
   transition: 0.3s ease-in-out;
 }
 
@@ -59,12 +59,12 @@
 }
 
 .doneCards {
-  margin-top: 2rem;
-  display: flex;
-  justify-content: center;
   align-items: center;
+  display: flex;
   flex-direction: column;
   gap: 2rem;
+  justify-content: center;
+  margin-top: 2rem;
 }
 
 .doneCardsContainer {
@@ -72,37 +72,37 @@
 }
 
 .doneCardsContent {
-  position: relative;
+  align-items: center;
   display: flex;
   justify-content: center;
-  align-items: center;
+  position: relative;
 }
 
 .cardImage {
-  width: 18.5rem;
-  height: 10rem;
-  background-size: 100%;
-  background-repeat: no-repeat;
   background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100%;
   border-radius: 4px;
-  box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.1);
+  height: 10rem;
+  width: 18.5rem;
 }
 
 .cardTitle {
-  position: absolute;
-  border-radius: 0px 0px 4px 4px;
-  bottom: 0;
-  padding: 0.75rem 0;
-  background-color: var(--gray-300);
-  width: 100%;
-  display: flex;
-  justify-content: center;
   align-items: center;
-  flex-direction: column;
+  background-color: var(--gray-300);
+  border-radius: 0 0 4px 4px;
+  bottom: 0;
+  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.1);
   color: var(--purple-900);
+  display: flex;
+  flex-direction: column;
   font-size: 1.5rem;
   font-weight: 700;
-  box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.1);
+  justify-content: center;
+  padding: 0.75rem 0;
+  position: absolute;
+  width: 100%;
 }
 
 .cardTimeData {
@@ -110,58 +110,58 @@
 }
 
 .cardTag {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  color: var(--gray-100);
   background-color: var(--green-200);
-  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.5);
   border-radius: 4px;
-  padding: 0.25rem 0.5rem;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  color: var(--gray-100);
+  font-family: Roboto , sans-serif;
   font-size: 0.75rem;
-  font-family: 'Roboto', sans-serif;
   font-weight: 700;
+  padding: 0.25rem 0.5rem;
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
 }
 
 .cardActions {
-  position: absolute;
+  align-items: center;
   bottom: 4rem;
-  right: 1rem;
   display: flex;
   justify-content: center;
-  align-items: center;
+  position: absolute;
+  right: 1rem;
 }
 
 .linkCopied {
-  position: absolute;
   background-color: var(--purple-900);
-  color: var(--gray-100);
   bottom: 1.875rem;
-  padding: 0.5rem 1rem;
+  color: var(--gray-100);
+  font-family: Roboto , sans-serif;
   font-weight: 700;
-  font-family: 'Roboto', sans-serif;
+  padding: 0.5rem 1rem;
+  position: absolute;
   right: 0;
 }
 
 .cardActionsBorder {
-  display: flex;
-  justify-content: center;
   align-items: center;
   background: rgba(231, 225, 240, 0.6);
-  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
   border-radius: 50%;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
   padding: 0.25rem;
 }
 
 .cardActions button {
+  align-items: center;
+  background-color: var(--purple-900);
+  border: none;
+  border-radius: 50%;
+  color: var(--gray-100);
   cursor: pointer;
   display: flex;
   justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  background-color: var(--purple-900);
-  color: var(--gray-100);
-  border: none;
   padding: 0.25rem;
 }
 
