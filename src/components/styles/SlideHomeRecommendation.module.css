@@ -75,6 +75,7 @@
   position: absolute;
   text-transform: uppercase;
   transition: 0.25s ease-in;
+  white-space: nowrap;
 }
 
 .btnSeeMore:hover {
