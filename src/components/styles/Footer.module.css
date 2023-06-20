@@ -21,9 +21,9 @@
   cursor: pointer;
 }
 
-.btnFooter:hover {
+/* .btnFooter:hover {
   color: var(--orange-100);
-}
+} */
 
 .btnFooterFilled {
   color: var(--orange-100);

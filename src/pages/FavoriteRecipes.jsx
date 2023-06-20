@@ -18,8 +18,8 @@ function FavoriteRecipes() {
   } = useFilterButtons();
 
   useEffect(() => {
-    const favorit = JSON.parse(localStorage.getItem('favoriteRecipes'));
-    setFavorites(favorit);
+    const getFavoriteOnStorage = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    if (getFavoriteOnStorage) setFavorites(getFavoriteOnStorage);
   }, []);
 
   const handleOnClickDesfavorBtn = (recipe) => {
