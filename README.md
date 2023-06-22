@@ -46,8 +46,8 @@ O projeto consiste em uma aplicação Front-End de receitas e é possível reali
 
 # Squad responsável pelo desenvolvimento:
 
-  - [Felipe Lima Coelho](https://github.com/felipe-lima-coelho)
   - [Bruno Ferreira](https://github.com/brunoferreira89)
   - [Diego Cordeiro](https://github.com/Diego-Cordeiro0406)
-  - [Luiz Fernando Heilig](https://github.com/luizheilig)
+  - [Felipe Lima Coelho](https://github.com/felipe-lima-coelho)
   - [Louis Phillipi](https://github.com/Louisph08)
+  - [Luiz Fernando Heilig](https://github.com/luizheilig)  
