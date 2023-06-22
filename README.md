@@ -1,4 +1,4 @@
-# Bem-vindos ao projeto Recipes App!
+## Bem-vindos ao projeto Recipes App!
 
 **Link do Deploy:** https://recipes-group-3.surge.sh
 
@@ -12,7 +12,7 @@ O projeto consiste em uma aplicação Front-End de receitas e é possível reali
 - Filtrar por tipo de receita nas páginas de Receitas Finalizadas e de Receitas Favoritas;
 - Alterar o e-mail do usuário e fazer logout da aplicação;
 
-# Tecnologias/ferramentas usadas no desenvolvimento da aplicação:
+## Tecnologias e ferramentas usadas no desenvolvimento da aplicação:
 
 - React Context API;
 - React Hooks;
@@ -22,7 +22,7 @@ O projeto consiste em uma aplicação Front-End de receitas e é possível reali
 - Figma para o desenvolvimento da interface;
 - UX Design para priorizar a melhor experiência possível para o usuário.
 
-# Instalação e inicialização
+## Instalação e inicialização
 
   1. Clone o repositório:
 
@@ -44,7 +44,7 @@ O projeto consiste em uma aplicação Front-End de receitas e é possível reali
 
   - O projeto é baseado no conceito Mobile First. Dito isso, é recomendável redimensionar a tela do navegador para uma resolução de 360x640.
 
-# Squad responsável pelo desenvolvimento:
+## Squad responsável pelo desenvolvimento:
 
   - [Bruno Ferreira](https://github.com/brunoferreira89)
   - [Diego Cordeiro](https://github.com/Diego-Cordeiro0406)
