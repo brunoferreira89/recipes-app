@@ -29,7 +29,7 @@ O projeto consiste em uma aplicação Front-End de receitas e é possível reali
   - Use o comando: git clone git@github.com:brunoferreira89/recipes-app.git
   - Entre na pasta do repositório que você acabou de clonar:
 
-    cd recipes-app 
+    npm install
 
   2. Instale as dependências:
 
