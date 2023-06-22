@@ -25,21 +25,22 @@ O projeto consiste em uma aplicação Front-End de receitas e é possível reali
 # Instalação e inicialização
 
   1. Clone o repositório:
+  
+  git clone git@github.com:brunoferreira89/recipes-app.git
+  
+  2. Entre na pasta do repositório que você acabou de clonar:
 
-  - Use o comando: git clone git@github.com:brunoferreira89/recipes-app.git
-  - Entre na pasta do repositório que você acabou de clonar:
+    cd recipes-app
+
+  3. Instale as dependências:
 
     npm install
 
-  2. Instale as dependências:
-
-    npm install
-
-  3. Inicialize a aplicação:
+  4. Inicialize a aplicação:
   
     npm start
 
-  4. Redimensione a tela:
+  5. Caso esteja em um desktop, redimensione a tela:
 
   - O projeto é baseado no conceito Mobile First. Dito isso, é recomendável redimensionar a tela do navegador para uma resolução de 360x640.
 
