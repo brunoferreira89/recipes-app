@@ -12,7 +12,7 @@ O projeto consiste em uma aplicação Front-End de receitas e é possível reali
 - Filtrar por tipo de receita nas páginas de Receitas Finalizadas e de Receitas Favoritas;
 - Alterar o e-mail do usuário e fazer logout da aplicação;
 
-# Tecnologias e ferramentas usadas no desenvolvimento da aplicação:
+# Tecnologias/ferramentas usadas no desenvolvimento da aplicação:
 
 - React Context API;
 - React Hooks;
