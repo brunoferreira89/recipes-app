@@ -25,10 +25,10 @@ O projeto consiste em uma aplicação Front-End de receitas e é possível reali
 # Instalação e inicialização
 
   1. Clone o repositório:
+
+    git clone git@github.com:brunoferreira89/recipes-app.git
   
-  git clone git@github.com:brunoferreira89/recipes-app.git
-  
-  2. Entre na pasta do repositório que você acabou de clonar:
+  3. Entre na pasta do repositório que você acabou de clonar:
 
     cd recipes-app
 
